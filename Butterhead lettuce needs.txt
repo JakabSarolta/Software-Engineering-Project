@@ -1,0 +1,33 @@
+Butterhead lettuce needs:
+ - prefered air temperature: 16 - 18°C |  > 24°C bolting and poor growing, < 7°C too low
+ - water temperature between 7 - 18°C
+ - nitrogent rich soil ?
+ - pH between 6.0 and 6.8
+ - nutrients: N, K+, Mg2+ and Ca 2+
+
+ - stages of the plant: 	
+	0. Sowing: 5 to 10 days
+	1. Lettuce seed germination: soil: 16 - 21°C, air: 20 - 24°C || pH: 6.0 - 7.5 || 7 - 20 days
+	2. Seedling (first true leaves):
+	3. Head development: 
+	4. Harvesting
+	5. Flowering and seeding
+
+ - nutrient solution: Ca(NO3)2, KNO3, NH4NO3, MgSO4, 7H2O, KH2PO4
+			    143 - NO3-N, 16 - NH4N, 46 - P, 180 - K+, 30 - Ca2+, 30 Mg2+, 39 - S
+			    with Electric conductivity of 1.1 dS/m
+  	» renewed weekly
+ - N intake increasis in the first 50 days (from seedling), P, K , Ca, Mg increased as well due to high relative growth rate
+ - plants grown in low light conditions need a higher electrical conductivity nutrient solution
+
+Sensors | Inputs:
+ ◦ time
+ ◦ Water level sensor in crop beds
+ ◦ humidity
+ ◦ air temperature  
+ ◦ water temperature
+ ◦ pH level sensor
+ ◦ nutrient sensor
+ ◦ conductivity sensor
+ ◦ light intensity
+ ◦ light spectrum
