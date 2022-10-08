@@ -1,0 +1,4 @@
+- graphs: https://www.sciencedirect.com/science/article/pii/S2214785321051531?via%3Dihub
+- https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8748447
+- nutrients: https://www.mdpi.com/2311-7524/7/9/283
+- monitoring system: https://iopscience.iop.org/article/10.1088/1742-6596/1844/1/012024/meta

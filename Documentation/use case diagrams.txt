@@ -1,0 +1,14 @@
+Actors: 
+ - administrator | biologist | gardener
+	◦ initialize the system parameters
+	◦ adjust system parameters
+	◦ get live status report
+	◦ receive alerts
+	◦ reset the system (plant the seeds)
+
+
+Actions:
+ - adjust system parameters
+ - initialize  
+ - reset system
+ - live status report
