@@ -14,12 +14,13 @@ public class EnvironmentControlPanel extends JFrame {
 
     private JPanel contentPane;
     private JLabel titleLabel, sensorTendencyLabel, actuatorTendencyLabel, simulationTimeLabel, seconds1Label,
-        saladSimulationTimeLabel, seconds2Label, temperatureNameLabel, temperatureValueLabel,
+        saladSimulationTimeLabel, temperatureNameLabel, temperatureValueLabel,
         timeNameLabel, timeValueLabel;
     private JPanel timePanel, simulationPanel;
     private JTextField simulationTimeTextField, saladSimulationTimeText;
     private JSlider sigma, alpha;
     private JButton startButton;
+    private JComboBox timeUnitsComboBox, displayTimeUnitComboBox;
 
     private final double SLIDER_SCALE = 10.0;
 
@@ -29,13 +30,13 @@ public class EnvironmentControlPanel extends JFrame {
     }
 
     public void prepareGUI(){
-        this.setSize(600, 550);
+        this.setSize(780, 500);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.contentPane = new JPanel(new GridLayout(8,1));
         this.titleLabel = new JLabel("Temperature Controller", JLabel.CENTER);
         titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 16f));
         this.contentPane.add(this.titleLabel);
-        simulationPanel = new JPanel(new GridLayout(1,4));
+        simulationPanel = new JPanel(new GridLayout(1,5));
         this.temperatureNameLabel = new JLabel("Temperature (Celsius)", JLabel.CENTER);
         simulationPanel.add(temperatureNameLabel);
         this.temperatureValueLabel = new JLabel("", JLabel.CENTER);
@@ -44,6 +45,9 @@ public class EnvironmentControlPanel extends JFrame {
         simulationPanel.add(timeNameLabel);
         this.timeValueLabel = new JLabel("", JLabel.CENTER);
         simulationPanel.add(timeValueLabel);
+        String timeUnits[] = new String[]{"seconds", "minutes", "hours", "days"};
+        displayTimeUnitComboBox = new JComboBox(timeUnits);
+        simulationPanel.add(displayTimeUnitComboBox);
         contentPane.add(simulationPanel);
         this.sensorTendencyLabel = new JLabel("Sensor Tendency (sigma)", JLabel.CENTER);
         contentPane.add(sensorTendencyLabel);
@@ -77,8 +81,8 @@ public class EnvironmentControlPanel extends JFrame {
         timePanel.add(saladSimulationTimeLabel);
         saladSimulationTimeText = new JTextField();
         timePanel.add(saladSimulationTimeText);
-        seconds2Label = new JLabel("(in seconds)", JLabel.CENTER);
-        timePanel.add(seconds2Label);
+        timeUnitsComboBox = new JComboBox(timeUnits);
+        timePanel.add(timeUnitsComboBox);
         contentPane.add(timePanel);
         startButton = new JButton("START");
         startButton.setActionCommand("Start the simulation");
