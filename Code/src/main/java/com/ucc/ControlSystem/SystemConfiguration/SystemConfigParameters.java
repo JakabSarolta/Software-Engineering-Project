@@ -6,7 +6,7 @@ public enum SystemConfigParameters {
     DATABASE_USER("db.user"),
     DATABASE_PASS("db.pass");
 
-    private String paramValue;
+    private final String paramValue;
 
     public String getParamValue(){
         return paramValue;
