@@ -9,6 +9,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.Hashtable;
 
 public class EnvironmentControlPanel extends JFrame {
 
@@ -100,18 +101,12 @@ public class EnvironmentControlPanel extends JFrame {
         slider.setPaintTrack(true);
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
-        java.util.Hashtable labelTable = new java.util.Hashtable();
+        Hashtable<Integer,JLabel> labelTable = new Hashtable<>();
         for(int i = min; i <= max; i++){
-            labelTable.put(new Integer(i), new JLabel(i*0.1+""));
+            labelTable.put(i, new JLabel(i/10.0+""));
         }
 
-        labelTable.put(new Integer(0), new JLabel("0"));
-        if(max>=3){
-            labelTable.put(new Integer(3), new JLabel("0.3"));
-        }
-        if(min<=-3){
-            labelTable.put(new Integer(-3), new JLabel("-0.3"));
-        }
+        labelTable.put(0, new JLabel("0"));
         slider.setLabelTable(labelTable);
         slider.setMajorTickSpacing(spacing);
         return slider;

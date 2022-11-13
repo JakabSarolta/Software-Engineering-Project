@@ -5,7 +5,6 @@ import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentDeviceTypes;
 import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentSimulator;
 
 import javax.swing.*;
-import java.math.BigDecimal;
 
 public class Manager implements Runnable{
 
@@ -24,7 +23,7 @@ public class Manager implements Runnable{
 
         while(time <= es.getDurationOfTheSimulationRealLifeTime()){
             double measurement = es.takeMeasurement(EnvironmentDeviceTypes.TEMPERATURE);
-            ((EnvironmentControlPanel)frame).getTemperatureValueLabel().setText(BigDecimal.valueOf(measurement)+"");
+            ((EnvironmentControlPanel)frame).getTemperatureValueLabel().setText(Math.round(measurement*100)/100.0+"");
             ((EnvironmentControlPanel)frame).getTimeValueLabel().setText(time+"");
 
             time++;
