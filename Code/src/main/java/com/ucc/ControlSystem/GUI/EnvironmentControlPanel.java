@@ -3,6 +3,7 @@ package com.ucc.ControlSystem.GUI;
 import com.ucc.ControlSystem.Main;
 import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentDeviceTypes;
 import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentSimulator;
+import com.ucc.ControlSystem.Utils.TimeUnits;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -46,8 +47,8 @@ public class EnvironmentControlPanel extends JFrame {
         simulationPanel.add(timeNameLabel);
         this.timeValueLabel = new JLabel("", JLabel.CENTER);
         simulationPanel.add(timeValueLabel);
-        String timeUnits[] = new String[]{"seconds", "minutes", "hours", "days"};
-        displayTimeUnitComboBox = new JComboBox(timeUnits);
+//        String timeUnits[] = new String[]{"seconds", "minutes", "hours", "days"};
+        displayTimeUnitComboBox = new JComboBox(TimeUnits.values());
         simulationPanel.add(displayTimeUnitComboBox);
         contentPane.add(simulationPanel);
         this.sensorTendencyLabel = new JLabel("Sensor Tendency (sigma)", JLabel.CENTER);
@@ -82,7 +83,7 @@ public class EnvironmentControlPanel extends JFrame {
         timePanel.add(saladSimulationTimeLabel);
         saladSimulationTimeText = new JTextField();
         timePanel.add(saladSimulationTimeText);
-        timeUnitsComboBox = new JComboBox(timeUnits);
+        timeUnitsComboBox = new JComboBox(TimeUnits.values());
         timePanel.add(timeUnitsComboBox);
         contentPane.add(timePanel);
         startButton = new JButton("START");
@@ -92,7 +93,11 @@ public class EnvironmentControlPanel extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 setActuatorValue(sigma.getValue());
                 setActuatorValue(alpha.getValue());
-                Main.startSimulation(Integer.parseInt(saladSimulationTimeText.getText()),
+
+                int simulationSaladTimeSeconds = Integer.parseInt(saladSimulationTimeText.getText()) *
+                        ((TimeUnits)timeUnitsComboBox.getSelectedItem()).getVal();
+
+                Main.startSimulation(simulationSaladTimeSeconds,
                         Integer.parseInt(simulationTimeTextField.getText()));
             }
         });
@@ -132,5 +137,9 @@ public class EnvironmentControlPanel extends JFrame {
 
     public JLabel getTimeValueLabel() {
         return timeValueLabel;
+    }
+
+    public JComboBox getDisplayTimeUnitComboBox() {
+        return displayTimeUnitComboBox;
     }
 }

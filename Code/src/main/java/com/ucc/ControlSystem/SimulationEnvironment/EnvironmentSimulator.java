@@ -60,7 +60,7 @@ public class EnvironmentSimulator {
         Timestamp timeLastMeasured = this.lastMeasuredTimes.get(deviceType); // get the time it last measured
 
         // compute the elapsed time since the last measurement, and convert it into seconds
-        long elapsedTimeInSeconds = TimeConvertor.elapsedTimeInSeconds(timeLastMeasured, Timestamp.valueOf(LocalDateTime.now()));
+        double elapsedTimeInSeconds = TimeConvertor.elapsedTimeInMillis(timeLastMeasured, Timestamp.valueOf(LocalDateTime.now())) / 1000.0;
 
         // compute that elapsed time how much salad time would be
 //        double elapsedSaladTime = TimeConvertor.convertRealLifeTimeToSaladTime(elapsedTimeInSeconds);

@@ -12,7 +12,11 @@ public class TimeConvertor {
                 / EnvironmentSimulator.getEnvironmentSimulator().getDurationOfTheSimulationRealLifeTime();
     }
 
-    public static long elapsedTimeInSeconds(Timestamp startTime, Timestamp endTime){
-        return TimeUnit.MILLISECONDS.toSeconds(endTime.getTime() - startTime.getTime());
+    public static long elapsedTimeInMillis(Timestamp startTime, Timestamp endTime){
+        return endTime.getTime() - startTime.getTime();
+    }
+
+    public static long convertMillisToSeconds(long millis){
+        return TimeUnit.MILLISECONDS.toSeconds(millis);
     }
 }
