@@ -1,2 +1,4 @@
-Code/.gradle/
-Code/build/
+Code/.gradle/buildOutputCleanup/buildOutputCleanup.lock
+Code/build/classes/java/main/com/ucc/ControlSystem/Main.class
+Code/build/classes/java/main/com/ucc/ControlSystem/Manager.class
+Code/build/tmp/compileJava/previous-compilation-data.bin
