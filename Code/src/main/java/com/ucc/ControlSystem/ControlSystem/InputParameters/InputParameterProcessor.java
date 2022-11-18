@@ -1,9 +1,12 @@
 package com.ucc.ControlSystem.ControlSystem.InputParameters;
 
+import com.ucc.ControlSystem.ControlSystem.JDBC.ConnectionFactory;
 import com.ucc.ControlSystem.ControlSystem.JDBC.HSQLQueries;
 import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentDeviceTypes;
 import com.ucc.ControlSystem.SystemConfiguration.SystemConfigParameters;
 import com.ucc.ControlSystem.SystemConfiguration.SystemConfigurationReader;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,9 +17,9 @@ public class InputParameterProcessor {
 
     private static InputParameterProcessor inputParameterProcessor = null;
     private static final int LIGHT_TIME_MIN = Integer.parseInt(SystemConfigurationReader.getSystemConfigurationReader()
-            .readParam(SystemConfigParameters.LIGHT_TIME_MIN));
+            .readParam(SystemConfigParameters.LIGHT_OFF_TIME_MIN));
     private static final int LIGHT_TIME_MAX = Integer.parseInt(SystemConfigurationReader.getSystemConfigurationReader()
-            .readParam(SystemConfigParameters.LIGHT_TIME_MAX));
+            .readParam(SystemConfigParameters.LIGHT_ON_TIME_MAX));
 
     private Map<EnvironmentDeviceTypes,EnvironmentPropertyParameter> environmentPropertyParameterMap;
     private Map<EnvironmentDeviceTypes,MeasurementIntervalParameter> measurementIntervalParameterMap;
@@ -35,12 +38,13 @@ public class InputParameterProcessor {
 
     // will get all the input parameters from the DB
     public List<InputParameter> getParameters(){
-        return new ArrayList<>();
+        List<InputParameter> allParams = new ArrayList<>();
+        allParams.addAll(environmentPropertyParameterMap.values());
+        allParams.addAll(measurementIntervalParameterMap.values());
+        allParams.addAll(otherParameterMap.values());
+        return allParams;
     }
 
-    public void updateParameters(List<Map<String,Object>> parameterList){
-        // update the system parameters
-    }
 
     public static InputParameterProcessor getInputParameterProcessor(){
         if(inputParameterProcessor == null){
@@ -49,21 +53,28 @@ public class InputParameterProcessor {
         return inputParameterProcessor;
     }
 
-    public void updateEnvironmentPropertyParameter(EnvironmentPropertyParameter parameter){
-        if(parameter.isValid()){
-            environmentPropertyParameterMap.put(parameter.getPropertyType(),parameter);
+    public void updateEnvironmentPropertyParameter(double min, double max,EnvironmentDeviceTypes propertyType){
+        EnvironmentPropertyParameter clone = environmentPropertyParameterMap.get(propertyType).clone();
+        clone.setMin(min);
+        clone.setMax(max);
+        if (clone.isValid()){
+            environmentPropertyParameterMap.put(propertyType,clone);
         }
     }
 
-    public void updateMeasurementIntervalParameter(MeasurementIntervalParameter parameter){
-        if(parameter.isValid()){
-            measurementIntervalParameterMap.put(parameter.getPropertyType(),parameter);
+    public void updateMeasurementIntervalParameter(int intervalBalancedState, int intervalBalancingState, EnvironmentDeviceTypes propertyType){
+        if(MeasurementIntervalParameter.isValid(intervalBalancedState,intervalBalancingState)){
+            MeasurementIntervalParameter param = measurementIntervalParameterMap.get(propertyType);
+            param.setIntervalBalancedState(intervalBalancedState);
+            param.setIntervalBalancingState(intervalBalancingState);
         }
     }
 
-    public void updateOtherParameter(OtherParameter parameter){
-        if(parameter.isValid()){
-            otherParameterMap.put(parameter.getType(),parameter);
+    public void updateOtherParameter(OtherParameters type, long value){
+        OtherParameter clone = otherParameterMap.get(type).clone();
+        clone.setValue(value);
+        if(clone.isValid()){
+            otherParameterMap.put(type,clone);
         }
     }
 
@@ -71,12 +82,21 @@ public class InputParameterProcessor {
         Map<OtherParameters, OtherParameter> otherParametersMap = new HashMap<>();
         for(OtherParameters p : OtherParameters.values()){
 
+            OtherParameter param = null;
             long min_valid = Long.parseLong(SystemConfigurationReader.getSystemConfigurationReader()
                     .readParam(SystemConfigParameters.valueOf(p+"_MIN")));
             long max_valid = Long.parseLong(SystemConfigurationReader.getSystemConfigurationReader()
                     .readParam(SystemConfigParameters.valueOf(p+"_MAX")));
 
-            otherParametersMap.put(p,new OtherParameter(p,0,min_valid,max_valid));
+            Object dbEntries = HSQLQueries.getHSQLQueries().getParameterByType(OtherParameter.class,p);
+
+            if(dbEntries == null){
+                param = new OtherParameter(p,0,max_valid,min_valid);
+            }else{
+                param = (OtherParameter) dbEntries;
+            }
+
+            otherParametersMap.put(p,param);
         }
         return otherParametersMap;
     }
@@ -85,27 +105,64 @@ public class InputParameterProcessor {
         Map<EnvironmentDeviceTypes,EnvironmentPropertyParameter> environmentPropertyParameterList = new HashMap<>();
         for(EnvironmentDeviceTypes e : EnvironmentDeviceTypes.values()){
 
-            // todo: if values in DB populate from DB, else put default 0 value in them
-            HSQLQueries.getHSQLQueries().getEnvironmentPropertyParametersWithType(EnvironmentDeviceTypes.AIR_TEMPERATURE)
-                    .forEach(epp-> System.out.println(epp.getId()));
-
-            // get the valid value range from config file
+            EnvironmentPropertyParameter param = null;
             SystemConfigurationReader systemConfigurationReader = SystemConfigurationReader.getSystemConfigurationReader();
             double valid_min = Double.parseDouble(systemConfigurationReader.readParam(SystemConfigParameters.valueOf(e+"_VALID_MIN")));
             double valid_max = Double.parseDouble(systemConfigurationReader.readParam(SystemConfigParameters.valueOf(e+"_VALID_MAX")));
-            double precision = Double.parseDouble(systemConfigurationReader.readParam(SystemConfigParameters.valueOf(e+"_VALID_MAX")));
+            double precision = Double.parseDouble(systemConfigurationReader.readParam(SystemConfigParameters.valueOf(e+"_PRECISION")));
 
-            environmentPropertyParameterList.put(e,new EnvironmentPropertyParameter(valid_min, valid_max, precision, e));
+            Object dbEntry = HSQLQueries.getHSQLQueries().getParameterByType(EnvironmentPropertyParameter.class,EnvironmentDeviceTypes.AIR_TEMPERATURE);
+            if(dbEntry == null){
+                param = new EnvironmentPropertyParameter(valid_min, valid_max, precision, e);
+            }else{
+                // there is a unique constraint on the column type, so for sure only one will exist
+                param =(EnvironmentPropertyParameter) dbEntry;
+                param.setValidMin(valid_min);
+                param.setValidMax(valid_max);
+                param.setPrecision(precision);
+            }
+
+            environmentPropertyParameterList.put(e,param);
         }
         return environmentPropertyParameterList;
     }
 
     private Map<EnvironmentDeviceTypes,MeasurementIntervalParameter> initializeMeasurementIntervalParameterList() {
         Map<EnvironmentDeviceTypes,MeasurementIntervalParameter> measurementIntervalParameterList = new HashMap<>();
+
+        MeasurementIntervalParameter param = null;
+
         for(EnvironmentDeviceTypes e : EnvironmentDeviceTypes.values()){
-            measurementIntervalParameterList.put(e,new MeasurementIntervalParameter(e));
+
+            Object dbEntry = HSQLQueries.getHSQLQueries().getParameterByType(MeasurementIntervalParameter.class,e);
+
+            if(dbEntry == null){
+                param = new MeasurementIntervalParameter(e);
+            }else{
+                param = (MeasurementIntervalParameter) dbEntry;
+            }
+
+            measurementIntervalParameterList.put(e,param);
         }
         return measurementIntervalParameterList;
+    }
+
+    public void persistParameters(){
+        SessionFactory sf = ConnectionFactory.getConnectionFactory().getSessionFactory();
+        Session s = sf.openSession();
+        s.beginTransaction();
+
+        for(EnvironmentDeviceTypes p : EnvironmentDeviceTypes.values()){
+            s.merge(environmentPropertyParameterMap.get(p));
+            s.merge(measurementIntervalParameterMap.get(p));
+        }
+
+        for(OtherParameters p : OtherParameters.values()){
+            s.merge(otherParameterMap.get(p));
+        }
+
+        s.getTransaction().commit();
+        s.close();
     }
 
     private boolean isLightTimeValid(int lightTime){

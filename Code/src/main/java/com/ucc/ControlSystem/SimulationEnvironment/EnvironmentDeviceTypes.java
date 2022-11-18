@@ -1,5 +1,7 @@
 package com.ucc.ControlSystem.SimulationEnvironment;
 
-public enum EnvironmentDeviceTypes {
+import com.ucc.ControlSystem.ControlSystem.InputParameters.Parameter;
+
+public enum EnvironmentDeviceTypes implements Parameter {
     AIR_TEMPERATURE
 }

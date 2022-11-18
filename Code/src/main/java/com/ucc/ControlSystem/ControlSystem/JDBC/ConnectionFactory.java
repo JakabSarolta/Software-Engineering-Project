@@ -1,6 +1,8 @@
 package com.ucc.ControlSystem.ControlSystem.JDBC;
 
-import org.hibernate.Session;
+import com.ucc.ControlSystem.ControlSystem.InputParameters.EnvironmentPropertyParameter;
+import com.ucc.ControlSystem.ControlSystem.InputParameters.MeasurementIntervalParameter;
+import com.ucc.ControlSystem.ControlSystem.InputParameters.OtherParameter;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -11,7 +13,7 @@ public class ConnectionFactory {
     private final String jdbcUrl;
     private final String userName;
     private final String password;
-    private Session session;
+    private SessionFactory sessionFactory;
 
     private ConnectionFactory(String jdbcUrl, String userName, String password) {
         this.jdbcUrl = jdbcUrl;
@@ -33,7 +35,7 @@ public class ConnectionFactory {
     }
 
     private void createConnection(){
-            SessionFactory factory = new Configuration()
+            SessionFactory sessionFactory = new Configuration()
                     .setProperty("hibernate.connection.driver_class","com.mysql.jdbc.Driver")
                     .setProperty("hibernate.connection.url",jdbcUrl)
                     .setProperty("hibernate.connection.username",userName)
@@ -43,18 +45,15 @@ public class ConnectionFactory {
                     .setProperty("hibernate.dialect","org.hibernate.dialect.MySQLDialect")
                     .setProperty("hibernate.show_sql","true")
                     .setProperty("hibernate.current_session_context_class","thread")
-//                    .addAnnotatedClass(EnvironmentPropertyParameter.class)
-//                    .addAnnotatedClass(MeasurementIntervalParameter.class)
-//                    .addAnnotatedClass(OtherParameter.class)
+                    .addAnnotatedClass(EnvironmentPropertyParameter.class)
+                    .addAnnotatedClass(MeasurementIntervalParameter.class)
+                    .addAnnotatedClass(OtherParameter.class)
                     .buildSessionFactory();
-            this.session = factory.getCurrentSession();
+            this.sessionFactory = sessionFactory;
+//            this.session = factory.getCurrentSession();
     }
 
-    public Session getSession() {
-        return session;
-    }
-
-    public void setSession(Session session) {
-        this.session = session;
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
     }
 }

@@ -1,8 +1,8 @@
 package com.ucc.ControlSystem.ControlSystem.JDBC;
 
-import com.ucc.ControlSystem.ControlSystem.InputParameters.EnvironmentPropertyParameter;
-import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentDeviceTypes;
+import com.ucc.ControlSystem.ControlSystem.InputParameters.Parameter;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import java.util.List;
@@ -11,11 +11,11 @@ public class HSQLQueries {
     private static HSQLQueries hsqlQueries = null;
 
     private ConnectionFactory connectionFactory;
-    private Session session;
+    private SessionFactory sessionFactory;
 
     private HSQLQueries(){
         connectionFactory = ConnectionFactory.getConnectionFactory();
-        session = connectionFactory.getSession();
+        sessionFactory = connectionFactory.getSessionFactory();
     }
 
     public static HSQLQueries getHSQLQueries(){
@@ -25,9 +25,34 @@ public class HSQLQueries {
         return hsqlQueries;
     }
 
-    public List<EnvironmentPropertyParameter> getEnvironmentPropertyParametersWithType(EnvironmentDeviceTypes type){
-        Query query = session.createQuery("FROM EnvironmentPropertyParameter p WHERE p.type=:type",EnvironmentPropertyParameter.class);
+    public List<Object> getParameterBasedOnType(Class cls, Parameter type){
+        Session s = openSession();
+        Query query = s.createQuery("FROM "+cls+" p WHERE p.type=:type",cls);
         query.setParameter("type",type);
-        return query.list();
+
+        List<Object> results = query.list();
+
+        closeSession(s);
+        return results;
+    }
+
+    public Object getParameterByType(Class cls, Parameter type){
+        Session s = openSession();
+
+        Object res = s.get(cls,type);
+
+        closeSession(s);
+        return res;
+    }
+
+    private Session openSession(){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        return session;
+    }
+
+    private void closeSession(Session session){
+        session.getTransaction().commit();
+        session.close();
     }
 }

@@ -7,10 +7,6 @@ import jakarta.persistence.*;
 @Table(name = "environment_property_parameter")
 public class EnvironmentPropertyParameter implements InputParameter{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
     @Column(name = "min")
     private double min;
 
@@ -18,15 +14,16 @@ public class EnvironmentPropertyParameter implements InputParameter{
     private double max;
 
     @Transient
-    private double valid_min;
+    private double validMin;
 
     @Transient
-    private double valid_max;
+    private double validMax;
 
     @Transient
     private double precision;
 
-    @Column(name =  "property_type", unique = true)
+    @Id
+    @Column(name =  "type")
     private EnvironmentDeviceTypes propertyType;
 
     public EnvironmentPropertyParameter() {
@@ -35,21 +32,26 @@ public class EnvironmentPropertyParameter implements InputParameter{
     public EnvironmentPropertyParameter(double min, double max, double valid_min, double valid_max, double max_precision, EnvironmentDeviceTypes propertyType) {
         this.min = min;
         this.max = max;
-        this.valid_min = valid_min;
-        this.valid_max = valid_max;
+        this.validMin = valid_min;
+        this.validMax = valid_max;
         this.precision = max_precision;
         this.propertyType = propertyType;
     }
 
     public EnvironmentPropertyParameter(double valid_min, double valid_max, double max_precision, EnvironmentDeviceTypes propertyType) {
-        this.valid_min = valid_min;
-        this.valid_max = valid_max;
+        this.validMin = valid_min;
+        this.validMax = valid_max;
         this.precision = max_precision;
         this.propertyType = propertyType;
     }
 
     public boolean isValid(){
-        return this.min >= this.valid_min && this.max <= this.valid_max;
+        return this.min >= this.validMin && this.max <= this.validMax;
+    }
+
+    @Override
+    public EnvironmentPropertyParameter clone(){
+        return new EnvironmentPropertyParameter(min,max,validMin,validMax,precision,propertyType);
     }
 
     public double getMin() {
@@ -68,27 +70,32 @@ public class EnvironmentPropertyParameter implements InputParameter{
         this.max = max;
     }
 
-    public EnvironmentDeviceTypes getPropertyType() {
+    @Override
+    public EnvironmentDeviceTypes getType() {
         return propertyType;
     }
 
-    public double getValid_min() {
-        return valid_min;
+    public double getValidMin() {
+        return validMin;
     }
 
-    public double getValid_max() {
-        return valid_max;
+    public double getValidMax() {
+        return validMax;
+    }
+
+    public void setValidMin(double validMin) {
+        this.validMin = validMin;
+    }
+
+    public void setValidMax(double validMax) {
+        this.validMax = validMax;
+    }
+
+    public void setPrecision(double precision) {
+        this.precision = precision;
     }
 
     public double getPrecision() {
         return precision;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 }

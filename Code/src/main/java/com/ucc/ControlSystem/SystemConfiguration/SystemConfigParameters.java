@@ -5,14 +5,16 @@ public enum SystemConfigParameters {
     DATABASE_URL("db.url"),
     DATABASE_USER("db.user"),
     DATABASE_PASS("db.pass"),
-    LIGHT_TIME_MIN("light.time.min"),
-    LIGHT_TIME_MAX("light.time.max"),
+    LIGHT_ON_TIME_MIN("light.time.min"),
+    LIGHT_ON_TIME_MAX("light.time.max"),
+    LIGHT_OFF_TIME_MIN("light.time.min"),
+    LIGHT_OFF_TIME_MAX("light.time.max"),
     GROWTH_TIME_MIN("growth.time.min"),
     GROWTH_TIME_MAX("growth.time.max"),
     MEASUREMENT_INTERVAL_MIN("measurement.interval.min"),
     MEASUREMENT_INTERVAL_MAX("measurement.interval.max"),
-    AIR_TEMPERATURE_VALID_MIN("air.temp.min"),
-    AIR_TEMPERATURE_VALID_MAX("air.temp.max"),
+    AIR_TEMPERATURE_VALID_MIN("air.temp.valid.min"),
+    AIR_TEMPERATURE_VALID_MAX("air.temp.valid.max"),
     AIR_TEMPERATURE_PRECISION("air.temp.precision");
 
     private final String paramValue;
