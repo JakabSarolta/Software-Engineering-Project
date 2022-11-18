@@ -38,11 +38,14 @@ public class ConnectionFactory {
                     .setProperty("hibernate.connection.url",jdbcUrl)
                     .setProperty("hibernate.connection.username",userName)
                     .setProperty("hibernate.connection.password",password)
-                    .setProperty("hibernate.hbm2ddl.auto","create")
+                    .setProperty("hibernate.hbm2ddl.auto","update")
                     .setProperty("hibernate.connection.pool_size","1")
                     .setProperty("hibernate.dialect","org.hibernate.dialect.MySQLDialect")
                     .setProperty("hibernate.show_sql","true")
                     .setProperty("hibernate.current_session_context_class","thread")
+//                    .addAnnotatedClass(EnvironmentPropertyParameter.class)
+//                    .addAnnotatedClass(MeasurementIntervalParameter.class)
+//                    .addAnnotatedClass(OtherParameter.class)
                     .buildSessionFactory();
             this.session = factory.getCurrentSession();
     }

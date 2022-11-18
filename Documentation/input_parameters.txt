@@ -1,0 +1,23 @@
+ - growth_time -- conversion... from days to seconds (input:days)
+ 
+ - air_temperature min max
+ - water_temperature min max
+ - humidity min max
+ - pH level min max
+ - EC min max
+ - nitrogen min max
+ - phosphorus min max
+ - potassium min max
+
+ - air_temperature_check_interval balanced balancing
+ - water_temperature_check_interval balanced balancing
+ - humidity_check_interval balanced balancing
+ - pH_check_interval balanced balancing
+ - Ec_check_interval balanced balancing
+ - nitrogen_check_interval balanced balancing
+ - phosphorus_check_interval balanced balancing
+ - potassium_check_interval balanced balancing
+ 
+ - NPK_ratio
+ - light_ON_time
+ - light_OFF_time

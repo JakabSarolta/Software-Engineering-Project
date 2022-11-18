@@ -123,12 +123,12 @@ public class EnvironmentControlPanel extends JFrame {
 
     private void setActuatorValue(double value){
         EnvironmentSimulator es = EnvironmentSimulator.getEnvironmentSimulator();
-        es.setActuatorStrength(EnvironmentDeviceTypes.TEMPERATURE,value/SLIDER_SCALE);
+        es.setActuatorStrength(EnvironmentDeviceTypes.AIR_TEMPERATURE,value/SLIDER_SCALE);
     }
 
     private void setSensorValue(double value){
         EnvironmentSimulator es = EnvironmentSimulator.getEnvironmentSimulator();
-        es.setSensorTendency(EnvironmentDeviceTypes.TEMPERATURE,value/SLIDER_SCALE);
+        es.setSensorTendency(EnvironmentDeviceTypes.AIR_TEMPERATURE,value/SLIDER_SCALE);
     }
 
     public JLabel getTemperatureValueLabel() {

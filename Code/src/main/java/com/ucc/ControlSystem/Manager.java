@@ -39,7 +39,7 @@ public class Manager implements Runnable{
             i = adjustCurrentTimeToStep(previousSelectedDisplayTimeUnit,selectedDisplayTimeUnit,i);
             previousSelectedDisplayTimeUnit = selectedDisplayTimeUnit;
 
-            double measurement = es.takeMeasurement(EnvironmentDeviceTypes.TEMPERATURE);
+            double measurement = es.takeMeasurement(EnvironmentDeviceTypes.AIR_TEMPERATURE);
             ((EnvironmentControlPanel)frame).getTemperatureValueLabel().setText(Math.round(measurement*100)/100.0+"");
             ((EnvironmentControlPanel)frame).getTimeValueLabel().setText(i+"");
 
