@@ -30,42 +30,23 @@ public class Controller{
     }
 
     public void timePassed(long currentTime){
-//        switch (currentState) {
-//            case BALANCED:
         if(currentState != States.GROWTH_ENDED  && currentState != States.ALERTED) {
 
             if (sentinel.isGrowthTimeDue(currentTime)) {
                 currentState = States.GROWTH_ENDED;
             } else {
-//                    if(currentTime % Long.parseLong(confReader.readEnvironmentVariable(SystemConfigParameters.BALANCED_CHECK_INTERVAL)) == 0){
-//                        currentState = States.DATA_COLLECTION;
-//                        previousState = States.BALANCED;
-//                    }
                 parametersToBeBalanced = sentinel.checkPeriodically(currentTime);
-//                    if(parametersToBeBalanced.size() > 0){
-//                        currentState = States.BALANCING;
-//                    }
             }
-//                break;
-//            case BALANCING:
 
-            environmentBalancer.balanceEnvironment(currentTime, parametersToBeBalanced);
-
-//                if(parametersToBeBalanced.size() == 0){
-//                    currentState = States.BALANCED;
-//                }
-//                break;
-//            case GROWTH_ENDED:
-//                break;
-//            case ALERTED:
-//                break;
-//        }
+            currentState = environmentBalancer.balanceEnvironment(currentTime, parametersToBeBalanced);
 
             for(EnvironmentDeviceTypes device : EnvironmentDeviceTypes.values()){
                 AdminControlPanel.getAdminControlPanel().getCurrentTime().setText(convertSeconds(currentTime)+"");
                 AdminControlPanel.getAdminControlPanel().getCurrentTemp().setText(Math.round(DataCollector.getDataCollector().getSensorValue(device) * 10) / 10.0+"");
                 AdminControlPanel.getAdminControlPanel().getActuatorState().setText(DataCollector.getDataCollector().getActuatorStrength(device));
             }
+        }else if(currentState == States.ALERTED){
+            com.ucc.ControlSystem.SimulationEnvironment.Controller.stopSimulation();
         }
     }
 

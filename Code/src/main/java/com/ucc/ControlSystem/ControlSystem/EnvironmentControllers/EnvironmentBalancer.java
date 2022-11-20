@@ -16,12 +16,16 @@ public class EnvironmentBalancer {
 
     private Map<EnvironmentDeviceTypes, Long> timeWhenLastMeasured;
     private Map<EnvironmentDeviceTypes, Boolean> shouldRise;
+    private Map<EnvironmentDeviceTypes, Double> lastMeasuredValue;
+    private Map<EnvironmentDeviceTypes, Double> currentValues;
     private InputParameterProcessor processor;
 
     private EnvironmentBalancer(){
         timeWhenLastMeasured = new HashMap<>();
         processor = InputParameterProcessor.getInputParameterProcessor();
         shouldRise = new HashMap<>();
+        lastMeasuredValue = new HashMap<>();
+        currentValues = new HashMap<>();
     }
 
     public static EnvironmentBalancer getEnvironmentBalancer() {
@@ -31,11 +35,12 @@ public class EnvironmentBalancer {
         return environmentBalancer;
     }
 
-    public void balanceEnvironment(long currentTime, List<EnvironmentDeviceTypes> devicesToBeBalanced){
+    public States balanceEnvironment(long currentTime, List<EnvironmentDeviceTypes> devicesToBeBalanced){
         List<EnvironmentDeviceTypes> devicesToBeRemoved = new ArrayList<>();
         for(EnvironmentDeviceTypes device : devicesToBeBalanced){
 
             if(canBeMeasured(device, currentTime)){
+
                 double measurement = DataCollector.getDataCollector().takeMeasurementForDevice(device);
                 double min = processor.getMinValueForDevice(device);
                 double max = processor.getMaxValueForDevice(device);
@@ -46,13 +51,23 @@ public class EnvironmentBalancer {
                         devicesToBeRemoved.add(device);
                         EnvironmentSimulator.getEnvironmentSimulator().setActuatorStrength(device,0);
                     }
+
+                    if((shouldRise.get(device) && measurement <= lastMeasuredValue.get(device))
+                    || (!shouldRise.get(device) && measurement >= lastMeasuredValue.get(device))){
+                        System.out.printf("ALERTED! Reason: " + device + " rising: " + !shouldRise.get(device));
+                        return States.ALERTED;
+                    }
+
+                    lastMeasuredValue.put(device,currentValues.get(device));
                 }else{
                     if(measurement < min){
                         shouldRise.put(device,true);
                     }else if(measurement > max){
                         shouldRise.put(device,false);
                     }
+                    lastMeasuredValue.put(device,measurement);
                 }
+                currentValues.put(device,measurement);
             }
 
             if(shouldRise.containsKey(device)){
@@ -65,6 +80,8 @@ public class EnvironmentBalancer {
         }
 
         devicesToBeBalanced.removeAll(devicesToBeRemoved);
+
+        return States.BALANCING;
     }
 
     private boolean canBeMeasured(EnvironmentDeviceTypes device, long currentTime) {

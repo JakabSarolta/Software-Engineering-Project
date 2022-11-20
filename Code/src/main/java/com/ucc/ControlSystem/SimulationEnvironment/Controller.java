@@ -9,6 +9,7 @@ import javax.swing.*;
 public class Controller implements Runnable{
 
     private final JFrame frame;
+    private static boolean exit = false;
 
     public Controller(JFrame frame) {
         this.frame = frame;
@@ -24,6 +25,7 @@ public class Controller implements Runnable{
             @Override
             protected Void doInBackground() throws Exception {
                 Controller manager = new Controller(frame);
+                exit = false;
 
                 manager.run();
                 return null;
@@ -31,6 +33,10 @@ public class Controller implements Runnable{
         };
 
         swingWorker.execute();
+    }
+
+    public static void stopSimulation() {
+        exit = true;
     }
 
 
@@ -48,7 +54,7 @@ public class Controller implements Runnable{
         // how many simulation time units have passed
         long i = 0;
 
-        while(TimeConvertor.convertMillisToSeconds(simulationTime) <= es.getDurationOfTheSimulationRealLifeTime()){
+        while(TimeConvertor.convertMillisToSeconds(simulationTime) <= es.getDurationOfTheSimulationRealLifeTime() && !exit){
             TimeUnits selectedDisplayTimeUnit = (TimeUnits) ((EnvironmentControlPanel)frame).getDisplayTimeUnitComboBox().getSelectedItem();
 
             double measurement = es.takeMeasurement(EnvironmentDeviceTypes.AIR_TEMPERATURE);

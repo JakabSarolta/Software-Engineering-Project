@@ -24,6 +24,7 @@ public class EnvironmentControlPanel extends JFrame {
     private JTextField simulationTimeTextField, saladSimulationTimeText;
     private JSlider sigma, alpha;
     private JButton startButton;
+    private JButton restartButton;
     private JComboBox timeUnitsComboBox, displayTimeUnitComboBox;
 
     private final double SLIDER_SCALE = 10.0;
@@ -95,12 +96,14 @@ public class EnvironmentControlPanel extends JFrame {
         timeUnitsComboBox = new JComboBox(TimeUnits.values());
         timePanel.add(timeUnitsComboBox);
         contentPane.add(timePanel);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(1,2));
         startButton = new JButton("START");
         startButton.setActionCommand("Start the simulation");
         startButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setActuatorValue(sigma.getValue());
+                setSensorValue(sigma.getValue());
                 setActuatorValue(alpha.getValue());
 
                 int simulationSaladTimeSeconds = Integer.parseInt(saladSimulationTimeText.getText()) *
@@ -110,6 +113,24 @@ public class EnvironmentControlPanel extends JFrame {
                         Integer.parseInt(simulationTimeTextField.getText()));
             }
         });
+        buttonPanel.add(startButton);
+        restartButton = new JButton("RESTART");
+        restartButton.setActionCommand("Restart the simulation");
+        restartButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setSensorValue(sigma.getValue());
+                setActuatorValue(alpha.getValue());
+
+                int simulationSaladTimeSeconds = Integer.parseInt(saladSimulationTimeText.getText()) *
+                        ((TimeUnits)timeUnitsComboBox.getSelectedItem()).getVal();
+
+                Controller.stopSimulation();
+                Controller.startSimulation(EnvironmentControlPanel.getEnvironmentControlPanel(),simulationSaladTimeSeconds,
+                        Integer.parseInt(simulationTimeTextField.getText()));
+            }
+        });
+//        buttonPanel.add(restartButton);
         contentPane.add(startButton);
         this.setContentPane(this.contentPane);
     }
