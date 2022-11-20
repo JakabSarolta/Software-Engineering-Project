@@ -3,6 +3,7 @@ package com.ucc.ControlSystem.ControlSystem.JDBC;
 import com.ucc.ControlSystem.ControlSystem.InputParameters.EnvironmentPropertyParameter;
 import com.ucc.ControlSystem.ControlSystem.InputParameters.MeasurementIntervalParameter;
 import com.ucc.ControlSystem.ControlSystem.InputParameters.OtherParameter;
+import com.ucc.ControlSystem.ControlSystem.Reporting.Measurement;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -48,6 +49,7 @@ public class ConnectionFactory {
                     .addAnnotatedClass(EnvironmentPropertyParameter.class)
                     .addAnnotatedClass(MeasurementIntervalParameter.class)
                     .addAnnotatedClass(OtherParameter.class)
+                    .addAnnotatedClass(Measurement.class)
                     .buildSessionFactory();
             this.sessionFactory = sessionFactory;
 //            this.session = factory.getCurrentSession();

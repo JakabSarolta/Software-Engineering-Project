@@ -1,6 +1,7 @@
 package com.ucc.ControlSystem.ControlSystem.EnvironmentControllers;
 
 import com.ucc.ControlSystem.ControlSystem.InputParameters.InputParameterProcessor;
+import com.ucc.ControlSystem.ControlSystem.Reporting.Measurement;
 import com.ucc.ControlSystem.GUI.EnvironmentControlPanel;
 import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentDeviceTypes;
 import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentSimulator;
@@ -55,6 +56,7 @@ public class EnvironmentBalancer {
                     if((shouldRise.get(device) && measurement <= lastMeasuredValue.get(device))
                     || (!shouldRise.get(device) && measurement >= lastMeasuredValue.get(device))){
                         System.out.printf("ALERTED! Reason: " + device + " rising: " + !shouldRise.get(device));
+                        new Measurement(device,measurement,States.ALERTED).saveMeasurement();
                         return States.ALERTED;
                     }
 
@@ -68,6 +70,7 @@ public class EnvironmentBalancer {
                     lastMeasuredValue.put(device,measurement);
                 }
                 currentValues.put(device,measurement);
+                new Measurement(device, measurement,States.BALANCING).saveMeasurement();
             }
 
             if(shouldRise.containsKey(device)){

@@ -2,6 +2,7 @@ package com.ucc.ControlSystem.ControlSystem.EnvironmentControllers;
 
 import com.ucc.ControlSystem.ControlSystem.InputParameters.EnvironmentPropertyParameter;
 import com.ucc.ControlSystem.ControlSystem.InputParameters.InputParameterProcessor;
+import com.ucc.ControlSystem.ControlSystem.Reporting.Measurement;
 import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentDeviceTypes;
 
 import java.util.ArrayList;
@@ -31,9 +32,11 @@ public class Sentinel {
             long checkIntervalForDevice = inputParameterProcessor.getBalancedCheckIntervalForDevice(deviceType);
 
             if(currentTime % checkIntervalForDevice == 0){
-                if(deviceNeedsBalancing(deviceType, dataCollector.takeMeasurementForDevice(deviceType))){
+                Double measurement = dataCollector.takeMeasurementForDevice(deviceType);
+                if(deviceNeedsBalancing(deviceType, measurement)){
                     parametersToBeBalances.add(deviceType);
                 }
+                new Measurement(deviceType,measurement,States.BALANCED).saveMeasurement();
             }
         }
         return parametersToBeBalances;
