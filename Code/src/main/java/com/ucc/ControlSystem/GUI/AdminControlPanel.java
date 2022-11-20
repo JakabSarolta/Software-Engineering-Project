@@ -1,15 +1,18 @@
 package com.ucc.ControlSystem.GUI;
 
-import com.ucc.ControlSystem.ControlSystem.InputParameters.InputParameterProcessor;
-import com.ucc.ControlSystem.ControlSystem.InputParameters.OtherParameters;
+import com.ucc.ControlSystem.ControlSystem.InputParameters.*;
 import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentDeviceTypes;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 public class AdminControlPanel extends JFrame{
+
+    private static AdminControlPanel adminControlPanel = null;
+
     final static String INITIALIZEPANEL = "Initialize/Update parameters";
     final static String MONITORPANEL = "Monitor system";
     final static String ALERTSPANEL = "Alerts";
@@ -30,14 +33,21 @@ public class AdminControlPanel extends JFrame{
     private JLabel currentTime = new JLabel("", JLabel.CENTER);
     private JLabel currentTemp = new JLabel("", JLabel.CENTER);
     private JLabel actuatorState = new JLabel("Off", JLabel.CENTER);
-    private JLabel currentState = new JLabel("", JLabel.CENTER);
+//    private JLabel currentState = new JLabel("", JLabel.CENTER);
 
     Font  f1  = new Font("Our font", Font.BOLD, 16);
     Font  f2  = new Font("Our font", Font.BOLD, 14);
 
-    public AdminControlPanel(String title){
+    private AdminControlPanel(String title){
         super(title);
         prepareGUI();
+    }
+
+    public static AdminControlPanel getAdminControlPanel(){
+        if(adminControlPanel == null){
+            adminControlPanel = new AdminControlPanel("Administrator Control");
+        }
+        return adminControlPanel;
     }
 
     public void prepareGUI(){
@@ -150,16 +160,35 @@ public class AdminControlPanel extends JFrame{
         currentValuesPanel.add(actuatorStateLabel);
         actuatorState.setFont(f1);
         currentValuesPanel.add(actuatorState);
-        JLabel currentStateLabel = new JLabel("Current state of the system:");
-        currentStateLabel.setFont(f1);
-        currentValuesPanel.add(currentStateLabel);
-        currentState.setFont(f1);
-        currentValuesPanel.add(currentState);
-        c2.gridy = 1;
+//        JLabel currentStateLabel = new JLabel("Current state of the system:");
+//        currentStateLabel.setFont(f1);
+//        currentValuesPanel.add(currentStateLabel);
+//        currentState.setFont(f1);
+//        currentValuesPanel.add(currentState);
+        c2.gridx = 0;
+        c2.gridy = 2;
         card2.add(currentValuesPanel, c2);
         c2.gridy = 2;
         card2.add(new JLabel(""), c2);
 
+        JPanel startButtonPanel = new JPanel();
+        startButtonPanel.setLayout(new GridLayout(1,1));
+        JButton startButton = new JButton();
+        startButton.setText("Start control system");
+        startButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = EnvironmentControlPanel.getEnvironmentControlPanel();
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setVisible(true);
+            }
+        });
+        startButtonPanel.add(startButton);
+//        c2.gridy = 0;
+        c2.gridx = 0;
+//        card2.add(new JLabel(""),c2);
+        c2.gridy = 3;
+        card2.add(startButtonPanel,c2);
 
         tabbedPane.addTab(INITIALIZEPANEL, card1);
         tabbedPane.addTab(MONITORPANEL, card2);
@@ -167,6 +196,29 @@ public class AdminControlPanel extends JFrame{
         tabbedPane.addTab(REPORTSPANEL, card4);
         this.add(tabbedPane, BorderLayout.CENTER);
         this.setContentPane(this.tabbedPane);
+    }
+
+    public void populateFields(List<InputParameter> inputParameterList){
+        for(InputParameter parameter : inputParameterList){
+            if(parameter instanceof EnvironmentPropertyParameter){
+                EnvironmentPropertyParameter envParam = (EnvironmentPropertyParameter) parameter;
+                if(envParam.getType() == EnvironmentDeviceTypes.AIR_TEMPERATURE){
+                    minAirTemp.setText(envParam.getMin()+"");
+                    maxAirTemp.setText(envParam.getMax()+"");
+                }
+            }else if(parameter instanceof MeasurementIntervalParameter){
+                MeasurementIntervalParameter mintParam = (MeasurementIntervalParameter) parameter;
+                if(mintParam.getType() == EnvironmentDeviceTypes.AIR_TEMPERATURE){
+                    balanceTempCheck.setText(mintParam.getIntervalBalancedState() / 60 +"");
+                    balancingTempCheck.setText(mintParam.getIntervalBalancingState() / 60 +"");
+                }
+            }else if(parameter instanceof OtherParameter){
+                OtherParameter othrParam = (OtherParameter) parameter;
+                if(othrParam.getType() == OtherParameters.GROWTH_TIME){
+                    growthTime.setText(othrParam.getValue() / 86400 +"");
+                }
+            }
+        }
     }
 
     public long getGrowthTime() {
@@ -222,7 +274,20 @@ public class AdminControlPanel extends JFrame{
         this.actuatorState.setText(String.valueOf(actuatorState));
     }
 
-    public void setCurrentState(String currentState) {
-        this.currentState.setText(String.valueOf(currentState));
+//    public void setCurrentState(String currentState) {
+//        this.currentState.setText(String.valueOf(currentState));
+//    }
+
+
+    public JLabel getCurrentTime() {
+        return currentTime;
+    }
+
+    public JLabel getCurrentTemp() {
+        return currentTemp;
+    }
+
+    public JLabel getActuatorState() {
+        return actuatorState;
     }
 }

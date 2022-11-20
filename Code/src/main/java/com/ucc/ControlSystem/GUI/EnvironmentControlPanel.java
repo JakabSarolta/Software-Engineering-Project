@@ -1,6 +1,6 @@
 package com.ucc.ControlSystem.GUI;
 
-import com.ucc.ControlSystem.Main;
+import com.ucc.ControlSystem.SimulationEnvironment.Controller;
 import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentDeviceTypes;
 import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentSimulator;
 import com.ucc.ControlSystem.Utils.TimeUnits;
@@ -14,6 +14,8 @@ import java.util.Hashtable;
 
 public class EnvironmentControlPanel extends JFrame {
 
+    private static EnvironmentControlPanel environmentControlPanel;
+
     private JPanel contentPane;
     private JLabel titleLabel, sensorTendencyLabel, actuatorTendencyLabel, simulationTimeLabel, seconds1Label,
         saladSimulationTimeLabel, temperatureNameLabel, temperatureValueLabel,
@@ -26,9 +28,16 @@ public class EnvironmentControlPanel extends JFrame {
 
     private final double SLIDER_SCALE = 10.0;
 
-    public EnvironmentControlPanel(String title){
+    private EnvironmentControlPanel(String title){
         super(title);
         prepareGUI();
+    }
+
+    public static EnvironmentControlPanel getEnvironmentControlPanel(){
+        if(environmentControlPanel == null){
+            environmentControlPanel = new EnvironmentControlPanel("Vertical Farm Control Simulation");
+        }
+        return environmentControlPanel;
     }
 
     public void prepareGUI(){
@@ -67,7 +76,7 @@ public class EnvironmentControlPanel extends JFrame {
         alpha.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                setActuatorValue(alpha.getValue());
+//                setActuatorValue(alpha.getValue());
             }
         });
         contentPane.add(alpha);
@@ -97,7 +106,7 @@ public class EnvironmentControlPanel extends JFrame {
                 int simulationSaladTimeSeconds = Integer.parseInt(saladSimulationTimeText.getText()) *
                         ((TimeUnits)timeUnitsComboBox.getSelectedItem()).getVal();
 
-                Main.startSimulation(simulationSaladTimeSeconds,
+                Controller.startSimulation(EnvironmentControlPanel.getEnvironmentControlPanel(),simulationSaladTimeSeconds,
                         Integer.parseInt(simulationTimeTextField.getText()));
             }
         });
@@ -141,5 +150,9 @@ public class EnvironmentControlPanel extends JFrame {
 
     public JComboBox getDisplayTimeUnitComboBox() {
         return displayTimeUnitComboBox;
+    }
+
+    public double getActuatorStrength(){
+        return this.alpha.getValue()/SLIDER_SCALE;
     }
 }

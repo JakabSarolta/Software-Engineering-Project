@@ -15,7 +15,8 @@ public enum SystemConfigParameters {
     MEASUREMENT_INTERVAL_MAX("measurement.interval.max"),
     AIR_TEMPERATURE_VALID_MIN("air.temp.valid.min"),
     AIR_TEMPERATURE_VALID_MAX("air.temp.valid.max"),
-    AIR_TEMPERATURE_PRECISION("air.temp.precision");
+    AIR_TEMPERATURE_PRECISION("air.temp.precision"),
+    BALANCED_CHECK_INTERVAL("balanced.check.interval");
 
     private final String paramValue;
 

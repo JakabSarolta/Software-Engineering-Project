@@ -45,6 +45,29 @@ public class InputParameterProcessor {
         return allParams;
     }
 
+    public double getMinValueForDevice(EnvironmentDeviceTypes deviceTypes){
+        return environmentPropertyParameterMap.get(deviceTypes).getMin();
+    }
+
+    public double getMaxValueForDevice(EnvironmentDeviceTypes deviceTypes){
+        return environmentPropertyParameterMap.get(deviceTypes).getMax();
+    }
+
+    public long getBalancedCheckIntervalForDevice(EnvironmentDeviceTypes deviceType){
+        return measurementIntervalParameterMap.get(deviceType).getIntervalBalancedState();
+    }
+
+    public long getBalancingCheckIntervalForDevice(EnvironmentDeviceTypes deviceType){
+        return measurementIntervalParameterMap.get(deviceType).getIntervalBalancingState();
+    }
+
+    public EnvironmentPropertyParameter getEnvironmentPropertyForDevice(EnvironmentDeviceTypes deviceType){
+        return environmentPropertyParameterMap.get(deviceType);
+    }
+
+    public OtherParameter getTotalGrowthTime(){
+        return otherParameterMap.get(OtherParameters.GROWTH_TIME);
+    }
 
     public static InputParameterProcessor getInputParameterProcessor(){
         if(inputParameterProcessor == null){
@@ -94,6 +117,8 @@ public class InputParameterProcessor {
                 param = new OtherParameter(p,0,max_valid,min_valid);
             }else{
                 param = (OtherParameter) dbEntries;
+                param.setValidValueMax(max_valid);
+                param.setValidValueMin(min_valid);
             }
 
             otherParametersMap.put(p,param);

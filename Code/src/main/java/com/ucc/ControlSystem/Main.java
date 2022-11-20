@@ -1,19 +1,18 @@
 package com.ucc.ControlSystem;
 
 
-import com.ucc.ControlSystem.ControlSystem.InputParameters.*;
+import com.ucc.ControlSystem.ControlSystem.InputParameters.InputParameterProcessor;
 import com.ucc.ControlSystem.ControlSystem.JDBC.ConnectionFactory;
 import com.ucc.ControlSystem.GUI.AdminControlPanel;
-import com.ucc.ControlSystem.GUI.EnvironmentControlPanel;
-import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentSimulator;
 import com.ucc.ControlSystem.SystemConfiguration.SystemConfigParameters;
 import com.ucc.ControlSystem.SystemConfiguration.SystemConfigurationReader;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Main{
-    private static JFrame frame = new EnvironmentControlPanel("Vertical Farm Control Simulation");
-    private static JFrame adminFrame = new AdminControlPanel("Administrator Control");
+    private static AdminControlPanel adminFrame = AdminControlPanel.getAdminControlPanel();
     public static void main(String[] args) {
 
         String jdbUrl = SystemConfigurationReader.getSystemConfigurationReader().readEnvironmentVariable(SystemConfigParameters.DATABASE_URL);
@@ -22,29 +21,15 @@ public class Main{
 
         ConnectionFactory.createDbConnection(jdbUrl,username,pass);
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+
         adminFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         adminFrame.setVisible(true);
-
-    }
-
-    public static void startSimulation(int durationOfTheSimulationSaladTime, int durationOfTheSimulationRealLifeTime){
-        EnvironmentSimulator es = EnvironmentSimulator.getEnvironmentSimulator();
-
-        es.setDurationOfTheSimulationSaladTime(durationOfTheSimulationSaladTime);
-        es.setDurationOfTheSimulationRealLifeTime(durationOfTheSimulationRealLifeTime);
-
-        SwingWorker<Void,Void> swingWorker = new SwingWorker<Void, Void>    () {
+        adminFrame.populateFields(InputParameterProcessor.getInputParameterProcessor().getParameters());
+        adminFrame.addWindowListener(new WindowAdapter() {
             @Override
-            protected Void doInBackground() throws Exception {
-                Manager manager = new Manager(frame);
-
-                manager.run();
-                return null;
+            public void windowClosing(WindowEvent e) {
+                InputParameterProcessor.getInputParameterProcessor().persistParameters();
             }
-        };
-
-        swingWorker.execute();
+        });
     }
 }

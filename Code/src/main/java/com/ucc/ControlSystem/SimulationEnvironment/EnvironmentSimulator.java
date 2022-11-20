@@ -4,7 +4,10 @@ import com.ucc.ControlSystem.Utils.TimeConvertor;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class EnvironmentSimulator {
 
@@ -140,5 +143,13 @@ public class EnvironmentSimulator {
 
     public void setDurationOfTheSimulationRealLifeTime(int durationOfTheSimulationRealLifeTime) {
         this.durationOfTheSimulationRealLifeTime = durationOfTheSimulationRealLifeTime;
+    }
+
+    public double getSensorValueForDevice(EnvironmentDeviceTypes device){
+        return lastMeasuredValues.get(device);
+    }
+
+    public String getActuatorStateForDevice(EnvironmentDeviceTypes device){
+        return ((Actuator) findDevice(actuators,device)).getActuatorStrength() == 0 ? "OFF" : "ON";
     }
 }
