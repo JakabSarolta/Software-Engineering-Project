@@ -45,6 +45,15 @@ public class HSQLQueries {
         return res;
     }
 
+    public void emptyTable(Class cls){
+        Session s = openSession();
+
+        Query q = s.createQuery("DELETE FROM " + cls.getSimpleName());
+        q.executeUpdate();
+
+        closeSession(s);
+    }
+
     private Session openSession(){
         Session session = sessionFactory.openSession();
         session.beginTransaction();

@@ -36,7 +36,7 @@ public class Sentinel {
                 if(deviceNeedsBalancing(deviceType, measurement)){
                     parametersToBeBalances.add(deviceType);
                 }
-                new Measurement(deviceType,measurement,States.BALANCED).saveMeasurement();
+                new Measurement(deviceType,measurement,States.BALANCED,currentTime).saveMeasurement();
             }
         }
         return parametersToBeBalances;
@@ -44,7 +44,6 @@ public class Sentinel {
 
     private boolean deviceNeedsBalancing(EnvironmentDeviceTypes deviceType,Double currentValue) {
         EnvironmentPropertyParameter parameterForDevice = inputParameterProcessor.getEnvironmentPropertyForDevice(deviceType);
-
         return parameterForDevice.getMin() > currentValue || parameterForDevice.getMax() < currentValue;
     }
 

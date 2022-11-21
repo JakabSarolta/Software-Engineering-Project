@@ -21,7 +21,7 @@ public class Controller implements Runnable{
         es.setDurationOfTheSimulationSaladTime(durationOfTheSimulationSaladTime);
         es.setDurationOfTheSimulationRealLifeTime(durationOfTheSimulationRealLifeTime);
 
-        SwingWorker<Void,Void> swingWorker = new SwingWorker<Void, Void>    () {
+        SwingWorker<Void,Void> swingWorker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
                 Controller manager = new Controller(frame);
@@ -42,11 +42,14 @@ public class Controller implements Runnable{
 
     @Override
     public void run() {
+
+
+
         EnvironmentSimulator es = EnvironmentSimulator.getEnvironmentSimulator();
         // how many real-life seconds is one salad second
         double oneSaladSec = (((double)es.getDurationOfTheSimulationRealLifeTime())/es.getDurationOfTheSimulationSaladTime());
         // the same (in millis)
-        int oneSaladMillis = (int)(oneSaladSec * 1000.0);
+        int oneSaladMillis = (int)(oneSaladSec * 1000.0);// TODO convert to microseconds then to millis
 
         // elapsed time from the beginning of the simulation
         long simulationTime = 0;

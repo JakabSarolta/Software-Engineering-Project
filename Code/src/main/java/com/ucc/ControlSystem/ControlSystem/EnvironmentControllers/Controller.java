@@ -1,7 +1,11 @@
 package com.ucc.ControlSystem.ControlSystem.EnvironmentControllers;
 
+import com.ucc.ControlSystem.ControlSystem.JDBC.ConnectionFactory;
+import com.ucc.ControlSystem.ControlSystem.JDBC.HSQLQueries;
+import com.ucc.ControlSystem.ControlSystem.Reporting.Measurement;
 import com.ucc.ControlSystem.GUI.AdminControlPanel;
 import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentDeviceTypes;
+import org.hibernate.Session;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +24,7 @@ public class Controller{
         parametersToBeBalanced = new ArrayList<>();
         sentinel = Sentinel.getSentinel();
         environmentBalancer = EnvironmentBalancer.getEnvironmentBalancer();
+        HSQLQueries.getHSQLQueries().emptyTable(Measurement.class);
     }
 
     public static Controller getController(){
@@ -43,7 +48,6 @@ public class Controller{
             for(EnvironmentDeviceTypes device : EnvironmentDeviceTypes.values()){
                 AdminControlPanel.getAdminControlPanel().getCurrentTime().setText(convertSeconds(currentTime)+"");
                 AdminControlPanel.getAdminControlPanel().getCurrentTemp().setText(Math.round(DataCollector.getDataCollector().getSensorValue(device) * 10) / 10.0+"");
-                AdminControlPanel.getAdminControlPanel().getActuatorState().setText(DataCollector.getDataCollector().getActuatorStrength(device));
             }
         }else if(currentState == States.ALERTED){
             com.ucc.ControlSystem.SimulationEnvironment.Controller.stopSimulation();

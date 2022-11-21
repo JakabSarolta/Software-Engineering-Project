@@ -114,22 +114,22 @@ public class EnvironmentControlPanel extends JFrame {
             }
         });
         buttonPanel.add(startButton);
-        restartButton = new JButton("RESTART");
-        restartButton.setActionCommand("Restart the simulation");
-        restartButton.addActionListener(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setSensorValue(sigma.getValue());
-                setActuatorValue(alpha.getValue());
-
-                int simulationSaladTimeSeconds = Integer.parseInt(saladSimulationTimeText.getText()) *
-                        ((TimeUnits)timeUnitsComboBox.getSelectedItem()).getVal();
-
-                Controller.stopSimulation();
-                Controller.startSimulation(EnvironmentControlPanel.getEnvironmentControlPanel(),simulationSaladTimeSeconds,
-                        Integer.parseInt(simulationTimeTextField.getText()));
-            }
-        });
+//        restartButton = new JButton("RESTART");
+//        restartButton.setActionCommand("Restart the simulation");
+//        restartButton.addActionListener(new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                setSensorValue(sigma.getValue());
+//                setActuatorValue(alpha.getValue());
+//
+//                int simulationSaladTimeSeconds = Integer.parseInt(saladSimulationTimeText.getText()) *
+//                        ((TimeUnits)timeUnitsComboBox.getSelectedItem()).getVal();
+//
+//                Controller.stopSimulation();
+//                Controller.startSimulation(EnvironmentControlPanel.getEnvironmentControlPanel(),simulationSaladTimeSeconds,
+//                        Integer.parseInt(simulationTimeTextField.getText()));
+//            }
+//        });
 //        buttonPanel.add(restartButton);
         contentPane.add(startButton);
         this.setContentPane(this.contentPane);

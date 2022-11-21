@@ -28,16 +28,16 @@ public class Measurement {
     private States state;
 
     @Column
-    private Timestamp timestamp;
+    private Long timestamp;
 
     public Measurement() {
     }
 
-    public Measurement(EnvironmentDeviceTypes device, double value, States state) {
+    public Measurement(EnvironmentDeviceTypes device, double value, States state, Long time) {
         this.device = device;
         this.value = value;
         this.state = state;
-        this.timestamp = Timestamp.valueOf(LocalDateTime.now());
+        this.timestamp = time;
     }
 
     public void saveMeasurement(){
@@ -75,11 +75,11 @@ public class Measurement {
         this.value = value;
     }
 
-    public Timestamp getTimestamp() {
+    public Long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
 

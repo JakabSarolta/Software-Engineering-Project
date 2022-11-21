@@ -2,10 +2,12 @@ package com.ucc.ControlSystem.ControlSystem.EnvironmentControllers;
 
 import com.ucc.ControlSystem.ControlSystem.InputParameters.InputParameterProcessor;
 import com.ucc.ControlSystem.ControlSystem.Reporting.Measurement;
+import com.ucc.ControlSystem.GUI.AdminControlPanel;
 import com.ucc.ControlSystem.GUI.EnvironmentControlPanel;
 import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentDeviceTypes;
 import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentSimulator;
 
+import javax.swing.plaf.IconUIResource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,22 +43,24 @@ public class EnvironmentBalancer {
         for(EnvironmentDeviceTypes device : devicesToBeBalanced){
 
             if(canBeMeasured(device, currentTime)){
-
                 double measurement = DataCollector.getDataCollector().takeMeasurementForDevice(device);
                 double min = processor.getMinValueForDevice(device);
                 double max = processor.getMaxValueForDevice(device);
 
+                double avg = (min + max) / 2.0;
+
                 if(shouldRise.containsKey(device)){
-                    if((shouldRise.get(device) && measurement >= max) || (!shouldRise.get(device) && measurement <= min)){
+                    if((shouldRise.get(device) && measurement >= avg) || (!shouldRise.get(device) && measurement <= avg)){
                         shouldRise.remove(device);
                         devicesToBeRemoved.add(device);
                         EnvironmentSimulator.getEnvironmentSimulator().setActuatorStrength(device,0);
+                        AdminControlPanel.getAdminControlPanel().getActuatorState().setText("OFF");
                     }
 
-                    if((shouldRise.get(device) && measurement <= lastMeasuredValue.get(device))
-                    || (!shouldRise.get(device) && measurement >= lastMeasuredValue.get(device))){
+                    if((shouldRise.containsKey(device)) && ((shouldRise.get(device) && measurement <= lastMeasuredValue.get(device))
+                    || (!shouldRise.get(device) && measurement >= lastMeasuredValue.get(device)))){
                         System.out.printf("ALERTED! Reason: " + device + " rising: " + !shouldRise.get(device));
-                        new Measurement(device,measurement,States.ALERTED).saveMeasurement();
+                        new Measurement(device,measurement,States.ALERTED,currentTime).saveMeasurement();
                         return States.ALERTED;
                     }
 
@@ -64,13 +68,15 @@ public class EnvironmentBalancer {
                 }else{
                     if(measurement < min){
                         shouldRise.put(device,true);
+                        AdminControlPanel.getAdminControlPanel().getActuatorState().setText("ON");
                     }else if(measurement > max){
                         shouldRise.put(device,false);
+                        AdminControlPanel.getAdminControlPanel().getActuatorState().setText("ON");
                     }
                     lastMeasuredValue.put(device,measurement);
                 }
                 currentValues.put(device,measurement);
-                new Measurement(device, measurement,States.BALANCING).saveMeasurement();
+                new Measurement(device, measurement,States.BALANCING,currentTime).saveMeasurement();
             }
 
             if(shouldRise.containsKey(device)){
@@ -83,7 +89,6 @@ public class EnvironmentBalancer {
         }
 
         devicesToBeBalanced.removeAll(devicesToBeRemoved);
-
         return States.BALANCING;
     }
 
