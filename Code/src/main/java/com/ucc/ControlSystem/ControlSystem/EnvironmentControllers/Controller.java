@@ -41,7 +41,7 @@ public class Controller{
 //                        currentState = States.DATA_COLLECTION;
 //                        previousState = States.BALANCED;
 //                    }
-                parametersToBeBalanced = sentinel.checkPeriodically(currentTime);
+                 sentinel.checkPeriodically(currentTime,parametersToBeBalanced);
 //                    if(parametersToBeBalanced.size() > 0){
 //                        currentState = States.BALANCING;
 //                    }

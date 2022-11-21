@@ -40,8 +40,10 @@ public class EnvironmentBalancer {
                 double min = processor.getMinValueForDevice(device);
                 double max = processor.getMaxValueForDevice(device);
 
+                double avg = (min + max) / 2.0;
+
                 if(shouldRise.containsKey(device)){
-                    if((shouldRise.get(device) && measurement >= max) || (!shouldRise.get(device) && measurement <= min)){
+                    if((shouldRise.get(device) && measurement >= avg) || (!shouldRise.get(device) && measurement <= avg)){
                         shouldRise.remove(device);
                         devicesToBeRemoved.add(device);
                         EnvironmentSimulator.getEnvironmentSimulator().setActuatorStrength(device,0);
