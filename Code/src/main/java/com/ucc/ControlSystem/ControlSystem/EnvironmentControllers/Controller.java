@@ -40,7 +40,7 @@ public class Controller{
             if (sentinel.isGrowthTimeDue(currentTime)) {
                 currentState = States.GROWTH_ENDED;
             } else {
-                parametersToBeBalanced = sentinel.checkPeriodically(currentTime);
+                sentinel.checkPeriodically(currentTime,parametersToBeBalanced);
             }
 
             currentState = environmentBalancer.balanceEnvironment(currentTime, parametersToBeBalanced);

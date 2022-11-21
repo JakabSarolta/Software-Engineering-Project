@@ -43,21 +43,19 @@ public class Controller implements Runnable{
     @Override
     public void run() {
 
-
-
         EnvironmentSimulator es = EnvironmentSimulator.getEnvironmentSimulator();
         // how many real-life seconds is one salad second
         double oneSaladSec = (((double)es.getDurationOfTheSimulationRealLifeTime())/es.getDurationOfTheSimulationSaladTime());
         // the same (in millis)
-        int oneSaladMillis = (int)(oneSaladSec * 1000.0);// TODO convert to microseconds then to millis
-
+        int oneSaladMillis = (int)(oneSaladSec * 1000.0);
+        int remainingNanos = (int) ((((oneSaladSec * 1000)) - oneSaladMillis)*1000000);
         // elapsed time from the beginning of the simulation
-        long simulationTime = 0;
+        double simulationTime = 0;
 
         // how many simulation time units have passed
         long i = 0;
 
-        while(TimeConvertor.convertMillisToSeconds(simulationTime) <= es.getDurationOfTheSimulationRealLifeTime() && !exit){
+        while(simulationTime <= es.getDurationOfTheSimulationRealLifeTime() && !exit){
             TimeUnits selectedDisplayTimeUnit = (TimeUnits) ((EnvironmentControlPanel)frame).getDisplayTimeUnitComboBox().getSelectedItem();
 
             double measurement = es.takeMeasurement(EnvironmentDeviceTypes.AIR_TEMPERATURE);
@@ -71,9 +69,9 @@ public class Controller implements Runnable{
             try {
                 // the delay in order to change the displayed time by one salad time unit
                 // how many milliseconds is one salad time unit
-                Thread.sleep(oneSaladMillis);
+                Thread.sleep(oneSaladMillis,remainingNanos);
 
-                simulationTime += oneSaladMillis;
+                simulationTime += oneSaladSec;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

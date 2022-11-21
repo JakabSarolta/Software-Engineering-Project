@@ -26,20 +26,18 @@ public class Sentinel {
         return sentinel;
     }
 
-    public List<EnvironmentDeviceTypes> checkPeriodically(long currentTime){
-        List<EnvironmentDeviceTypes> parametersToBeBalances = new ArrayList<>();
+    public void checkPeriodically(long currentTime, List<EnvironmentDeviceTypes> parametersToBeBalanced){
         for(EnvironmentDeviceTypes deviceType : EnvironmentDeviceTypes.values()){
             long checkIntervalForDevice = inputParameterProcessor.getBalancedCheckIntervalForDevice(deviceType);
 
             if(currentTime % checkIntervalForDevice == 0){
                 Double measurement = dataCollector.takeMeasurementForDevice(deviceType);
                 if(deviceNeedsBalancing(deviceType, measurement)){
-                    parametersToBeBalances.add(deviceType);
+                    parametersToBeBalanced.add(deviceType);
                 }
                 new Measurement(deviceType,measurement,States.BALANCED,currentTime).saveMeasurement();
             }
         }
-        return parametersToBeBalances;
     }
 
     private boolean deviceNeedsBalancing(EnvironmentDeviceTypes deviceType,Double currentValue) {

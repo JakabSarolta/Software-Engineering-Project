@@ -118,6 +118,8 @@ public class AdminControlPanel extends JFrame{
                                     InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinAirTemp(), getMaxAirTemp(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
                                     InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceTempCheck(), getBalancingTempCheck(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
                                     InputParameterProcessor.getInputParameterProcessor().updateOtherParameter(OtherParameters.GROWTH_TIME, getGrowthTime());
+
+                                    InputParameterProcessor.getInputParameterProcessor().persistParameters();
                                 }
                         }
                     }

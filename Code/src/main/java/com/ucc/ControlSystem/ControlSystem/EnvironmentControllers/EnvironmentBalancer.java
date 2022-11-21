@@ -50,7 +50,7 @@ public class EnvironmentBalancer {
                 double avg = (min + max) / 2.0;
 
                 if(shouldRise.containsKey(device)){
-                    if((shouldRise.get(device) && measurement >= avg) || (!shouldRise.get(device) && measurement <= avg)){
+                    if((shouldRise.get(device) && measurement >= avg) || (!shouldRise.get(device) && measurement <= avg )){
                         shouldRise.remove(device);
                         devicesToBeRemoved.add(device);
                         EnvironmentSimulator.getEnvironmentSimulator().setActuatorStrength(device,0);
@@ -77,6 +77,7 @@ public class EnvironmentBalancer {
                 }
                 currentValues.put(device,measurement);
                 new Measurement(device, measurement,States.BALANCING,currentTime).saveMeasurement();
+                timeWhenLastMeasured.put(device,currentTime);
             }
 
             if(shouldRise.containsKey(device)){
@@ -86,6 +87,7 @@ public class EnvironmentBalancer {
                     EnvironmentSimulator.getEnvironmentSimulator().setActuatorStrength(device, (-1) * EnvironmentControlPanel.getEnvironmentControlPanel().getActuatorStrength());
                 }
             }
+
         }
 
         devicesToBeBalanced.removeAll(devicesToBeRemoved);
