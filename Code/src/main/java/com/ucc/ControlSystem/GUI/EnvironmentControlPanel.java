@@ -60,7 +60,7 @@ public class EnvironmentControlPanel extends JFrame {
         displayTimeUnitComboBox = new JComboBox(TimeUnits.values());
         simulationPanel.add(displayTimeUnitComboBox);
         contentPane.add(simulationPanel);
-        this.sensorTendencyLabel = new JLabel("Sensor Tendency (sigma)", JLabel.CENTER);
+        this.sensorTendencyLabel = new JLabel("Sensor Tendency (\u00B0C/sec)", JLabel.CENTER);
         contentPane.add(sensorTendencyLabel);
         sigma = createSlider(-5,5, 1);
         sigma.addChangeListener(new ChangeListener() {
@@ -70,7 +70,7 @@ public class EnvironmentControlPanel extends JFrame {
             }
         });
         contentPane.add(sigma);
-        this.actuatorTendencyLabel = new JLabel("Actuator Tendency (alpha)", JLabel.CENTER);
+        this.actuatorTendencyLabel = new JLabel("Actuator Tendency (\u00B0C/sec)", JLabel.CENTER);
         contentPane.add(actuatorTendencyLabel);
         alpha = createSlider(-5,5, 1);
         alpha.addChangeListener(new ChangeListener() {
