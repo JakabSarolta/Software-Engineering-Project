@@ -1,6 +1,8 @@
 package com.ucc.ControlSystem.ControlSystem.JDBC;
 
 import com.ucc.ControlSystem.ControlSystem.InputParameters.Parameter;
+import com.ucc.ControlSystem.ControlSystem.Reporting.Measurement;
+import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentDeviceTypes;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -52,6 +54,20 @@ public class HSQLQueries {
         q.executeUpdate();
 
         closeSession(s);
+    }
+
+    public List<Measurement> getMeasurementsBasedOnTypeAndInterval(EnvironmentDeviceTypes type, long startTime, long endTime){
+        Session s = openSession();
+
+        Query q = s.createQuery("FROM Measurement m WHERE m.device=:device AND m.timestamp>=:startTime AND m.timestamp<=:endTime");
+        q.setParameter("device",type);
+        q.setParameter("startTime",startTime);
+        q.setParameter("endTime",endTime);
+        List<Measurement> result = q.list();
+
+        closeSession(s);
+
+        return result;
     }
 
     private Session openSession(){
