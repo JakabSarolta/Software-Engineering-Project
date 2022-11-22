@@ -3,11 +3,11 @@ package com.ucc.ControlSystem.ControlSystem.EnvironmentControllers;
 import com.ucc.ControlSystem.ControlSystem.InputParameters.InputParameterProcessor;
 import com.ucc.ControlSystem.ControlSystem.Reporting.Measurement;
 import com.ucc.ControlSystem.GUI.AdminControlPanel;
+import com.ucc.ControlSystem.GUI.Alert;
 import com.ucc.ControlSystem.GUI.EnvironmentControlPanel;
 import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentDeviceTypes;
 import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentSimulator;
 
-import javax.swing.plaf.IconUIResource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +59,7 @@ public class EnvironmentBalancer {
 
                     if((shouldRise.containsKey(device)) && ((shouldRise.get(device) && measurement <= lastMeasuredValue.get(device))
                     || (!shouldRise.get(device) && measurement >= lastMeasuredValue.get(device)))){
-                        System.out.printf("ALERTED! Reason: " + device + " rising: " + !shouldRise.get(device));
+                        Alert.alert("Reason: " + device + " rising: " + !shouldRise.get(device));
                         new Measurement(device,measurement,States.ALERTED,currentTime).saveMeasurement();
                         return States.ALERTED;
                     }
