@@ -23,17 +23,17 @@ public class Main{
 
         ConnectionFactory.createDbConnection(jdbUrl,username,pass);
 
-        ReportGenerator.getReportGenerator().generateReport(0);
+//        ReportGenerator.getReportGenerator().generateReport(0);
 
 
-//        adminFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        adminFrame.setVisible(true);
-//        adminFrame.populateFields(InputParameterProcessor.getInputParameterProcessor().getParameters());
-//        adminFrame.addWindowListener(new WindowAdapter() {
-//            @Override
-//            public void windowClosing(WindowEvent e) {
-//                InputParameterProcessor.getInputParameterProcessor().persistParameters();
-//            }
-//        });
+        adminFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        adminFrame.setVisible(true);
+        adminFrame.populateFields(InputParameterProcessor.getInputParameterProcessor().getParameters());
+        adminFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                InputParameterProcessor.getInputParameterProcessor().persistParameters();
+            }
+        });
     }
 }

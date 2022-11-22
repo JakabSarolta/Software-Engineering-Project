@@ -45,9 +45,9 @@ public class ReportGenerator {
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,parameters,dataSource);
 
-                File pdfResult = File.createTempFile("/ReportForDay_"+dayNo,".pdf");
-            JasperExportManager.exportReportToPdfStream(jasperPrint,new FileOutputStream(pdfResult));
-//            JasperViewer.viewReport(jasperPrint);
+//                File pdfResult = File.createTempFile("/ReportForDay_"+dayNo,".pdf");
+//            JasperExportManager.exportReportToPdfStream(jasperPrint,new FileOutputStream(pdfResult));
+            JasperViewer.viewReport(jasperPrint);
         } catch ( JRException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {

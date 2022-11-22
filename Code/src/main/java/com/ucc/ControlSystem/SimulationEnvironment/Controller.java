@@ -77,7 +77,7 @@ public class Controller implements Runnable{
                 e.printStackTrace();
             }
         }
-//        ReportGenerator.getReportGenerator().generateReport(0);
+        ReportGenerator.getReportGenerator().generateReport(0);
     }
 
 
