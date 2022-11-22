@@ -74,11 +74,11 @@ public class AdminControlPanel extends JFrame{
         maxAirTempLabel.setFont(f2);
         JLabel minAirTempUnit = new JLabel("\u00B0C", JLabel.CENTER);
         minAirTempUnit.setFont(f2);
-        JLabel balanceTempCheckLabel = new JLabel("Temperature check for balanced state:");
+        JLabel balanceTempCheckLabel = new JLabel("Temperature check when actuator off:");
         balanceTempCheckLabel.setFont(f2);
         JLabel balanceTempCheckUnit = new JLabel("mins", JLabel.CENTER);
         balanceTempCheckUnit.setFont(f2);
-        JLabel balancingTempCheckLabel = new JLabel("Temperature check for balancing state:");
+        JLabel balancingTempCheckLabel = new JLabel("Temperature check when actuator on:");
         balancingTempCheckLabel.setFont(f2);
         JLabel balancingTempCheckUnit = new JLabel("mins", JLabel.CENTER);
         balancingTempCheckUnit.setFont(f2);
