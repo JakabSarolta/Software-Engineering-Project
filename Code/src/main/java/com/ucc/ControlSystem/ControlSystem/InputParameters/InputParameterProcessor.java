@@ -76,7 +76,7 @@ public class InputParameterProcessor {
         return inputParameterProcessor;
     }
 
-    public void updateEnvironmentPropertyParameter(double min, double max,EnvironmentDeviceTypes propertyType){
+    public void updateEnvironmentPropertyParameter(double min, double max, EnvironmentDeviceTypes propertyType){
         EnvironmentPropertyParameter clone = environmentPropertyParameterMap.get(propertyType).clone();
         clone.setMin(min);
         clone.setMax(max);
