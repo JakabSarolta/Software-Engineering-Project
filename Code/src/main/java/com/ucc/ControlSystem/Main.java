@@ -15,9 +15,12 @@ public class Main{
     private static AdminControlPanel adminFrame = AdminControlPanel.getAdminControlPanel();
     public static void main(String[] args) {
 
-        String jdbUrl = SystemConfigurationReader.getSystemConfigurationReader().readEnvironmentVariable(SystemConfigParameters.DATABASE_URL);
-        String username = SystemConfigurationReader.getSystemConfigurationReader().readEnvironmentVariable(SystemConfigParameters.DATABASE_USER);
-        String pass = SystemConfigurationReader.getSystemConfigurationReader().readEnvironmentVariable(SystemConfigParameters.DATABASE_PASS);
+        String jdbUrl = SystemConfigurationReader.getSystemConfigurationReader().
+                readEnvironmentVariable(SystemConfigParameters.DATABASE_URL);
+        String username = SystemConfigurationReader.getSystemConfigurationReader().
+                readEnvironmentVariable(SystemConfigParameters.DATABASE_USER);
+        String pass = SystemConfigurationReader.getSystemConfigurationReader().
+                readEnvironmentVariable(SystemConfigParameters.DATABASE_PASS);
 
         ConnectionFactory.createDbConnection(jdbUrl,username,pass);
 

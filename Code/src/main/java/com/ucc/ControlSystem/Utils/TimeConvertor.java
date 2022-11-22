@@ -1,6 +1,6 @@
 package com.ucc.ControlSystem.Utils;
 
-import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentSimulator;
+import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentSimulator;
 
 import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;

@@ -1,8 +1,8 @@
 package com.ucc.ControlSystem.GUI;
 
-import com.ucc.ControlSystem.SimulationEnvironment.Controller;
-import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentDeviceTypes;
-import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentSimulator;
+import com.ucc.ControlSystem.EnvironmentSimulator.Controller;
+import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
+import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentSimulator;
 import com.ucc.ControlSystem.Utils.TimeUnits;
 
 import javax.swing.*;

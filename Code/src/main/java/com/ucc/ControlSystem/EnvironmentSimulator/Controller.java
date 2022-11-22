@@ -1,7 +1,6 @@
-package com.ucc.ControlSystem.SimulationEnvironment;
+package com.ucc.ControlSystem.EnvironmentSimulator;
 
 import com.ucc.ControlSystem.GUI.EnvironmentControlPanel;
-import com.ucc.ControlSystem.Utils.TimeConvertor;
 import com.ucc.ControlSystem.Utils.TimeUnits;
 
 import javax.swing.*;
@@ -14,7 +13,8 @@ public class Controller implements Runnable{
         this.frame = frame;
     }
 
-    public static void startSimulation(JFrame frame,int durationOfTheSimulationSaladTime, int durationOfTheSimulationRealLifeTime){
+    public static void startSimulation(JFrame frame, int durationOfTheSimulationSaladTime,
+                                       int durationOfTheSimulationRealLifeTime){
         EnvironmentSimulator es = EnvironmentSimulator.getEnvironmentSimulator();
 
         es.setDurationOfTheSimulationSaladTime(durationOfTheSimulationSaladTime);
@@ -38,7 +38,8 @@ public class Controller implements Runnable{
     public void run() {
         EnvironmentSimulator es = EnvironmentSimulator.getEnvironmentSimulator();
         // how many real-life seconds is one salad second
-        double oneSaladSec = (((double)es.getDurationOfTheSimulationRealLifeTime())/es.getDurationOfTheSimulationSaladTime());
+        double oneSaladSec = (((double)es.getDurationOfTheSimulationRealLifeTime()) /
+                es.getDurationOfTheSimulationSaladTime());
         // the same (in millis)
         int oneSaladMillis = (int)(oneSaladSec * 1000.0);
         int remainingNanos = (int) ((((oneSaladSec * 1000)) - oneSaladMillis)*1000000);
@@ -50,15 +51,19 @@ public class Controller implements Runnable{
         long i = 0;
 
         while(simulationTime<= es.getDurationOfTheSimulationRealLifeTime()){
-            TimeUnits selectedDisplayTimeUnit = (TimeUnits) ((EnvironmentControlPanel)frame).getDisplayTimeUnitComboBox().getSelectedItem();
+            TimeUnits selectedDisplayTimeUnit = (TimeUnits) ((EnvironmentControlPanel)frame).
+                    getDisplayTimeUnitComboBox().getSelectedItem();
 
             double measurement = es.takeMeasurement(EnvironmentDeviceTypes.AIR_TEMPERATURE);
-            ((EnvironmentControlPanel)frame).getTemperatureValueLabel().setText(Math.round(measurement*100)/100.0+"");
-            ((EnvironmentControlPanel)frame).getTimeValueLabel().setText(adjustCurrentTimeToStep(selectedDisplayTimeUnit,i)+"");
+            ((EnvironmentControlPanel)frame).getTemperatureValueLabel().
+                    setText(Math.round(measurement*100)/100.0+"");
+            ((EnvironmentControlPanel)frame).getTimeValueLabel().
+                    setText(adjustCurrentTimeToStep(selectedDisplayTimeUnit,i)+"");
 
             i++;
 
-            com.ucc.ControlSystem.ControlSystem.EnvironmentControllers.Controller.getController().timePassed(i);
+            com.ucc.ControlSystem.ControlSystem.EnvironmentControllers.Controller.
+                    getController().timePassed(i);
 
             try {
                 // the delay in order to change the displayed time by one salad time unit

@@ -1,6 +1,6 @@
 package com.ucc.ControlSystem.ControlSystem.InputParameters;
 
-import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentDeviceTypes;
+import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
 import com.ucc.ControlSystem.SystemConfiguration.SystemConfigParameters;
 import com.ucc.ControlSystem.SystemConfiguration.SystemConfigurationReader;
 import jakarta.persistence.*;

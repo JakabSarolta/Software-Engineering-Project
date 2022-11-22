@@ -1,7 +1,7 @@
 package com.ucc.ControlSystem.ControlSystem.EnvironmentControllers;
 
-import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentDeviceTypes;
-import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentSimulator;
+import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
+import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentSimulator;
 
 import java.util.Map;
 

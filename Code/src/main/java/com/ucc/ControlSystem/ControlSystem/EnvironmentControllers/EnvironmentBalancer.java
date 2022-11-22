@@ -2,8 +2,8 @@ package com.ucc.ControlSystem.ControlSystem.EnvironmentControllers;
 
 import com.ucc.ControlSystem.ControlSystem.InputParameters.InputParameterProcessor;
 import com.ucc.ControlSystem.GUI.EnvironmentControlPanel;
-import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentDeviceTypes;
-import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentSimulator;
+import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
+import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentSimulator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +35,7 @@ public class EnvironmentBalancer {
         List<EnvironmentDeviceTypes> devicesToBeRemoved = new ArrayList<>();
         for(EnvironmentDeviceTypes device : devicesToBeBalanced){
 
-            if(canBeMeasured(device, currentTime)){
+            if(shouldBeCheckedNow(device, currentTime)){
                 double measurement = DataCollector.getDataCollector().takeMeasurementForDevice(device);
                 double min = processor.getMinValueForDevice(device);
                 double max = processor.getMaxValueForDevice(device);
@@ -58,10 +58,12 @@ public class EnvironmentBalancer {
             }
 
             if(shouldRise.containsKey(device)){
-                if(shouldRise.get(device)){
-                    EnvironmentSimulator.getEnvironmentSimulator().setActuatorStrength(device, EnvironmentControlPanel.getEnvironmentControlPanel().getActuatorStrength());
-                }else{
-                    EnvironmentSimulator.getEnvironmentSimulator().setActuatorStrength(device, (-1) * EnvironmentControlPanel.getEnvironmentControlPanel().getActuatorStrength());
+                if(shouldRise.get(device)){ // value is True, i.e. the actuator should increase temp, lvl etc.
+                    EnvironmentSimulator.getEnvironmentSimulator().setActuatorStrength(device,
+                            EnvironmentControlPanel.getEnvironmentControlPanel().getActuatorStrength());
+                }else{ // value is False, actuator should decrease temp, lvl etc.
+                    EnvironmentSimulator.getEnvironmentSimulator().setActuatorStrength(device,
+                            (-1) * EnvironmentControlPanel.getEnvironmentControlPanel().getActuatorStrength());
                 }
             }
         }
@@ -69,7 +71,7 @@ public class EnvironmentBalancer {
         devicesToBeBalanced.removeAll(devicesToBeRemoved);
     }
 
-    private boolean canBeMeasured(EnvironmentDeviceTypes device, long currentTime) {
+    private boolean shouldBeCheckedNow(EnvironmentDeviceTypes device, long currentTime) {
         return (!timeWhenLastMeasured.containsKey(device) ||
                 (currentTime - timeWhenLastMeasured.get(device)) >=  processor.getBalancingCheckIntervalForDevice(device));
     }

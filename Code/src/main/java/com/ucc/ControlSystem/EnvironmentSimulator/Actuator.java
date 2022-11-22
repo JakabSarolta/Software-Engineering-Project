@@ -1,4 +1,4 @@
-package com.ucc.ControlSystem.SimulationEnvironment;
+package com.ucc.ControlSystem.EnvironmentSimulator;
 
 public class Actuator implements EnvironmentDevice{
 

@@ -1,7 +1,7 @@
 package com.ucc.ControlSystem.ControlSystem.EnvironmentControllers;
 
 import com.ucc.ControlSystem.GUI.AdminControlPanel;
-import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentDeviceTypes;
+import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
 
 import java.util.ArrayList;
 import java.util.List;

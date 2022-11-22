@@ -1,6 +1,6 @@
 package com.ucc.ControlSystem.ControlSystem.InputParameters;
 
-import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentDeviceTypes;
+import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
 import jakarta.persistence.*;
 
 @Entity
