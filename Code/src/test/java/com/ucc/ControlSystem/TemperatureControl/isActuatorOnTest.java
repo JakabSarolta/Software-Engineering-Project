@@ -9,11 +9,12 @@ import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentSimulator;
 import com.ucc.ControlSystem.Main;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class isActuatorOnTest {
     @Test
-    public void isActuatorOnTest1(){
+    public void isActuatorOnTrueTest(){
         Main.main(null);
         EnvironmentPropertyParameter environmentPropertyParameter = new EnvironmentPropertyParameter();
 
@@ -32,7 +33,7 @@ public class isActuatorOnTest {
                 isActuatorOn(EnvironmentDeviceTypes.AIR_TEMPERATURE));
     }
     @Test
-    public void isActuatorOnTest2(){
+    public void isActuatorOnFalseTest(){
         Main.main(null);
         EnvironmentPropertyParameter environmentPropertyParameter = new EnvironmentPropertyParameter();
 
@@ -47,7 +48,7 @@ public class isActuatorOnTest {
         Controller.getController().timePassed(2*30*60);
         Controller.getController().timePassed(65*60);
 
-        assertTrue(EnvironmentBalancer.getEnvironmentBalancer().
+        assertFalse(EnvironmentBalancer.getEnvironmentBalancer().
                 isActuatorOn(EnvironmentDeviceTypes.AIR_TEMPERATURE));
     }
 }
