@@ -91,4 +91,10 @@ public class EnvironmentBalancer {
         return (!timeWhenLastMeasured.containsKey(device) ||
                 (currentTime - timeWhenLastMeasured.get(device)) >=  processor.getBalancingCheckIntervalForDevice(device));
     }
+
+    public boolean isActuatorOn(EnvironmentDeviceTypes device){
+        return  shouldRise.containsKey(device);
+    }
+
+
 }
