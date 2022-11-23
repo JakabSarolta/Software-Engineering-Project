@@ -78,7 +78,7 @@ public class EnvironmentSimulator {
         double elapsedTimeInSeconds = TimeConvertor.elapsedTimeInMillis(timeLastMeasured, Timestamp.valueOf(LocalDateTime.now())) / 1000.0;
 
         measurement = lastMeasuredValue + elapsedTimeInSeconds * sensor.getSensorTendency() +
-                    elapsedTimeInSeconds * actuator.getActuatorStrength();
+                    elapsedTimeInSeconds * actuator.getCurrentStrength();
 
         // save the measurement value and time
         this.lastMeasuredValues.put(deviceType,measurement);
@@ -108,7 +108,7 @@ public class EnvironmentSimulator {
      * @param actuatorType the device type
      * @param strength the strength of the actuator
      */
-    public void setActuatorStrength(EnvironmentDeviceTypes actuatorType, double strength){
+    public void setActuatorCurrentStrength(EnvironmentDeviceTypes actuatorType, double strength){
         Actuator actuator = (Actuator) findDevice(actuators,actuatorType);
         if(actuator == null){
             return;
@@ -116,7 +116,22 @@ public class EnvironmentSimulator {
 
         takeMeasurement(actuatorType); // take the measurement with the strength that was set until now
 
-        actuator.setActuatorStrength(strength); // set the new strength
+        actuator.setCurrentStrength(strength); // set the new strength
+    }
+
+    /**
+     * Set the strength of the actuator selected in the GUI, this is strength will not directly influence the measurements.
+     * Only in the future, when the balancing state is on
+     * @param actuatorType the type of the actuator
+     * @param setStrength the strength selected in the GUI
+     */
+    public void setActuatorSetStrength(EnvironmentDeviceTypes actuatorType, double setStrength){
+        Actuator actuator = (Actuator) findDevice(actuators,actuatorType);
+        if(actuator == null){
+            return;
+        }
+
+        actuator.setSetStrength(setStrength);
     }
 
     /**
@@ -165,6 +180,11 @@ public class EnvironmentSimulator {
         }
     }
 
+    public double getActuatorSetStrength(EnvironmentDeviceTypes device) {
+        Actuator actuator = (Actuator)findDevice(actuators,device);
+        return  actuator == null ? 0 : actuator.getSetStrength();
+    }
+
     public int getDurationOfTheSimulationSaladTime() {
         return durationOfTheSimulationSaladTime;
     }
@@ -186,10 +206,13 @@ public class EnvironmentSimulator {
     }
 
     public String getActuatorStateForDevice(EnvironmentDeviceTypes device){
-        return ((Actuator) findDevice(actuators,device)).getActuatorStrength() == 0 ? "OFF" : "ON";
+        return ((Actuator) findDevice(actuators,device)).getCurrentStrength() == 0 ? "OFF" : "ON";
     }
 
     public Map<EnvironmentDeviceTypes, Double> getLastMeasuredValues() {
         return lastMeasuredValues;
     }
+
+
+
 }

@@ -40,4 +40,16 @@ public class DataCollector {
         return EnvironmentSimulator.getEnvironmentSimulator().getActuatorStateForDevice(device);
     }
 
+    public double getActuatorSetStrength(EnvironmentDeviceTypes device){
+        return EnvironmentSimulator.getEnvironmentSimulator().getActuatorSetStrength(device);
+    }
+
+    public void setActuatorSetStrength(EnvironmentDeviceTypes device, double value){
+        EnvironmentSimulator.getEnvironmentSimulator().setActuatorSetStrength(device,value);
+    }
+
+    public void setActuatorCurrentStrength(EnvironmentDeviceTypes device, double value){
+        EnvironmentSimulator.getEnvironmentSimulator().setActuatorCurrentStrength(device,value);
+    }
+
 }

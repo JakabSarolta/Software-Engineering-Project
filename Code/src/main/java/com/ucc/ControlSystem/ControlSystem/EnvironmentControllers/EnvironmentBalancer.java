@@ -56,7 +56,7 @@ public class EnvironmentBalancer {
                     if((shouldRise.get(device) && measurement >= avg) || (!shouldRise.get(device) && measurement <= avg)){
                         shouldRise.remove(device);
                         devicesToBeRemoved.add(device);
-                        EnvironmentSimulator.getEnvironmentSimulator().setActuatorStrength(device,0);
+                        DataCollector.getDataCollector().setActuatorCurrentStrength(device,0);
                     }
                 }else{
                     if(measurement < min){
@@ -69,11 +69,11 @@ public class EnvironmentBalancer {
 
             if(shouldRise.containsKey(device)){
                 if(shouldRise.get(device)){ // value is True, i.e. the actuator should increase temp, lvl etc.
-                    EnvironmentSimulator.getEnvironmentSimulator().setActuatorStrength(device,
-                            EnvironmentControlPanel.getEnvironmentControlPanel().getActuatorStrength());
+                    DataCollector.getDataCollector().setActuatorCurrentStrength(device,
+                            DataCollector.getDataCollector().getActuatorSetStrength(device));
                 }else{ // value is False, actuator should decrease temp, lvl etc.
-                    EnvironmentSimulator.getEnvironmentSimulator().setActuatorStrength(device,
-                            (-1) * EnvironmentControlPanel.getEnvironmentControlPanel().getActuatorStrength());
+                    DataCollector.getDataCollector().setActuatorCurrentStrength(device,
+                            (-1) * DataCollector.getDataCollector().getActuatorSetStrength(device));
                 }
             }
         }
