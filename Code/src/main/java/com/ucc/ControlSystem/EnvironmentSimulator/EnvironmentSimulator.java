@@ -152,4 +152,8 @@ public class EnvironmentSimulator {
     public String getActuatorStateForDevice(EnvironmentDeviceTypes device){
         return ((Actuator) findDevice(actuators,device)).getActuatorStrength() == 0 ? "OFF" : "ON";
     }
+
+    public Map<EnvironmentDeviceTypes, Double> getLastMeasuredValues() {
+        return lastMeasuredValues;
+    }
 }
