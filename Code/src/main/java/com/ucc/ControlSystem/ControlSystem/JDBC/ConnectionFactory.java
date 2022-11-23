@@ -6,6 +6,9 @@ import com.ucc.ControlSystem.ControlSystem.InputParameters.OtherParameter;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+/**
+ * Class for creating the connection with the database
+ */
 public class ConnectionFactory {
 
     private static ConnectionFactory connectionFactory = null;

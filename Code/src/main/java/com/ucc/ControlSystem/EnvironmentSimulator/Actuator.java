@@ -1,5 +1,6 @@
 package com.ucc.ControlSystem.EnvironmentSimulator;
 
+// POJO (plain old java object) class for actuators
 public class Actuator implements EnvironmentDevice{
 
     private double actuatorStrength;

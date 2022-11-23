@@ -7,6 +7,9 @@ import org.hibernate.query.Query;
 
 import java.util.List;
 
+/**
+ * Class containing HQL queries
+ */
 public class HSQLQueries {
     private static HSQLQueries hsqlQueries = null;
 

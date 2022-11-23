@@ -5,6 +5,10 @@ import com.ucc.ControlSystem.SystemConfiguration.SystemConfigParameters;
 import com.ucc.ControlSystem.SystemConfiguration.SystemConfigurationReader;
 import jakarta.persistence.*;
 
+/**
+ * Entity class that will be stored in the database. It holds measurement intervals for the parameters.
+ */
+
 @Entity
 @Table(name = "measurement_interval_parameters")
 public class MeasurementIntervalParameter implements InputParameter{

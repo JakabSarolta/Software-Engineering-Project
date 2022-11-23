@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class corresponding to the balancing state
+ */
 public class EnvironmentBalancer {
 
     private static EnvironmentBalancer environmentBalancer = null;
@@ -31,6 +34,13 @@ public class EnvironmentBalancer {
         return environmentBalancer;
     }
 
+    /**
+     * Balances the parameters that are given by turning on and off the actuator. It looks at the values
+     * at time intervals set in the intervalBalancingState field of the parameter. It tries to bring the values
+     * to the average of the min and max range. If a parameter is balanced it removes it from the list.
+     * @param currentTime the current time
+     * @param devicesToBeBalanced the updated list of devices that should be balanced
+     */
     public void balanceEnvironment(long currentTime, List<EnvironmentDeviceTypes> devicesToBeBalanced){
         List<EnvironmentDeviceTypes> devicesToBeRemoved = new ArrayList<>();
         for(EnvironmentDeviceTypes device : devicesToBeBalanced){
@@ -71,6 +81,12 @@ public class EnvironmentBalancer {
         devicesToBeBalanced.removeAll(devicesToBeRemoved);
     }
 
+    /**
+     * Decides whether a parameter should be checked at the current time
+     * @param device the parameter type
+     * @param currentTime the current time
+     * @return true if it wasn't checked before, or if enough time elapsed from the last check
+     */
     private boolean shouldBeCheckedNow(EnvironmentDeviceTypes device, long currentTime) {
         return (!timeWhenLastMeasured.containsKey(device) ||
                 (currentTime - timeWhenLastMeasured.get(device)) >=  processor.getBalancingCheckIntervalForDevice(device));

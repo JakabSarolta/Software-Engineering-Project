@@ -5,6 +5,10 @@ import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentSimulator;
 
 import java.util.Map;
 
+/**
+ * Class for the data collection state. It just calls functions from the
+ * environment simulator. Its only job is to collect data without processing it.
+ */
 public class DataCollector {
 
     private static DataCollector dataCollector = null;
