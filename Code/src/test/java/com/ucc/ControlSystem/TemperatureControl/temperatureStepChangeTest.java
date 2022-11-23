@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class temperatureStepChangeTest {
     @Test
@@ -25,7 +25,7 @@ public class temperatureStepChangeTest {
 
         EnvironmentSimulator.getEnvironmentSimulator().setSensorTendency(
                 EnvironmentDeviceTypes.AIR_TEMPERATURE,-0.1);
-        EnvironmentSimulator.getEnvironmentSimulator().setActuatorCurrentStrength(
+        EnvironmentSimulator.getEnvironmentSimulator().setActuatorSetStrength(
                 EnvironmentDeviceTypes.AIR_TEMPERATURE, 0.2);
 
         InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(
@@ -36,9 +36,7 @@ public class temperatureStepChangeTest {
             TimeUnit.SECONDS.sleep(1);
         }
 
-        System.out.println(EnvironmentSimulator.getEnvironmentSimulator().getLastMeasuredValues().
-                get(EnvironmentDeviceTypes.AIR_TEMPERATURE));
-        assertTrue(Math.round(EnvironmentSimulator.getEnvironmentSimulator().getLastMeasuredValues().
-                get(EnvironmentDeviceTypes.AIR_TEMPERATURE)) == 15.0);
+        assertEquals(15.0, Math.round(EnvironmentSimulator.getEnvironmentSimulator().getLastMeasuredValues().
+                get(EnvironmentDeviceTypes.AIR_TEMPERATURE)));
     }
 }
