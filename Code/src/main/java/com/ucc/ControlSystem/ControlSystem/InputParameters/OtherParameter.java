@@ -2,6 +2,10 @@ package com.ucc.ControlSystem.ControlSystem.InputParameters;
 
 import jakarta.persistence.*;
 
+/**
+ * Entity class that will be stored in the database. It holds values for special parameters like growth time.
+ */
+
 @Entity
 @Table(name = "other_parameters")
 public class OtherParameter implements InputParameter {

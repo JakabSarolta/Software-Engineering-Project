@@ -3,6 +3,10 @@ package com.ucc.ControlSystem.ControlSystem.InputParameters;
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
 import jakarta.persistence.*;
 
+/**
+ * Entity class that will be stored in the database. It holds ranges for parameters.
+ */
+
 @Entity
 @Table(name = "environment_property_parameter")
 public class EnvironmentPropertyParameter implements InputParameter{

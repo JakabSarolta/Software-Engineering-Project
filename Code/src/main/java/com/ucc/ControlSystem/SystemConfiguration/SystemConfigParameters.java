@@ -13,6 +13,7 @@ public enum SystemConfigParameters {
     GROWTH_TIME_MAX("growth.time.max"),
     MEASUREMENT_INTERVAL_MIN("measurement.interval.min"),
     MEASUREMENT_INTERVAL_MAX("measurement.interval.max"),
+    AIR_TEMPERATURE_DEFAULT_VALUE("air.temperature.default"),
     AIR_TEMPERATURE_VALID_MIN("air.temp.valid.min"),
     AIR_TEMPERATURE_VALID_MAX("air.temp.valid.max"),
     AIR_TEMPERATURE_PRECISION("air.temp.precision"),

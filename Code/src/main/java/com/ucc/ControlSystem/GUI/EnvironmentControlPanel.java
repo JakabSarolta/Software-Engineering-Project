@@ -76,7 +76,7 @@ public class EnvironmentControlPanel extends JFrame {
         alpha.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-//                setActuatorValue(alpha.getValue());
+                setActuatorValue(alpha.getValue());
             }
         });
         contentPane.add(alpha);
@@ -132,7 +132,7 @@ public class EnvironmentControlPanel extends JFrame {
 
     private void setActuatorValue(double value){
         EnvironmentSimulator es = EnvironmentSimulator.getEnvironmentSimulator();
-        es.setActuatorStrength(EnvironmentDeviceTypes.AIR_TEMPERATURE,value/SLIDER_SCALE);
+        es.setActuatorSetStrength(EnvironmentDeviceTypes.AIR_TEMPERATURE,value/SLIDER_SCALE);
     }
 
     private void setSensorValue(double value){

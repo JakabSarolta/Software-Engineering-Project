@@ -6,6 +6,9 @@ import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that controls the EnvironmentController.
+ */
 public class Controller{
     private static Controller controller = null;
 
@@ -29,37 +32,21 @@ public class Controller{
         return controller;
     }
 
+    /**
+     * Called when a second passed. If the system is not in a special state, and if the crops are not
+     * ready to be harvested yet, it performs check for parameters in the balanced state and for
+     * devices in the balancing state.
+     * @param currentTime the current time in seconds (salad lifetime)
+     */
     public void timePassed(long currentTime){
-//        switch (currentState) {
-//            case BALANCED:
         if(currentState != States.GROWTH_ENDED  && currentState != States.ALERTED) {
 
             if (sentinel.isGrowthTimeDue(currentTime)) {
                 currentState = States.GROWTH_ENDED;
             } else {
-//                    if(currentTime % Long.parseLong(confReader.readEnvironmentVariable(SystemConfigParameters.BALANCED_CHECK_INTERVAL)) == 0){
-//                        currentState = States.DATA_COLLECTION;
-//                        previousState = States.BALANCED;
-//                    }
                  sentinel.checkPeriodically(currentTime,parametersToBeBalanced);
-//                    if(parametersToBeBalanced.size() > 0){
-//                        currentState = States.BALANCING;
-//                    }
             }
-//                break;
-//            case BALANCING:
-
             environmentBalancer.balanceEnvironment(currentTime, parametersToBeBalanced);
-
-//                if(parametersToBeBalanced.size() == 0){
-//                    currentState = States.BALANCED;
-//                }
-//                break;
-//            case GROWTH_ENDED:
-//                break;
-//            case ALERTED:
-//                break;
-//        }
 
             for(EnvironmentDeviceTypes device : EnvironmentDeviceTypes.values()){
                 AdminControlPanel.getAdminControlPanel().getCurrentTime().setText(convertSeconds(currentTime)+"");
@@ -69,6 +56,11 @@ public class Controller{
         }
     }
 
+    /**
+     * Converts the time from seconds to a legible format.
+     * @param seconds the time in seconds
+     * @return the legible string
+     */
     private String convertSeconds(long seconds) {
         if(seconds >= 86400){
             return seconds/86400 + " days " + (seconds - (seconds / 86400) * 86400) / 3600 + " hours";

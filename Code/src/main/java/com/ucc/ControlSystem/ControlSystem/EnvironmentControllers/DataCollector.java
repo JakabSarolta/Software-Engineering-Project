@@ -5,6 +5,10 @@ import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentSimulator;
 
 import java.util.Map;
 
+/**
+ * Class for the data collection state. It just calls functions from the
+ * environment simulator. Its only job is to collect data without processing it.
+ */
 public class DataCollector {
 
     private static DataCollector dataCollector = null;
@@ -34,6 +38,18 @@ public class DataCollector {
 
     public String getActuatorStrength(EnvironmentDeviceTypes device){
         return EnvironmentSimulator.getEnvironmentSimulator().getActuatorStateForDevice(device);
+    }
+
+    public double getActuatorSetStrength(EnvironmentDeviceTypes device){
+        return EnvironmentSimulator.getEnvironmentSimulator().getActuatorSetStrength(device);
+    }
+
+    public void setActuatorSetStrength(EnvironmentDeviceTypes device, double value){
+        EnvironmentSimulator.getEnvironmentSimulator().setActuatorSetStrength(device,value);
+    }
+
+    public void setActuatorCurrentStrength(EnvironmentDeviceTypes device, double value){
+        EnvironmentSimulator.getEnvironmentSimulator().setActuatorCurrentStrength(device,value);
     }
 
 }

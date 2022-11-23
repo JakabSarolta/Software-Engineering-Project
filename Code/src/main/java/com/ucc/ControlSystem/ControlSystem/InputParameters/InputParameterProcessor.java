@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Singleton class for processing the input parameters.
+ */
 public class InputParameterProcessor {
 
     private static InputParameterProcessor inputParameterProcessor = null;
@@ -26,8 +29,8 @@ public class InputParameterProcessor {
 
     private Map<OtherParameters, OtherParameter> otherParameterMap;
 
-//    private double NPKRatio;
 
+//    private double NPKRatio;
     private InputParameterProcessor(){
         environmentPropertyParameterMap = initializeEnvironmentPropertyParameterList();
         measurementIntervalParameterMap = initializeMeasurementIntervalParameterList();
@@ -36,7 +39,16 @@ public class InputParameterProcessor {
 //        NPKRatio = 0;
     }
 
-    // will get all the input parameters from the DB
+    public static InputParameterProcessor getInputParameterProcessor(){
+        if(inputParameterProcessor == null){
+            inputParameterProcessor = new InputParameterProcessor();
+        }
+        return inputParameterProcessor;
+    }
+
+    /**
+     * will get all the input parameters from the DB
+     */
     public List<InputParameter> getParameters(){
         List<InputParameter> allParams = new ArrayList<>();
         allParams.addAll(environmentPropertyParameterMap.values());
@@ -69,13 +81,12 @@ public class InputParameterProcessor {
         return otherParameterMap.get(OtherParameters.GROWTH_TIME);
     }
 
-    public static InputParameterProcessor getInputParameterProcessor(){
-        if(inputParameterProcessor == null){
-            inputParameterProcessor = new InputParameterProcessor();
-        }
-        return inputParameterProcessor;
-    }
-
+    /**
+     * Updates an entity that holds the ranges of a parameter if the new values are valid
+     * @param min the bottom of the range
+     * @param max the top of the range
+     * @param propertyType the parameter type
+     */
     public void updateEnvironmentPropertyParameter(double min, double max,EnvironmentDeviceTypes propertyType){
         EnvironmentPropertyParameter clone = environmentPropertyParameterMap.get(propertyType).clone();
         clone.setMin(min);
@@ -85,6 +96,12 @@ public class InputParameterProcessor {
         }
     }
 
+    /**
+     * Updates an entity that holds measurement intervals if the new values are valid
+     * @param intervalBalancedState the new interval for balanced state
+     * @param intervalBalancingState the new interval for balancing state
+     * @param propertyType the parameter type
+     */
     public void updateMeasurementIntervalParameter(int intervalBalancedState, int intervalBalancingState, EnvironmentDeviceTypes propertyType){
         if(MeasurementIntervalParameter.isValid(intervalBalancedState,intervalBalancingState)){
             MeasurementIntervalParameter param = measurementIntervalParameterMap.get(propertyType);
@@ -93,6 +110,11 @@ public class InputParameterProcessor {
         }
     }
 
+    /**
+     * Updates an entity that holds a special parameter if the new value is valid
+     * @param type the parameter type
+     * @param value the new value
+     */
     public void updateOtherParameter(OtherParameters type, long value){
         OtherParameter clone = otherParameterMap.get(type).clone();
         clone.setValue(value);
@@ -101,6 +123,11 @@ public class InputParameterProcessor {
         }
     }
 
+    /**
+     * Initializes the otherParametersMap, if the database doesn't contain values for that parameter type
+     * it sets a default value of 0.
+     * @return the initialized map
+     */
     private Map<OtherParameters, OtherParameter> initializeOtherParameterMap() {
         Map<OtherParameters, OtherParameter> otherParametersMap = new HashMap<>();
         for(OtherParameters p : OtherParameters.values()){
@@ -126,6 +153,11 @@ public class InputParameterProcessor {
         return otherParametersMap;
     }
 
+    /**
+     * Initializes the environmentPropertyParameterList with values from the database. If the database does not
+     * contain values for that parameter type if initializes them with 0.
+     * @return the initialized map
+     */
     private Map<EnvironmentDeviceTypes,EnvironmentPropertyParameter> initializeEnvironmentPropertyParameterList() {
         Map<EnvironmentDeviceTypes,EnvironmentPropertyParameter> environmentPropertyParameterList = new HashMap<>();
         for(EnvironmentDeviceTypes e : EnvironmentDeviceTypes.values()){
@@ -152,6 +184,11 @@ public class InputParameterProcessor {
         return environmentPropertyParameterList;
     }
 
+    /**
+     * Initializes the measurementIntervalList with values from the database, if it doesn't contain values for
+     * that data type it initializes them with 0.
+     * @return the initialized map
+     */
     private Map<EnvironmentDeviceTypes,MeasurementIntervalParameter> initializeMeasurementIntervalParameterList() {
         Map<EnvironmentDeviceTypes,MeasurementIntervalParameter> measurementIntervalParameterList = new HashMap<>();
 
@@ -172,6 +209,9 @@ public class InputParameterProcessor {
         return measurementIntervalParameterList;
     }
 
+    /**
+     * Saves all the parameters into the database
+     */
     public void persistParameters(){
         SessionFactory sf = ConnectionFactory.getConnectionFactory().getSessionFactory();
         Session s = sf.openSession();
@@ -188,9 +228,5 @@ public class InputParameterProcessor {
 
         s.getTransaction().commit();
         s.close();
-    }
-
-    private boolean isLightTimeValid(int lightTime){
-        return lightTime >= LIGHT_TIME_MIN && lightTime <= LIGHT_TIME_MAX;
     }
 }

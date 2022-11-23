@@ -1,5 +1,6 @@
 package com.ucc.ControlSystem.EnvironmentSimulator;
 
+// POJO class for sensors
 public class Sensor implements EnvironmentDevice{
 
     private double sensorTendency;

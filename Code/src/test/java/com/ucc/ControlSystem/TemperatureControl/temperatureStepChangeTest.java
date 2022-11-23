@@ -25,7 +25,7 @@ public class temperatureStepChangeTest {
 
         EnvironmentSimulator.getEnvironmentSimulator().setSensorTendency(
                 EnvironmentDeviceTypes.AIR_TEMPERATURE,-0.1);
-        EnvironmentSimulator.getEnvironmentSimulator().setActuatorStrength(
+        EnvironmentSimulator.getEnvironmentSimulator().setActuatorCurrentStrength(
                 EnvironmentDeviceTypes.AIR_TEMPERATURE, 0.2);
 
         InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(

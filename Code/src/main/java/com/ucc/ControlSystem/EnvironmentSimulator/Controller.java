@@ -5,6 +5,9 @@ import com.ucc.ControlSystem.Utils.TimeUnits;
 
 import javax.swing.*;
 
+/**
+ * Class that runs the environment simulation.
+ */
 public class Controller implements Runnable{
 
     private final JFrame frame;
@@ -13,6 +16,13 @@ public class Controller implements Runnable{
         this.frame = frame;
     }
 
+    /**
+     * Static class that starts the simulation by saving the values entered into the GUI,
+     * and by creating a new thread for the simulation (to run in parallel with the GUI).
+     * @param frame
+     * @param durationOfTheSimulationSaladTime
+     * @param durationOfTheSimulationRealLifeTime
+     */
     public static void startSimulation(JFrame frame, int durationOfTheSimulationSaladTime,
                                        int durationOfTheSimulationRealLifeTime){
         EnvironmentSimulator es = EnvironmentSimulator.getEnvironmentSimulator();
@@ -33,7 +43,12 @@ public class Controller implements Runnable{
         swingWorker.execute();
     }
 
-
+    /**
+     * The main thread that simulates the change of time. It runs the while loop
+     * every second (in the life of a salad). Each time makes a measurement, calls
+     * the control system and displays the values to the environment simulation control
+     * panel.
+     */
     @Override
     public void run() {
         EnvironmentSimulator es = EnvironmentSimulator.getEnvironmentSimulator();
