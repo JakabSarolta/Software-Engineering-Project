@@ -22,17 +22,60 @@ public class AdminControlPanel extends JFrame{
     private final JPanel card3 = new JPanel();
     private final JPanel card4 = new JPanel();
     private final JPanel parameters = new JPanel();
+    private final JPanel currentValuesPanel = new JPanel();
     private final JTabbedPane tabbedPane = new JTabbedPane();
     private final JButton updateButton = new JButton("      UPDATE       ");
 
-    private JTextField growthTime = new JTextField();
-    private JTextField minAirTemp = new JTextField();
-    private JTextField maxAirTemp = new JTextField();
-    private JTextField balancingTempCheck = new JTextField();
-    private JTextField balanceTempCheck = new JTextField();
-    private JLabel currentTime = new JLabel("", JLabel.CENTER);
-    private JLabel currentTemp = new JLabel("", JLabel.CENTER);
-    private JLabel actuatorState = new JLabel("Off", JLabel.CENTER);
+    private final JTextField growthTime = new JTextField();
+    private final JTextField minAirTemp = new JTextField();
+    private final JTextField maxAirTemp = new JTextField();
+    private final JTextField minWaterTemp = new JTextField();
+    private final JTextField maxWaterTemp = new JTextField();
+    private final JTextField minHumidity = new JTextField();
+    private final JTextField maxHumidity = new JTextField();
+    private final JTextField minPhLevel = new JTextField();
+    private final JTextField maxPhLevel = new JTextField();
+    private final JTextField minEC = new JTextField();
+    private final JTextField maxEC = new JTextField();
+    private final JTextField minNitrogen = new JTextField();
+    private final JTextField maxNitrogen = new JTextField();
+    private final JTextField minPhosphorus = new JTextField();
+    private final JTextField maxPhosphorus = new JTextField();
+    private final JTextField minPotassium = new JTextField();
+    private final JTextField maxPotassium = new JTextField();
+    private final JTextField balancingAirTemp = new JTextField();
+    private final JTextField balanceAirTemp = new JTextField();
+    private final JTextField balancingWaterTemp = new JTextField();
+    private final JTextField balanceWaterTemp = new JTextField();
+    private final JTextField balancingHumidity = new JTextField();
+    private final JTextField balanceHumidity = new JTextField();
+    private final JTextField balancingPhLevel = new JTextField();
+    private final JTextField balancePhLevel = new JTextField();
+    private final JTextField balancingEC = new JTextField();
+    private final JTextField balanceEC= new JTextField();
+    private final JTextField balancingPhosphorus = new JTextField();
+    private final JTextField balancePhosphorus = new JTextField();
+    private final JTextField balancingNitrogen = new JTextField();
+    private final JTextField balanceNitrogen = new JTextField();
+    private final JTextField balancingPotassium = new JTextField();
+    private final JTextField balancePotassium = new JTextField();
+    private final JLabel currentTime = new JLabel("", JLabel.CENTER);
+    private final JLabel currentWaterTemp = new JLabel("", JLabel.CENTER);
+    private final JLabel currentHumidity = new JLabel("", JLabel.CENTER);
+    private final JLabel currentPhLevel = new JLabel("", JLabel.CENTER);
+    private final JLabel currentEC = new JLabel("", JLabel.CENTER);
+    private final JLabel currentNitrogen = new JLabel("", JLabel.CENTER);
+    private final JLabel currentPhosphorus = new JLabel("", JLabel.CENTER);
+    private final JLabel currentPotassium = new JLabel("", JLabel.CENTER);
+    private final JLabel currentTemp = new JLabel("", JLabel.CENTER);
+    private final JLabel actuatorState = new JLabel("Off", JLabel.CENTER);
+    private final JLabel actuatorState2 = new JLabel("Off", JLabel.CENTER);
+    private final JLabel actuatorState3 = new JLabel("Off", JLabel.CENTER);
+    private final JLabel actuatorState4 = new JLabel("Off", JLabel.CENTER);
+    private final JLabel actuatorState5 = new JLabel("Off", JLabel.CENTER);
+    private final JLabel actuatorState6 = new JLabel("Off", JLabel.CENTER);
+    private final JLabel actuatorState7 = new JLabel("Off", JLabel.CENTER);
+    private final JLabel actuatorState8 = new JLabel("Off", JLabel.CENTER);
 //    private JLabel currentState = new JLabel("", JLabel.CENTER);
 
     Font  f1  = new Font("Our font", Font.BOLD, 16);
@@ -51,37 +94,11 @@ public class AdminControlPanel extends JFrame{
     }
 
     public void prepareGUI(){
-        this.setSize(580, 500);
+        this.setSize(910, 500);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-        growthTime.setHorizontalAlignment(JTextField.CENTER);
-        minAirTemp.setHorizontalAlignment(JTextField.CENTER);
-        maxAirTemp.setHorizontalAlignment(JTextField.CENTER);
-        balancingTempCheck.setHorizontalAlignment(JTextField.CENTER);
-        balanceTempCheck.setHorizontalAlignment(JTextField.CENTER);
 
         JLabel titleLabel = new JLabel("Initialize/Update System Parameters", JLabel.CENTER);
         titleLabel.setFont(f1);
-        JLabel growthTimeLabel = new JLabel("Growth time:");
-        growthTimeLabel.setFont(f2);
-        JLabel growthTimeUnit = new JLabel("days", JLabel.CENTER);
-        growthTimeUnit.setFont(f2);
-        JLabel minAirTempLabel = new JLabel("Min. air temperature:");
-        minAirTempLabel.setFont(f2);
-        JLabel maxAirTempUnit = new JLabel("\u00B0C", JLabel.CENTER);
-        maxAirTempUnit.setFont(f2);
-        JLabel maxAirTempLabel = new JLabel("Max. air temperature");
-        maxAirTempLabel.setFont(f2);
-        JLabel minAirTempUnit = new JLabel("\u00B0C", JLabel.CENTER);
-        minAirTempUnit.setFont(f2);
-        JLabel balanceTempCheckLabel = new JLabel("Temperature check when actuator off:");
-        balanceTempCheckLabel.setFont(f2);
-        JLabel balanceTempCheckUnit = new JLabel("mins", JLabel.CENTER);
-        balanceTempCheckUnit.setFont(f2);
-        JLabel balancingTempCheckLabel = new JLabel("Temperature check when actuator on:");
-        balancingTempCheckLabel.setFont(f2);
-        JLabel balancingTempCheckUnit = new JLabel("mins", JLabel.CENTER);
-        balancingTempCheckUnit.setFont(f2);
 
         card1.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -94,61 +111,8 @@ public class AdminControlPanel extends JFrame{
         c.fill = GridBagConstraints.CENTER;
         card1.add(titleLabel, c);
 
-        parameters.setLayout(new GridBagLayout());
-        GridBagConstraints cc = new GridBagConstraints();
-        cc.fill = GridBagConstraints.HORIZONTAL;
+        setInitializeParametersWindow();
 
-        cc.gridx = 0;
-        cc.gridy = 0;
-        parameters.add(growthTimeLabel, cc);
-        cc.gridx = 1;
-        cc.gridy = 0;
-        cc.ipadx = 80;
-        //cc.gridwidth = 3;
-        parameters.add(growthTime, cc);
-        cc.gridx = 2;
-        cc.gridy = 0;
-        parameters.add(growthTimeUnit, cc);
-        cc.gridx = 0;
-        cc.gridy = 1;
-        parameters.add(minAirTempLabel, cc);
-        cc.gridx = 1;
-        cc.gridy = 1;
-        cc.ipadx = 80;
-        parameters.add(minAirTemp, cc);
-        cc.gridx = 2;
-        cc.gridy = 1;
-        parameters.add(minAirTempUnit, cc);
-        cc.gridx = 0;
-        cc.gridy = 2;
-        parameters.add(maxAirTempLabel, cc);
-        cc.gridx = 1;
-        cc.gridy = 2;
-        cc.ipadx = 80;
-        parameters.add(maxAirTemp, cc);
-        cc.gridx = 2;
-        cc.gridy = 2;
-        parameters.add(maxAirTempUnit, cc);
-        cc.gridx = 0;
-        cc.gridy = 3;
-        parameters.add(balanceTempCheckLabel, cc);
-        cc.gridx = 1;
-        cc.gridy = 3;
-        cc.ipadx = 80;
-        parameters.add(balanceTempCheck, cc);
-        cc.gridx = 2;
-        cc.gridy = 3;
-        parameters.add(balanceTempCheckUnit, cc);
-        cc.gridx = 0;
-        cc.gridy = 4;
-        parameters.add(balancingTempCheckLabel, cc);
-        cc.gridx = 1;
-        cc.gridy = 4;
-        cc.ipadx = 80;
-        parameters.add(balancingTempCheck, cc);
-        cc.gridx = 2;
-        cc.gridy = 4;
-        parameters.add(balancingTempCheckUnit, cc);
         c.gridx = 0;
         c.gridy = 1;
         card1.add(parameters, c);
@@ -169,14 +133,14 @@ public class AdminControlPanel extends JFrame{
                         if(getMaxAirTemp() == 0){
                             JOptionPane.showMessageDialog(null, "Introduce a correct max temperature value!!");
                         } else
-                            if (getBalanceTempCheck() == 0) {
+                            if (getbalanceAirTemp() == 0) {
                                 JOptionPane.showMessageDialog(null, "Introduce a correct balanced state temperature checking interval value!!");
                             } else {
-                                if (getBalancingTempCheck() == 0) {
+                                if (getbalancingAirTemp() == 0) {
                                     JOptionPane.showMessageDialog(null, "Introduce a correct balancing state temperature checking interval value!!");
                                 } else{
                                     InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinAirTemp(), getMaxAirTemp(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
-                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceTempCheck(), getBalancingTempCheck(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
+                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getbalanceAirTemp(), getbalancingAirTemp(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
                                     InputParameterProcessor.getInputParameterProcessor().updateOtherParameter(OtherParameters.GROWTH_TIME, getGrowthTime());
                                 }
                         }
@@ -203,23 +167,9 @@ public class AdminControlPanel extends JFrame{
         c2.fill = GridBagConstraints.CENTER;
         monitorTitle.setFont(f1);
         card2.add(monitorTitle, c2);
-        JPanel currentValuesPanel = new JPanel();
-        currentValuesPanel.setLayout(new GridLayout(4, 2));
-        JLabel currentTimeLabel = new JLabel("Current time in growing phase:");
-        currentTimeLabel.setFont(f1);
-        currentValuesPanel.add(currentTimeLabel);
-        currentTime.setFont(f1);
-        currentValuesPanel.add(currentTime);
-        JLabel currentTempLabel = new JLabel("Current Temperature:");
-        currentTempLabel.setFont(f1);
-        currentValuesPanel.add(currentTempLabel);
-        currentTemp.setFont(f1);
-        currentValuesPanel.add(currentTemp);
-        JLabel actuatorStateLabel = new JLabel("Actuator state:");
-        actuatorStateLabel.setFont(f1);
-        currentValuesPanel.add(actuatorStateLabel);
-        actuatorState.setFont(f1);
-        currentValuesPanel.add(actuatorState);
+
+        setMonitorWindow();
+
 //        JLabel currentStateLabel = new JLabel("Current state of the system:");
 //        currentStateLabel.setFont(f1);
 //        currentValuesPanel.add(currentStateLabel);
@@ -258,6 +208,303 @@ public class AdminControlPanel extends JFrame{
         this.setContentPane(this.tabbedPane);
     }
 
+    private void setMonitorWindow(){
+        currentValuesPanel.setLayout(new GridLayout(9, 4));
+        JLabel currentTimeLabel = new JLabel("Current growing time:");
+        currentTimeLabel.setFont(f1);
+        currentValuesPanel.add(currentTimeLabel);
+        currentTime.setFont(f1);
+        currentValuesPanel.add(currentTime);
+        currentValuesPanel.add(new JLabel(""));
+        currentValuesPanel.add(new JLabel(""));
+        JLabel airTempLabel = new JLabel("Air temperature:");
+        airTempLabel.setFont(f1);
+        currentValuesPanel.add(airTempLabel);
+        currentTemp.setFont(f1);
+        currentValuesPanel.add(currentTemp);
+        JLabel actuatorStateLabel = new JLabel("Actuator state:");
+        actuatorStateLabel.setFont(f1);
+        currentValuesPanel.add(actuatorStateLabel);
+        actuatorState.setFont(f1);
+        currentValuesPanel.add(actuatorState);
+        JLabel waterTempLabel = new JLabel("Water temperature:");
+        waterTempLabel.setFont(f1);
+        currentValuesPanel.add(waterTempLabel);
+        currentWaterTemp.setFont(f1);
+        currentValuesPanel.add(currentWaterTemp);
+        currentValuesPanel.add(new JLabel(""));
+        actuatorState2.setFont(f1);
+        currentValuesPanel.add(actuatorState2);
+        JLabel humidityLabel = new JLabel("Humidity:");
+        humidityLabel.setFont(f1);
+        currentValuesPanel.add(humidityLabel);
+        currentHumidity.setFont(f1);
+        currentValuesPanel.add(currentHumidity);
+        currentValuesPanel.add(new JLabel(""));
+        actuatorState3.setFont(f1);
+        currentValuesPanel.add(actuatorState3);
+        JLabel phLevelLabel = new JLabel("Ph level:");
+        phLevelLabel.setFont(f1);
+        currentValuesPanel.add(phLevelLabel);
+        currentPhLevel.setFont(f1);
+        currentValuesPanel.add(currentPhLevel);
+        currentValuesPanel.add(new JLabel(""));
+        actuatorState4.setFont(f1);
+        currentValuesPanel.add(actuatorState4);
+        JLabel ECLabel = new JLabel("Electrical conductivity:");
+        ECLabel.setFont(f1);
+        currentValuesPanel.add(ECLabel);
+        currentEC.setFont(f1);
+        currentValuesPanel.add(currentEC);
+        currentValuesPanel.add(new JLabel(""));
+        actuatorState5.setFont(f1);
+        currentValuesPanel.add(actuatorState5);
+        JLabel nitrogenLabel = new JLabel("Nitrogen:");
+        nitrogenLabel.setFont(f1);
+        currentValuesPanel.add(nitrogenLabel);
+        currentNitrogen.setFont(f1);
+        currentValuesPanel.add(currentNitrogen);
+        currentValuesPanel.add(new JLabel(""));
+        actuatorState6.setFont(f1);
+        currentValuesPanel.add(actuatorState6);
+        JLabel phosphorusLabel = new JLabel("Phosphorus:");
+        phosphorusLabel.setFont(f1);
+        currentValuesPanel.add(phosphorusLabel);
+        currentPhosphorus.setFont(f1);
+        currentValuesPanel.add(currentPhosphorus);
+        currentValuesPanel.add(new JLabel(""));
+        actuatorState7.setFont(f1);
+        currentValuesPanel.add(actuatorState7);
+        JLabel potassiumLabel = new JLabel("Potassium:");
+        potassiumLabel.setFont(f1);
+        currentValuesPanel.add(potassiumLabel);
+        currentPotassium.setFont(f1);
+        currentValuesPanel.add(currentPotassium);
+        currentValuesPanel.add(new JLabel(""));
+        actuatorState8.setFont(f1);
+        currentValuesPanel.add(actuatorState8);
+    }
+    private void setInitializeParametersWindow(){
+        growthTime.setHorizontalAlignment(JTextField.CENTER);
+        minAirTemp.setHorizontalAlignment(JTextField.CENTER);
+        maxAirTemp.setHorizontalAlignment(JTextField.CENTER);
+        minWaterTemp.setHorizontalAlignment(JTextField.CENTER);
+        maxWaterTemp.setHorizontalAlignment(JTextField.CENTER);
+        minHumidity.setHorizontalAlignment(JTextField.CENTER);
+        maxHumidity.setHorizontalAlignment(JTextField.CENTER);
+        minPhLevel.setHorizontalAlignment(JTextField.CENTER);
+        maxPhLevel.setHorizontalAlignment(JTextField.CENTER);
+        minEC.setHorizontalAlignment(JTextField.CENTER);
+        maxEC.setHorizontalAlignment(JTextField.CENTER);
+        minNitrogen.setHorizontalAlignment(JTextField.CENTER);
+        maxNitrogen.setHorizontalAlignment(JTextField.CENTER);
+        minPhosphorus.setHorizontalAlignment(JTextField.CENTER);
+        maxPhosphorus.setHorizontalAlignment(JTextField.CENTER);
+        minPotassium.setHorizontalAlignment(JTextField.CENTER);
+        maxPotassium.setHorizontalAlignment(JTextField.CENTER);
+        balancingAirTemp.setHorizontalAlignment(JTextField.CENTER);
+        balanceAirTemp.setHorizontalAlignment(JTextField.CENTER);
+        balancingWaterTemp.setHorizontalAlignment(JTextField.CENTER);
+        balanceWaterTemp.setHorizontalAlignment(JTextField.CENTER);
+        balancingHumidity.setHorizontalAlignment(JTextField.CENTER);
+        balanceHumidity.setHorizontalAlignment(JTextField.CENTER);
+        balancingPhLevel.setHorizontalAlignment(JTextField.CENTER);
+        balancePhLevel.setHorizontalAlignment(JTextField.CENTER);
+        balancingEC.setHorizontalAlignment(JTextField.CENTER);
+        balanceEC.setHorizontalAlignment(JTextField.CENTER);
+        balancingNitrogen.setHorizontalAlignment(JTextField.CENTER);
+        balanceNitrogen.setHorizontalAlignment(JTextField.CENTER);
+        balancingPhosphorus.setHorizontalAlignment(JTextField.CENTER);
+        balancePhosphorus.setHorizontalAlignment(JTextField.CENTER);
+        balancingPotassium.setHorizontalAlignment(JTextField.CENTER);
+        balancePotassium.setHorizontalAlignment(JTextField.CENTER);
+
+        JLabel growthTimeLabel = new JLabel("Growth time:");
+        growthTimeLabel.setFont(f2);
+        JLabel growthTimeUnit = new JLabel("days");
+        growthTimeUnit.setFont(f2);
+        JLabel airTempLabel = new JLabel("Air temperature:");
+        airTempLabel.setFont(f2);
+        JLabel waterTempLabel = new JLabel("Water temperature:");
+        waterTempLabel.setFont(f2);
+        JLabel humidityLabel = new JLabel("Humidity:");
+        humidityLabel.setFont(f2);
+        JLabel phLevelLabel = new JLabel("Ph Level:");
+        phLevelLabel.setFont(f2);
+        JLabel ECLabel = new JLabel("Electrical Conductivity:");
+        ECLabel.setFont(f2);
+        JLabel nitrogenLabel = new JLabel("Nitrogen:");
+        nitrogenLabel.setFont(f2);
+        JLabel phosphorusLabel = new JLabel("Phosphorus:");
+        phosphorusLabel.setFont(f2);
+        JLabel potassiumLabel = new JLabel("Potassium:");
+        potassiumLabel.setFont(f2);
+        JLabel minLabel = new JLabel("Min. [\u00B0C]", JLabel.CENTER);
+        minLabel.setFont(f2);
+        JLabel maxLabel = new JLabel("Max. [\u00B0C]", JLabel.CENTER);
+        maxLabel.setFont(f2);
+        JLabel balanceLabel = new JLabel("Actuator off: [mins]", JLabel.CENTER);
+        balanceLabel.setFont(f2);
+        JLabel balancingLabel = new JLabel("Actuator on: [mins]", JLabel.CENTER);
+        balancingLabel.setFont(f2);
+
+        parameters.setLayout(new GridBagLayout());
+        GridBagConstraints cc = new GridBagConstraints();
+        cc.fill = GridBagConstraints.HORIZONTAL;
+
+        cc.gridx = 0;
+        cc.gridy = 0;
+        parameters.add(growthTimeLabel, cc);
+        cc.gridx = 1;
+        cc.ipadx = 80;
+        parameters.add(growthTime, cc);
+        cc.gridx = 2;
+        parameters.add(growthTimeUnit, cc);
+
+        cc.gridx = 1;
+        cc.gridy = 1;
+        cc.ipady = 10;
+        parameters.add(minLabel, cc);
+        cc.gridx = 2;
+        cc.ipadx = 80;
+        cc.ipady = 10;
+        parameters.add(maxLabel, cc);
+        cc.gridx = 3;
+        cc.ipady = 10;
+        parameters.add(balancingLabel, cc);
+        cc.gridx = 4;
+        cc.ipady = 10;
+        parameters.add(balanceLabel, cc);
+
+        cc.gridx = 0;
+        cc.gridy = 2;
+        parameters.add(airTempLabel, cc);
+        cc.gridx = 1;
+        cc.ipadx = 80;
+        parameters.add(minAirTemp, cc);
+        cc.gridx = 2;
+        cc.ipadx = 80;
+        parameters.add(maxAirTemp, cc);
+        cc.gridx = 3;
+        cc.ipadx = 50;
+        parameters.add(balancingAirTemp, cc);
+        cc.gridx = 4;
+        cc.ipadx = 50;
+        parameters.add(balanceAirTemp, cc);
+
+        cc.gridx = 0;
+        cc.gridy = 3;
+        parameters.add(waterTempLabel, cc);
+        cc.gridx = 1;
+        cc.ipadx = 80;
+        parameters.add(minWaterTemp, cc);
+        cc.gridx = 2;
+        cc.ipadx = 80;
+        parameters.add(maxWaterTemp, cc);
+        cc.gridx = 3;
+        cc.ipadx = 50;
+        parameters.add(balancingWaterTemp, cc);
+        cc.gridx = 4;
+        cc.ipadx = 50;
+        parameters.add(balanceWaterTemp, cc);
+
+        cc.gridx = 0;
+        cc.gridy = 4;
+        parameters.add(humidityLabel, cc);
+        cc.gridx = 1;
+        cc.ipadx = 80;
+        parameters.add(minHumidity, cc);
+        cc.gridx = 2;
+        cc.ipadx = 80;
+        parameters.add(maxHumidity, cc);
+        cc.gridx = 3;
+        cc.ipadx = 50;
+        parameters.add(balancingHumidity, cc);
+        cc.gridx = 4;
+        cc.ipadx = 50;
+        parameters.add(balanceHumidity, cc);
+
+        cc.gridx = 0;
+        cc.gridy = 5;
+        parameters.add(phLevelLabel, cc);
+        cc.gridx = 1;
+        cc.ipadx = 80;
+        parameters.add(minPhLevel, cc);
+        cc.gridx = 2;
+        cc.ipadx = 80;
+        parameters.add(maxPhLevel, cc);
+        cc.gridx = 3;
+        cc.ipadx = 50;
+        parameters.add(balancingPhLevel, cc);
+        cc.gridx = 4;
+        cc.ipadx = 50;
+        parameters.add(balancePhLevel, cc);
+
+        cc.gridx = 0;
+        cc.gridy = 6;
+        parameters.add(ECLabel, cc);
+        cc.gridx = 1;
+        cc.ipadx = 80;
+        parameters.add(minEC, cc);
+        cc.gridx = 2;
+        cc.ipadx = 80;
+        parameters.add(maxEC, cc);
+        cc.gridx = 3;
+        cc.ipadx = 50;
+        parameters.add(balancingEC, cc);
+        cc.gridx = 4;
+        cc.ipadx = 50;
+        parameters.add(balanceEC, cc);
+
+        cc.gridx = 0;
+        cc.gridy = 7;
+        parameters.add(nitrogenLabel, cc);
+        cc.gridx = 1;
+        cc.ipadx = 80;
+        parameters.add(minNitrogen, cc);
+        cc.gridx = 2;
+        cc.ipadx = 80;
+        parameters.add(maxNitrogen, cc);
+        cc.gridx = 3;
+        cc.ipadx = 50;
+        parameters.add(balancingNitrogen, cc);
+        cc.gridx = 4;
+        cc.ipadx = 50;
+        parameters.add(balanceNitrogen, cc);
+
+        cc.gridx = 0;
+        cc.gridy = 8;
+        parameters.add(phosphorusLabel, cc);
+        cc.gridx = 1;
+        cc.ipadx = 80;
+        parameters.add(minPhosphorus, cc);
+        cc.gridx = 2;
+        cc.ipadx = 80;
+        parameters.add(maxPhosphorus, cc);
+        cc.gridx = 3;
+        cc.ipadx = 50;
+        parameters.add(balancingPhosphorus, cc);
+        cc.gridx = 4;
+        cc.ipadx = 50;
+        parameters.add(balancePhosphorus, cc);
+
+        cc.gridx = 0;
+        cc.gridy = 9;
+        parameters.add(potassiumLabel, cc);
+        cc.gridx = 1;
+        cc.ipadx = 80;
+        parameters.add(minPotassium, cc);
+        cc.gridx = 2;
+        cc.ipadx = 80;
+        parameters.add(maxPotassium, cc);
+        cc.gridx = 3;
+        cc.ipadx = 50;
+        parameters.add(balancingPotassium, cc);
+        cc.gridx = 4;
+        cc.ipadx = 50;
+        parameters.add(balancePotassium, cc);
+    }
+
     public void populateFields(List<InputParameter> inputParameterList){
         for(InputParameter parameter : inputParameterList){
             if(parameter instanceof EnvironmentPropertyParameter){
@@ -269,8 +516,8 @@ public class AdminControlPanel extends JFrame{
             }else if(parameter instanceof MeasurementIntervalParameter){
                 MeasurementIntervalParameter mintParam = (MeasurementIntervalParameter) parameter;
                 if(mintParam.getType() == EnvironmentDeviceTypes.AIR_TEMPERATURE){
-                    balanceTempCheck.setText(mintParam.getIntervalBalancedState() / 60 +"");
-                    balancingTempCheck.setText(mintParam.getIntervalBalancingState() / 60 +"");
+                    balanceAirTemp.setText(mintParam.getIntervalBalancedState() / 60 +"");
+                    balancingAirTemp.setText(mintParam.getIntervalBalancingState() / 60 +"");
                 }
             }else if(parameter instanceof OtherParameter){
                 OtherParameter othrParam = (OtherParameter) parameter;
@@ -306,17 +553,17 @@ public class AdminControlPanel extends JFrame{
         }
     }
 
-    public int getBalancingTempCheck() {
+    public int getbalancingAirTemp() {
         try{
-            return Integer.parseInt(balancingTempCheck.getText()) * 60;
+            return Integer.parseInt(balancingAirTemp.getText()) * 60;
         }catch(NumberFormatException | NullPointerException n){
             return 0;
         }
     }
 
-    public int getBalanceTempCheck() {
+    public int getbalanceAirTemp() {
         try{
-            return Integer.parseInt(balanceTempCheck.getText()) * 60;
+            return Integer.parseInt(balanceAirTemp.getText()) * 60;
         }catch(NumberFormatException | NullPointerException n) {
             return 0;
         }
