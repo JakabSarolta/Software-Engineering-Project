@@ -2,7 +2,7 @@ package com.ucc.ControlSystem.ControlSystem.JDBC;
 
 import com.ucc.ControlSystem.ControlSystem.InputParameters.Parameter;
 import com.ucc.ControlSystem.ControlSystem.Reporting.Measurement;
-import com.ucc.ControlSystem.SimulationEnvironment.EnvironmentDeviceTypes;
+import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;

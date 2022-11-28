@@ -2,6 +2,7 @@ package com.ucc.ControlSystem.ControlSystem.EnvironmentControllers;
 
 import com.ucc.ControlSystem.ControlSystem.InputParameters.EnvironmentPropertyParameter;
 import com.ucc.ControlSystem.ControlSystem.InputParameters.InputParameterProcessor;
+import com.ucc.ControlSystem.ControlSystem.Reporting.Measurement;
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
 
 import java.util.ArrayList;
