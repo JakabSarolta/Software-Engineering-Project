@@ -1,5 +1,7 @@
 package com.ucc.ControlSystem.ControlSystem.EnvironmentControllers;
 
+import com.ucc.ControlSystem.ControlSystem.JDBC.HSQLQueries;
+import com.ucc.ControlSystem.ControlSystem.Reporting.Measurement;
 import com.ucc.ControlSystem.GUI.AdminControlPanel;
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
 
@@ -23,6 +25,7 @@ public class Controller{
         parametersToBeBalanced = new ArrayList<>();
         sentinel = Sentinel.getSentinel();
         environmentBalancer = EnvironmentBalancer.getEnvironmentBalancer();
+        HSQLQueries.getHSQLQueries().emptyTable(Measurement.class);
     }
 
     public static Controller getController(){
@@ -45,14 +48,19 @@ public class Controller{
                 currentState = States.GROWTH_ENDED;
             } else {
                  sentinel.checkPeriodically(currentTime,parametersToBeBalanced);
+                sentinel.checkPeriodically(currentTime,parametersToBeBalanced);
             }
             environmentBalancer.balanceEnvironment(currentTime, parametersToBeBalanced);
+
+
+            currentState = environmentBalancer.balanceEnvironment(currentTime, parametersToBeBalanced);
 
             for(EnvironmentDeviceTypes device : EnvironmentDeviceTypes.values()){
                 AdminControlPanel.getAdminControlPanel().getCurrentTime().setText(convertSeconds(currentTime)+"");
                 AdminControlPanel.getAdminControlPanel().getCurrentTemp().setText(Math.round(DataCollector.getDataCollector().getSensorValue(device) * 10) / 10.0+"");
-                AdminControlPanel.getAdminControlPanel().getActuatorState().setText(DataCollector.getDataCollector().getActuatorStrength(device));
             }
+        }else if(currentState == States.ALERTED){
+            com.ucc.ControlSystem.EnvironmentSimulator.Controller.stopSimulation();
         }
     }
 

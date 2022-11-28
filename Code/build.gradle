@@ -12,6 +12,8 @@ repositories {
 dependencies {
     implementation 'org.hibernate:hibernate-core:6.1.5.Final'
     implementation 'mysql:mysql-connector-java:8.0.31'
+    implementation 'com.lowagie:itext:2.1.7'
+    implementation 'net.sf.jasperreports:jasperreports:6.16.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }

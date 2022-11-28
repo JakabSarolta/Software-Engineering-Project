@@ -29,8 +29,8 @@ public class InputParameterProcessor {
 
     private Map<OtherParameters, OtherParameter> otherParameterMap;
 
-
 //    private double NPKRatio;
+
     private InputParameterProcessor(){
         environmentPropertyParameterMap = initializeEnvironmentPropertyParameterList();
         measurementIntervalParameterMap = initializeMeasurementIntervalParameterList();
@@ -96,12 +96,6 @@ public class InputParameterProcessor {
         }
     }
 
-    /**
-     * Updates an entity that holds measurement intervals if the new values are valid
-     * @param intervalBalancedState the new interval for balanced state
-     * @param intervalBalancingState the new interval for balancing state
-     * @param propertyType the parameter type
-     */
     public void updateMeasurementIntervalParameter(int intervalBalancedState, int intervalBalancingState, EnvironmentDeviceTypes propertyType){
         if(MeasurementIntervalParameter.isValid(intervalBalancedState,intervalBalancingState)){
             MeasurementIntervalParameter param = measurementIntervalParameterMap.get(propertyType);
@@ -228,5 +222,9 @@ public class InputParameterProcessor {
 
         s.getTransaction().commit();
         s.close();
+    }
+
+    private boolean isLightTimeValid(int lightTime){
+        return lightTime >= LIGHT_TIME_MIN && lightTime <= LIGHT_TIME_MAX;
     }
 }

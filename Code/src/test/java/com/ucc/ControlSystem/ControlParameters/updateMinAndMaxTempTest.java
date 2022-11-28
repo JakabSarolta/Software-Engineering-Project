@@ -6,7 +6,9 @@ import com.ucc.ControlSystem.Main;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class Test1 {
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+public class updateMinAndMaxTempTest {
     @Test
     public void testForTrue() {
         Main.main(null);
@@ -19,7 +21,7 @@ public class Test1 {
     public void testForFalse(){
         Main.main(null);
         InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(14,19, EnvironmentDeviceTypes.AIR_TEMPERATURE);
-        assertTrue(InputParameterProcessor.getInputParameterProcessor().getEnvironmentPropertyForDevice(EnvironmentDeviceTypes.AIR_TEMPERATURE).getMin() == 14 &&
-                InputParameterProcessor.getInputParameterProcessor().getEnvironmentPropertyForDevice(EnvironmentDeviceTypes.AIR_TEMPERATURE).getMax() == 20, "Min and max temperature are NOT updated correctly");
+        assertFalse(InputParameterProcessor.getInputParameterProcessor().getEnvironmentPropertyForDevice(EnvironmentDeviceTypes.AIR_TEMPERATURE).getMin() != 14 &&
+                InputParameterProcessor.getInputParameterProcessor().getEnvironmentPropertyForDevice(EnvironmentDeviceTypes.AIR_TEMPERATURE).getMax() != 19, "Min and max temperature are NOT updated correctly");
     }
 }

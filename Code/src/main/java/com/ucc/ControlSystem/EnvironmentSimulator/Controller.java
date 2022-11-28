@@ -1,5 +1,6 @@
 package com.ucc.ControlSystem.EnvironmentSimulator;
 
+import com.ucc.ControlSystem.ControlSystem.Reporting.ReportGenerator;
 import com.ucc.ControlSystem.GUI.EnvironmentControlPanel;
 import com.ucc.ControlSystem.Utils.TimeUnits;
 
@@ -11,6 +12,7 @@ import javax.swing.*;
 public class Controller implements Runnable{
 
     private final JFrame frame;
+    private static boolean exit = false;
 
     public Controller(JFrame frame) {
         this.frame = frame;
@@ -30,10 +32,11 @@ public class Controller implements Runnable{
         es.setDurationOfTheSimulationSaladTime(durationOfTheSimulationSaladTime);
         es.setDurationOfTheSimulationRealLifeTime(durationOfTheSimulationRealLifeTime);
 
-        SwingWorker<Void,Void> swingWorker = new SwingWorker<Void, Void>    () {
+        SwingWorker<Void,Void> swingWorker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
                 Controller manager = new Controller(frame);
+                exit = false;
 
                 manager.run();
                 return null;
@@ -41,6 +44,10 @@ public class Controller implements Runnable{
         };
 
         swingWorker.execute();
+    }
+
+    public static void stopSimulation() {
+        exit = true;
     }
 
     /**
@@ -58,16 +65,14 @@ public class Controller implements Runnable{
         // the same (in millis)
         int oneSaladMillis = (int)(oneSaladSec * 1000.0);
         int remainingNanos = (int) ((((oneSaladSec * 1000)) - oneSaladMillis)*1000000);
-
         // elapsed time from the beginning of the simulation
         double simulationTime = 0;
 
         // how many simulation time units have passed
         long i = 0;
 
-        while(simulationTime<= es.getDurationOfTheSimulationRealLifeTime()){
-            TimeUnits selectedDisplayTimeUnit = (TimeUnits) ((EnvironmentControlPanel)frame).
-                    getDisplayTimeUnitComboBox().getSelectedItem();
+        while(simulationTime <= es.getDurationOfTheSimulationRealLifeTime() && !exit){
+            TimeUnits selectedDisplayTimeUnit = (TimeUnits) ((EnvironmentControlPanel)frame).getDisplayTimeUnitComboBox().getSelectedItem();
 
             double measurement = es.takeMeasurement(EnvironmentDeviceTypes.AIR_TEMPERATURE);
             ((EnvironmentControlPanel)frame).getAirTemperatureValueLabel().
@@ -90,6 +95,7 @@ public class Controller implements Runnable{
                 e.printStackTrace();
             }
         }
+        ReportGenerator.getReportGenerator().generateReport(0);
     }
 
 
