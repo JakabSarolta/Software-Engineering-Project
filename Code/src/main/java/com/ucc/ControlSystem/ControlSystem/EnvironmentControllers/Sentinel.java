@@ -4,6 +4,7 @@ import com.ucc.ControlSystem.ControlSystem.InputParameters.EnvironmentPropertyPa
 import com.ucc.ControlSystem.ControlSystem.InputParameters.InputParameterProcessor;
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,15 +34,17 @@ public class Sentinel {
      * @param currentTime the current time of the simulation in seconds (salad lifetime)
      * @param parametersToBeBalanced the list to which it adds the devices that need balancing
      */
-    public void checkPeriodically(long currentTime,List<EnvironmentDeviceTypes> parametersToBeBalanced){
+    public void checkPeriodically(long currentTime, List<EnvironmentDeviceTypes> parametersToBeBalanced){
         for(EnvironmentDeviceTypes deviceType : EnvironmentDeviceTypes.values()){
             long checkIntervalForDevice = inputParameterProcessor.
                     getBalancedCheckIntervalForDevice(deviceType);
 
             if(currentTime % checkIntervalForDevice == 0){
+                Double measurement = dataCollector.takeMeasurementForDevice(deviceType);
                 if(deviceNeedsBalancing(deviceType, dataCollector.takeMeasurementForDevice(deviceType))){
                     parametersToBeBalanced.add(deviceType);
                 }
+                new Measurement(deviceType,measurement,States.BALANCED,currentTime).saveMeasurement();
             }
         }
     }

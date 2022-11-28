@@ -3,6 +3,7 @@ package com.ucc.ControlSystem.ControlSystem.JDBC;
 import com.ucc.ControlSystem.ControlSystem.InputParameters.EnvironmentPropertyParameter;
 import com.ucc.ControlSystem.ControlSystem.InputParameters.MeasurementIntervalParameter;
 import com.ucc.ControlSystem.ControlSystem.InputParameters.OtherParameter;
+import com.ucc.ControlSystem.ControlSystem.Reporting.Measurement;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -44,13 +45,14 @@ public class ConnectionFactory {
                     .setProperty("hibernate.connection.username",userName)
                     .setProperty("hibernate.connection.password",password)
                     .setProperty("hibernate.hbm2ddl.auto","update")
-                    .setProperty("hibernate.connection.pool_size","1")
+                    .setProperty("hibernate.connection.pool_size","2")
                     .setProperty("hibernate.dialect","org.hibernate.dialect.MySQLDialect")
                     .setProperty("hibernate.show_sql","true")
                     .setProperty("hibernate.current_session_context_class","thread")
                     .addAnnotatedClass(EnvironmentPropertyParameter.class)
                     .addAnnotatedClass(MeasurementIntervalParameter.class)
                     .addAnnotatedClass(OtherParameter.class)
+                    .addAnnotatedClass(Measurement.class)
                     .buildSessionFactory();
             this.sessionFactory = sessionFactory;
 //            this.session = factory.getCurrentSession();

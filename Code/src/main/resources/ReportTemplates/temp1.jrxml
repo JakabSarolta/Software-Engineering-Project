@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+            http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="report" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+
+<!--    <field name="id" class="java.lang.Long"/>-->
+    <field name="timestamp" class="java.lang.Long"/>
+    <field name="value" class="java.lang.Double"/>
+
+    <summary>
+        <band height="450" splitType="Stretch">
+            <lineChart>
+                <chart evaluationTime="Report">
+                    <reportElement x="20" y="20" width="540" height="400"/>
+                    <chartTitle position="Top">
+                        <titleExpression><![CDATA["Line chart"]]></titleExpression>
+                    </chartTitle>
+                    <chartSubtitle/>
+                    <chartLegend/>
+                </chart>
+                <categoryDataset>
+                    <dataset/>
+                    <categorySeries>
+                        <seriesExpression><![CDATA["Temperatures"]]></seriesExpression>
+                        <categoryExpression><![CDATA[ $F{timestamp} ]]></categoryExpression>
+                        <valueExpression><![CDATA[ $F{value} ]]></valueExpression>
+                    </categorySeries>
+                </categoryDataset>
+                <linePlot>
+                    <plot/>
+                    <categoryAxisLabelExpression><![CDATA["Time in seconds"]]></categoryAxisLabelExpression>
+                    <categoryAxisFormat>
+                        <axisFormat/>
+                    </categoryAxisFormat>
+                    <valueAxisLabelExpression><![CDATA["Temperature"]]></valueAxisLabelExpression>
+                    <valueAxisFormat>
+                        <axisFormat/>
+                    </valueAxisFormat>
+                </linePlot>
+            </lineChart>
+        </band>
+    </summary>
+</jasperReport>

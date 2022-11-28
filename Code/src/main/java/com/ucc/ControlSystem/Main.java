@@ -3,9 +3,11 @@ package com.ucc.ControlSystem;
 
 import com.ucc.ControlSystem.ControlSystem.InputParameters.InputParameterProcessor;
 import com.ucc.ControlSystem.ControlSystem.JDBC.ConnectionFactory;
+import com.ucc.ControlSystem.ControlSystem.Reporting.ReportGenerator;
 import com.ucc.ControlSystem.GUI.AdminControlPanel;
 import com.ucc.ControlSystem.SystemConfiguration.SystemConfigParameters;
 import com.ucc.ControlSystem.SystemConfiguration.SystemConfigurationReader;
+import org.hibernate.Session;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -23,6 +25,8 @@ public class Main{
                 readEnvironmentVariable(SystemConfigParameters.DATABASE_PASS);
 
         ConnectionFactory.createDbConnection(jdbUrl,username,pass);
+
+//        ReportGenerator.getReportGenerator().generateReport(0);
 
 
         adminFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

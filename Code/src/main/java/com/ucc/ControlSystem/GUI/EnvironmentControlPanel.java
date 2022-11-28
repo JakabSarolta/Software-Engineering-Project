@@ -21,16 +21,20 @@ public class EnvironmentControlPanel extends JFrame {
         saladSimulationTimeLabel, temperatureNameLabel, temperatureValueLabel,
         timeNameLabel, timeValueLabel;
     private JPanel timePanel, simulationPanel;
+    private JPanel airTempPanel, waterTempPanel, humidityPanel, pHPanel, ECPanel;
+    private JTabbedPane tabs;
     private JTextField simulationTimeTextField, saladSimulationTimeText;
     private JSlider sigma, alpha;
     private JButton startButton;
+    private JButton restartButton;
     private JComboBox timeUnitsComboBox, displayTimeUnitComboBox;
 
     private final double SLIDER_SCALE = 10.0;
 
     private EnvironmentControlPanel(String title){
         super(title);
-        prepareGUI();
+        createTabs();
+        //prepareGUI();
     }
 
     public static EnvironmentControlPanel getEnvironmentControlPanel(){
@@ -40,6 +44,26 @@ public class EnvironmentControlPanel extends JFrame {
         return environmentControlPanel;
     }
 
+    public void createTabs(){
+        airTempPanel = new JPanel();
+        waterTempPanel = new JPanel();
+        humidityPanel = new JPanel();
+        pHPanel = new JPanel();
+        ECPanel = new JPanel();
+
+        //Create the tab container
+        tabs = new JTabbedPane();
+        //Set tab container position
+        tabs.setSize(800,500);
+        //Associate each panel with the corresponding tab
+        tabs.add("Air Temperature", airTempPanel);
+        tabs.add("Water Temperature", waterTempPanel);
+        tabs.add("Humidity", humidityPanel);
+        tabs.add("pH Level", pHPanel);
+        tabs.add("Electric Conductivity", ECPanel);
+        this.add(tabs, BorderLayout.CENTER);
+        this.setContentPane(this.tabs);
+    }
     public void prepareGUI(){
         this.setSize(780, 500);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -56,7 +80,6 @@ public class EnvironmentControlPanel extends JFrame {
         simulationPanel.add(timeNameLabel);
         this.timeValueLabel = new JLabel("", JLabel.CENTER);
         simulationPanel.add(timeValueLabel);
-//        String timeUnits[] = new String[]{"seconds", "minutes", "hours", "days"};
         displayTimeUnitComboBox = new JComboBox(TimeUnits.values());
         simulationPanel.add(displayTimeUnitComboBox);
         contentPane.add(simulationPanel);
@@ -95,12 +118,14 @@ public class EnvironmentControlPanel extends JFrame {
         timeUnitsComboBox = new JComboBox(TimeUnits.values());
         timePanel.add(timeUnitsComboBox);
         contentPane.add(timePanel);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(1,2));
         startButton = new JButton("START");
         startButton.setActionCommand("Start the simulation");
         startButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setActuatorValue(sigma.getValue());
+                setSensorValue(sigma.getValue());
                 setActuatorValue(alpha.getValue());
 
                 int simulationSaladTimeSeconds = Integer.parseInt(saladSimulationTimeText.getText()) *
@@ -110,6 +135,24 @@ public class EnvironmentControlPanel extends JFrame {
                         Integer.parseInt(simulationTimeTextField.getText()));
             }
         });
+        buttonPanel.add(startButton);
+//        restartButton = new JButton("RESTART");
+//        restartButton.setActionCommand("Restart the simulation");
+//        restartButton.addActionListener(new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                setSensorValue(sigma.getValue());
+//                setActuatorValue(alpha.getValue());
+//
+//                int simulationSaladTimeSeconds = Integer.parseInt(saladSimulationTimeText.getText()) *
+//                        ((TimeUnits)timeUnitsComboBox.getSelectedItem()).getVal();
+//
+//                Controller.stopSimulation();
+//                Controller.startSimulation(EnvironmentControlPanel.getEnvironmentControlPanel(),simulationSaladTimeSeconds,
+//                        Integer.parseInt(simulationTimeTextField.getText()));
+//            }
+//        });
+//        buttonPanel.add(restartButton);
         contentPane.add(startButton);
         this.setContentPane(this.contentPane);
     }
