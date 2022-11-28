@@ -2,6 +2,7 @@ package com.ucc.ControlSystem.GUI;
 
 import com.ucc.ControlSystem.ControlSystem.InputParameters.*;
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
+import com.ucc.ControlSystem.Utils.TimeUnits;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -23,6 +24,7 @@ public class AdminControlPanel extends JFrame{
     private final JPanel card4 = new JPanel();
     private final JPanel parameters = new JPanel();
     private final JPanel currentValuesPanel = new JPanel();
+    //private final JPanel simulationTimesPanel = new JPanel();
     private final JTabbedPane tabbedPane = new JTabbedPane();
     private final JButton updateButton = new JButton("      UPDATE       ");
 
@@ -59,6 +61,8 @@ public class AdminControlPanel extends JFrame{
     private final JTextField balanceNitrogen = new JTextField();
     private final JTextField balancingPotassium = new JTextField();
     private final JTextField balancePotassium = new JTextField();
+    private final JLabel empty = new JLabel("-", JLabel.CENTER);
+    private final JLabel empty4 = new JLabel("Actuator state:", JLabel.CENTER);
     private final JLabel currentTime = new JLabel("", JLabel.CENTER);
     private final JLabel currentWaterTemp = new JLabel("", JLabel.CENTER);
     private final JLabel currentHumidity = new JLabel("", JLabel.CENTER);
@@ -76,7 +80,11 @@ public class AdminControlPanel extends JFrame{
     private final JLabel actuatorState6 = new JLabel("Off", JLabel.CENTER);
     private final JLabel actuatorState7 = new JLabel("Off", JLabel.CENTER);
     private final JLabel actuatorState8 = new JLabel("Off", JLabel.CENTER);
-//    private JLabel currentState = new JLabel("", JLabel.CENTER);
+    /*private final JLabel simulationTimeLabel = new JLabel("Simulation time: [sec]");
+    private final JLabel saladSimulationTimeLabel = new JLabel("Salad simulation time:");
+    private final JTextField simulationTime = new JTextField();
+    private final JTextField saladSimulationTime = new JTextField();
+    private final JComboBox saladUnit = new JComboBox(TimeUnits.values());*/
 
     Font  f1  = new Font("Our font", Font.BOLD, 16);
     Font  f2  = new Font("Our font", Font.BOLD, 14);
@@ -102,7 +110,6 @@ public class AdminControlPanel extends JFrame{
 
         card1.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        //c.weightx = 1;
         c.weighty = 1;
 
         c.gridx = 0;
@@ -172,15 +179,11 @@ public class AdminControlPanel extends JFrame{
 
         setMonitorWindow();
 
-//        JLabel currentStateLabel = new JLabel("Current state of the system:");
-//        currentStateLabel.setFont(f1);
-//        currentValuesPanel.add(currentStateLabel);
-//        currentState.setFont(f1);
-//        currentValuesPanel.add(currentState);
         c2.gridx = 0;
         c2.gridy = 2;
         card2.add(currentValuesPanel, c2);
         c2.gridy = 2;
+
         card2.add(new JLabel(""), c2);
 
         JPanel startButtonPanel = new JPanel();
@@ -196,9 +199,7 @@ public class AdminControlPanel extends JFrame{
             }
         });
         startButtonPanel.add(startButton);
-//        c2.gridy = 0;
         c2.gridx = 0;
-//        card2.add(new JLabel(""),c2);
         c2.gridy = 3;
         card2.add(startButtonPanel,c2);
 
@@ -212,79 +213,114 @@ public class AdminControlPanel extends JFrame{
 
     private void setMonitorWindow(){
         currentValuesPanel.setLayout(new GridLayout(9, 4));
+        currentValuesPanel.setBorder(LineBorder.createBlackLineBorder());
         JLabel currentTimeLabel = new JLabel("Current growing time:");
         currentTimeLabel.setFont(f1);
+        currentTimeLabel.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(currentTimeLabel);
         currentTime.setFont(f1);
+        currentTime.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(currentTime);
         currentValuesPanel.add(new JLabel(""));
-        currentValuesPanel.add(new JLabel(""));
+        empty.setBorder(LineBorder.createBlackLineBorder());
+        currentValuesPanel.add(empty);
         JLabel airTempLabel = new JLabel("Air temperature:");
         airTempLabel.setFont(f1);
+        airTempLabel.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(airTempLabel);
         currentTemp.setFont(f1);
+        currentTemp.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(currentTemp);
-        JLabel actuatorStateLabel = new JLabel("Actuator state:");
-        actuatorStateLabel.setFont(f1);
-        currentValuesPanel.add(actuatorStateLabel);
+        currentValuesPanel.add(new JLabel(""));
         actuatorState.setFont(f1);
+        actuatorState.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(actuatorState);
         JLabel waterTempLabel = new JLabel("Water temperature:");
         waterTempLabel.setFont(f1);
+        waterTempLabel.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(waterTempLabel);
         currentWaterTemp.setFont(f1);
+        currentWaterTemp.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(currentWaterTemp);
         currentValuesPanel.add(new JLabel(""));
         actuatorState2.setFont(f1);
+        actuatorState2.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(actuatorState2);
         JLabel humidityLabel = new JLabel("Humidity:");
         humidityLabel.setFont(f1);
+        humidityLabel.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(humidityLabel);
         currentHumidity.setFont(f1);
+        currentHumidity.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(currentHumidity);
         currentValuesPanel.add(new JLabel(""));
         actuatorState3.setFont(f1);
+        actuatorState3.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(actuatorState3);
         JLabel phLevelLabel = new JLabel("Ph level:");
         phLevelLabel.setFont(f1);
+        phLevelLabel.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(phLevelLabel);
         currentPhLevel.setFont(f1);
-        currentValuesPanel.add(currentPhLevel);
-        currentValuesPanel.add(new JLabel(""));
+        currentPhLevel.setBorder(LineBorder.createBlackLineBorder());
+        currentValuesPanel.add(currentPhLevel);;
+        currentValuesPanel.add(empty4);
         actuatorState4.setFont(f1);
+        actuatorState4.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(actuatorState4);
         JLabel ECLabel = new JLabel("Electrical conductivity:");
         ECLabel.setFont(f1);
+        ECLabel.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(ECLabel);
         currentEC.setFont(f1);
+        currentEC.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(currentEC);
         currentValuesPanel.add(new JLabel(""));
         actuatorState5.setFont(f1);
+        actuatorState5.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(actuatorState5);
         JLabel nitrogenLabel = new JLabel("Nitrogen:");
         nitrogenLabel.setFont(f1);
+        nitrogenLabel.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(nitrogenLabel);
         currentNitrogen.setFont(f1);
+        currentNitrogen.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(currentNitrogen);
         currentValuesPanel.add(new JLabel(""));
         actuatorState6.setFont(f1);
+        actuatorState6.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(actuatorState6);
         JLabel phosphorusLabel = new JLabel("Phosphorus:");
         phosphorusLabel.setFont(f1);
+        phosphorusLabel.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(phosphorusLabel);
         currentPhosphorus.setFont(f1);
+        currentPhosphorus.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(currentPhosphorus);
         currentValuesPanel.add(new JLabel(""));
         actuatorState7.setFont(f1);
+        actuatorState7.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(actuatorState7);
         JLabel potassiumLabel = new JLabel("Potassium:");
         potassiumLabel.setFont(f1);
+        potassiumLabel.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(potassiumLabel);
         currentPotassium.setFont(f1);
+        currentPotassium.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(currentPotassium);
         currentValuesPanel.add(new JLabel(""));
         actuatorState8.setFont(f1);
+        actuatorState8.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(actuatorState8);
+
+        /*simulationTimesPanel.setLayout(new GridLayout(2,3));
+        simulationTimesPanel.setFont(f1);
+        simulationTimesPanel.add(simulationTimeLabel);
+        simulationTimesPanel.add(simulationTime);
+        simulationTimesPanel.add(new JLabel(""));
+        simulationTimesPanel.add(saladSimulationTimeLabel);
+        simulationTimesPanel.add(saladSimulationTime);
+        simulationTimesPanel.add(saladUnit);*/
     }
     private void setInitializeParametersWindow(){
         growthTime.setHorizontalAlignment(JTextField.CENTER);
