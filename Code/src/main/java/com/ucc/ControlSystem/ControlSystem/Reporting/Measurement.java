@@ -22,7 +22,7 @@ public class Measurement {
     private EnvironmentDeviceTypes device;
 
     @Column
-    private double value;
+    private Double value;
 
     @Column
     private States state;

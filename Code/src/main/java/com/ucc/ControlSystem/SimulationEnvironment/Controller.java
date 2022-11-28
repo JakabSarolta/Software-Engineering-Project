@@ -1,5 +1,6 @@
 package com.ucc.ControlSystem.SimulationEnvironment;
 
+import com.ucc.ControlSystem.ControlSystem.Reporting.ReportGenerator;
 import com.ucc.ControlSystem.GUI.EnvironmentControlPanel;
 import com.ucc.ControlSystem.Utils.TimeConvertor;
 import com.ucc.ControlSystem.Utils.TimeUnits;
@@ -76,6 +77,7 @@ public class Controller implements Runnable{
                 e.printStackTrace();
             }
         }
+        ReportGenerator.getReportGenerator().generateReport(0);
     }
 
 
