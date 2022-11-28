@@ -21,6 +21,8 @@ public class EnvironmentControlPanel extends JFrame {
         saladSimulationTimeLabel, temperatureNameLabel, temperatureValueLabel,
         timeNameLabel, timeValueLabel;
     private JPanel timePanel, simulationPanel;
+    private JPanel airTempPanel, waterTempPanel, humidityPanel, pHPanel, ECPanel;
+    private JTabbedPane tabs;
     private JTextField simulationTimeTextField, saladSimulationTimeText;
     private JSlider sigma, alpha;
     private JButton startButton;
@@ -31,7 +33,8 @@ public class EnvironmentControlPanel extends JFrame {
 
     private EnvironmentControlPanel(String title){
         super(title);
-        prepareGUI();
+        createTabs();
+        //prepareGUI();
     }
 
     public static EnvironmentControlPanel getEnvironmentControlPanel(){
@@ -41,6 +44,26 @@ public class EnvironmentControlPanel extends JFrame {
         return environmentControlPanel;
     }
 
+    public void createTabs(){
+        airTempPanel = new JPanel();
+        waterTempPanel = new JPanel();
+        humidityPanel = new JPanel();
+        pHPanel = new JPanel();
+        ECPanel = new JPanel();
+
+        //Create the tab container
+        tabs = new JTabbedPane();
+        //Set tab container position
+        tabs.setSize(800,500);
+        //Associate each panel with the corresponding tab
+        tabs.add("Air Temperature", airTempPanel);
+        tabs.add("Water Temperature", waterTempPanel);
+        tabs.add("Humidity", humidityPanel);
+        tabs.add("pH Level", pHPanel);
+        tabs.add("Electric Conductivity", ECPanel);
+        this.add(tabs, BorderLayout.CENTER);
+        this.setContentPane(this.tabs);
+    }
     public void prepareGUI(){
         this.setSize(780, 500);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -57,11 +80,10 @@ public class EnvironmentControlPanel extends JFrame {
         simulationPanel.add(timeNameLabel);
         this.timeValueLabel = new JLabel("", JLabel.CENTER);
         simulationPanel.add(timeValueLabel);
-//        String timeUnits[] = new String[]{"seconds", "minutes", "hours", "days"};
         displayTimeUnitComboBox = new JComboBox(TimeUnits.values());
         simulationPanel.add(displayTimeUnitComboBox);
         contentPane.add(simulationPanel);
-        this.sensorTendencyLabel = new JLabel("Sensor Tendency (sigma)", JLabel.CENTER);
+        this.sensorTendencyLabel = new JLabel("Sensor Tendency (\u00B0C/sec)", JLabel.CENTER);
         contentPane.add(sensorTendencyLabel);
         sigma = createSlider(-5,5, 1);
         sigma.addChangeListener(new ChangeListener() {
@@ -71,7 +93,7 @@ public class EnvironmentControlPanel extends JFrame {
             }
         });
         contentPane.add(sigma);
-        this.actuatorTendencyLabel = new JLabel("Actuator Tendency (alpha)", JLabel.CENTER);
+        this.actuatorTendencyLabel = new JLabel("Actuator Tendency (\u00B0C/sec)", JLabel.CENTER);
         contentPane.add(actuatorTendencyLabel);
         alpha = createSlider(-5,5, 1);
         alpha.addChangeListener(new ChangeListener() {
