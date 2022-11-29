@@ -137,8 +137,8 @@ public class EnvironmentControlPanel extends JFrame {
         });
         prepareTab("Electrical Conductivity Controller", "EC (S/m)",
                 ECValueLabel, ECSigma, ECAlpha,"Sensor Tendency (S/m)/sec",
-                 "Actuator Tendency (S/m)/sec",
-                "Electrical Conductivity");
+                 "Actuator Tendency (S/m)/sec","Electrical Conductivity");
+
     }
 
     public static EnvironmentControlPanel getEnvironmentControlPanel(){
@@ -152,7 +152,13 @@ public class EnvironmentControlPanel extends JFrame {
         startSimulationPanel = new JPanel();
         startSimulationPanel.setLayout(new GridLayout(2,1));
         JPanel timePanel = new JPanel();
-        timePanel.setLayout(new GridLayout(2,3));
+        timePanel.setLayout(new GridLayout(3,3));
+        JLabel timeNameLabel = new JLabel("Current time (salad time)", JLabel.CENTER);
+        timePanel.add(timeNameLabel);
+        this.timeValueLabel = new JLabel("", JLabel.CENTER);
+        timePanel.add(timeValueLabel);
+        displayTimeUnitComboBox = new JComboBox(TimeUnits.values());
+        timePanel.add(displayTimeUnitComboBox);
         JLabel simulationTimeLabel = new JLabel("Simulation Time: ", JLabel.CENTER);
         timePanel.add(simulationTimeLabel);
         simulationTimeTextField = new JTextField();
@@ -163,6 +169,7 @@ public class EnvironmentControlPanel extends JFrame {
         JLabel saladSimulationTimeLabel = new JLabel("Salad Simulation Time: ", JLabel.CENTER);
         timePanel.add(saladSimulationTimeLabel);
         saladSimulationTimeText = new JTextField();
+        saladSimulationTimeText.setFont(saladSimulationTimeText.getFont().deriveFont(16f));
         timePanel.add(saladSimulationTimeText);
         timeUnitsComboBox = new JComboBox(TimeUnits.values());
         timePanel.add(timeUnitsComboBox);
@@ -229,16 +236,10 @@ public class EnvironmentControlPanel extends JFrame {
         JLabel titleLabel = new JLabel(mainTitle, JLabel.CENTER);
         titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 16f));
         panel.add(titleLabel);
-        JPanel upperPanel = new JPanel(new GridLayout(1, 5));
+        JPanel upperPanel = new JPanel(new GridLayout(1, 2));
         JLabel nameAndMeasurementLabel = new JLabel(nameAndMeasurement, JLabel.CENTER);
         upperPanel.add(nameAndMeasurementLabel);
         upperPanel.add(measurementValueLabel);
-        JLabel timeNameLabel = new JLabel("Current time (salad time)", JLabel.CENTER);
-        upperPanel.add(timeNameLabel);
-        this.timeValueLabel = new JLabel("", JLabel.CENTER);
-        upperPanel.add(timeValueLabel);
-        displayTimeUnitComboBox = new JComboBox(TimeUnits.values());
-        upperPanel.add(displayTimeUnitComboBox);
         panel.add(upperPanel);
         JLabel sensorTendencyLabel = new JLabel(sensor, JLabel.CENTER);
         panel.add(sensorTendencyLabel);
@@ -313,4 +314,6 @@ public class EnvironmentControlPanel extends JFrame {
     public double getActuatorStrength(){
         return this.airTempAlpha.getValue()/SLIDER_SCALE_TEN;
     }
+
+
 }
