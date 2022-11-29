@@ -220,7 +220,6 @@ public class AdminControlPanel extends JFrame{
 
         tabbedPane.addTab(INITIALIZEPANEL, card1);
         tabbedPane.addTab(MONITORPANEL, card2);
-        tabbedPane.addTab(ALERTSPANEL, card3);
         tabbedPane.addTab(REPORTSPANEL, card4);
         this.add(tabbedPane, BorderLayout.CENTER);
         this.setContentPane(this.tabbedPane);
