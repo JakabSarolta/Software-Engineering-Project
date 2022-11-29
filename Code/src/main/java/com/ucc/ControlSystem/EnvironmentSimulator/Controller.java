@@ -75,7 +75,7 @@ public class Controller implements Runnable{
             TimeUnits selectedDisplayTimeUnit = (TimeUnits) ((EnvironmentControlPanel)frame).getDisplayTimeUnitComboBox().getSelectedItem();
 
             double measurement = es.takeMeasurement(EnvironmentDeviceTypes.AIR_TEMPERATURE);
-            ((EnvironmentControlPanel)frame).getTemperatureValueLabel().
+            ((EnvironmentControlPanel)frame).getAirTemperatureValueLabel().
                     setText(Math.round(measurement*100)/100.0+"");
             ((EnvironmentControlPanel)frame).getTimeValueLabel().
                     setText(adjustCurrentTimeToStep(selectedDisplayTimeUnit,i)+"");
