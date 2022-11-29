@@ -39,6 +39,11 @@ public enum SystemConfigParameters {
     ELECTRICAL_CONDUCTIVITY_VALID_MAX("ec.cond.valid.max"),
     ELECTRICAL_CONDUCTIVITY_PRECISION("ec.cond.precision"),
 
+    WATER_LEVEL_DEFAULT_VALUE("water.lvl.default"),
+    WATER_LEVEL_VALID_MIN("water.lvl.valid.min"),
+    WATER_LEVEL_VALID_MAX("water.lvl.valid.max"),
+    WATER_LEVEL_PRECISION("water.lvl.precision"),
+
     BALANCED_CHECK_INTERVAL("balanced.check.interval");
 
     private final String paramValue;

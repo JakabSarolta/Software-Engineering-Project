@@ -23,8 +23,13 @@ public class EnvironmentControlPanel extends JFrame {
     private JPanel airTempPanel;
     private JTabbedPane tabs;
     private JTextField simulationTimeTextField, saladSimulationTimeText;
-    private JSlider airTempSigma, waterTempSigma, humiditySigma, waterLevelSigma, pHSigma, ECSigma;
-    private JSlider airTempAlpha, waterTempAlpha, humidityAlpha, waterLevelAlpha, pHAlpha, ECAlpha;
+    private final JSlider airTempSigma;
+    private final JSlider waterTempSigma;
+    private final JSlider humiditySigma;
+    private final JSlider waterLevelSigma;
+    private final JSlider pHSigma;
+    private final JSlider ECSigma;
+    private final JSlider airTempAlpha, waterTempAlpha, humidityAlpha, waterLevelAlpha, pHAlpha, ECAlpha;
     private JComboBox timeUnitsComboBox, displayTimeUnitComboBox;
 
     public static Map<EnvironmentDeviceTypes,JLabel> deviceToLabelMap = populateLabelMap();
@@ -143,6 +148,26 @@ public class EnvironmentControlPanel extends JFrame {
                 ECValueLabel, ECSigma, ECAlpha,"Sensor Tendency (S/m)/sec",
                  "Actuator Tendency (S/m)/sec","Electrical Conductivity");
 
+
+        waterLevelSigma = createSlider(-10,10,1, SLIDER_SCALE_TEN);
+        waterLevelAlpha = createSlider(-10,10,1, SLIDER_SCALE_TEN);
+        waterLevelValueLabel = new JLabel("", JLabel.CENTER);
+        waterLevelSigma.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                setSensorValue(waterLevelSigma.getValue(),EnvironmentDeviceTypes.WATER_LEVEL,SLIDER_SCALE_TEN);
+            }
+        });
+        waterLevelAlpha.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                setActuatorValue(waterLevelAlpha.getValue(),EnvironmentDeviceTypes.WATER_LEVEL,SLIDER_SCALE_TEN);
+            }
+        });
+        prepareTab("Water Level Controller", "%",
+                waterLevelValueLabel, waterLevelSigma, waterLevelAlpha,"Sensor Tendency %/sec",
+                "Actuator Tendency %/sec","Water Level");
+
     }
 
     public static EnvironmentControlPanel getEnvironmentControlPanel(){
@@ -160,6 +185,7 @@ public class EnvironmentControlPanel extends JFrame {
         result.put(EnvironmentDeviceTypes.HUMIDITY,cp.getHumidityValueLabel());
         result.put(EnvironmentDeviceTypes.PH_LEVEL,cp.getpHLevelValueLabel());
         result.put(EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY,cp.getECValueLabel());
+        result.put(EnvironmentDeviceTypes.WATER_LEVEL,cp.getWaterLevelValueLabel());
         return result;
     }
 
@@ -210,6 +236,9 @@ public class EnvironmentControlPanel extends JFrame {
 
                 setSensorValue(ECSigma.getValue(),EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY,SLIDER_SCALE_HUNDRED);
                 setActuatorValue(ECAlpha.getValue(),EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY,SLIDER_SCALE_HUNDRED);
+
+                setSensorValue(waterLevelSigma.getValue(),EnvironmentDeviceTypes.WATER_LEVEL,SLIDER_SCALE_TEN);
+                setActuatorValue(waterLevelAlpha.getValue(),EnvironmentDeviceTypes.WATER_LEVEL,SLIDER_SCALE_TEN);
 
                 try{
                     int simulationSaladTimeSeconds = Integer.parseInt(saladSimulationTimeText.getText()) *

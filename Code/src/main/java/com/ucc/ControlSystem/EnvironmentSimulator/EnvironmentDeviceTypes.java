@@ -7,7 +7,8 @@ public enum EnvironmentDeviceTypes implements Parameter {
     WATER_TEMPERATURE,
     HUMIDITY,
     PH_LEVEL,
-    ELECTRICAL_CONDUCTIVITY
+    ELECTRICAL_CONDUCTIVITY,
+    WATER_LEVEL
 //    NITROGEN,
 //    PHOSPHORUS,
 //    POTASSIUM

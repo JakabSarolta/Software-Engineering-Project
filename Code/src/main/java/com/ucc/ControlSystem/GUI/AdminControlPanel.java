@@ -151,11 +151,13 @@ public class AdminControlPanel extends JFrame{
                                             InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinHumidity(),getMaxHumidity(),EnvironmentDeviceTypes.HUMIDITY);
                                             InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinPhLevel(),getMaxPhLevel(),EnvironmentDeviceTypes.PH_LEVEL);
                                             InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinEC(),getMaxEC(),EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY);
+                                            InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinWaterLevel(),getMaxWaterLevel(),EnvironmentDeviceTypes.WATER_LEVEL);
 
                                             InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceWaterTemp(), getBalancingWaterTemp(), EnvironmentDeviceTypes.WATER_TEMPERATURE);
                                             InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceHumidity(), getBalancingHumidity(), EnvironmentDeviceTypes.HUMIDITY);
                                             InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalancePhLevel(), getBalancingPhLevel(), EnvironmentDeviceTypes.PH_LEVEL);
                                             InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceEC(), getBalancingEC(), EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY);
+                                            InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceWaterLevel(), getBalancingWaterLevel(), EnvironmentDeviceTypes.WATER_LEVEL);
 
                                             InputParameterProcessor.getInputParameterProcessor().persistParameters();
                                         }
@@ -232,6 +234,7 @@ public class AdminControlPanel extends JFrame{
         result.put(EnvironmentDeviceTypes.HUMIDITY,List.of(cp.getCurrentHumidity(),cp.getActuatorState3()));
         result.put(EnvironmentDeviceTypes.PH_LEVEL,List.of(cp.getCurrentPhLevel(),cp.getActuatorState4()));
         result.put(EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY,List.of(cp.getCurrentEC(),cp.getActuatorState5()));
+        result.put(EnvironmentDeviceTypes.WATER_LEVEL,List.of(cp.getCurrentWaterLevel(),cp.getActuatorState6()));
 
         return result;
     }
@@ -551,6 +554,9 @@ public class AdminControlPanel extends JFrame{
                 }else if(envParam.getType() == EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY){
                     minEC.setText(envParam.getMin()+"");
                     maxEC.setText(envParam.getMax()+"");
+                }else if(envParam.getType() == EnvironmentDeviceTypes.WATER_LEVEL){
+                    minWaterLevel.setText(envParam.getMin()+"");
+                    maxWaterLevel.setText(envParam.getMax()+"");
                 }
             }else if(parameter instanceof MeasurementIntervalParameter){
                 MeasurementIntervalParameter mintParam = (MeasurementIntervalParameter) parameter;
@@ -569,6 +575,9 @@ public class AdminControlPanel extends JFrame{
                 }else if(mintParam.getType() == EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY){
                     balanceEC.setText(mintParam.getIntervalBalancedState() / 60 +"");
                     balancingEC.setText(mintParam.getIntervalBalancingState() / 60 +"");
+                }else if(mintParam.getType() == EnvironmentDeviceTypes.WATER_LEVEL){
+                    balanceWaterLevel.setText(mintParam.getIntervalBalancedState() / 60 +"");
+                    balancingWaterLevel.setText(mintParam.getIntervalBalancingState() / 60 +"");
                 }
             }else if(parameter instanceof OtherParameter){
                 OtherParameter othrParam = (OtherParameter) parameter;
