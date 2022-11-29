@@ -60,7 +60,7 @@ public class Controller{
                 AdminControlPanel.getAdminControlPanel().getCurrentTemp().setText(Math.round(DataCollector.getDataCollector().getSensorValue(device) * 10) / 10.0+"");
             }
         }else if(currentState == States.ALERTED){
-            com.ucc.ControlSystem.EnvironmentSimulator.Controller.stopSimulation();
+            com.ucc.ControlSystem.EnvironmentSimulator.Controller.suspendSimulation();
         }
     }
 

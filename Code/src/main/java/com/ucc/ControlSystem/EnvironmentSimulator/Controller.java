@@ -13,6 +13,7 @@ public class Controller implements Runnable{
 
     private final JFrame frame;
     private static boolean exit = false;
+    private static Controller manager;
 
     public Controller(JFrame frame) {
         this.frame = frame;
@@ -35,7 +36,7 @@ public class Controller implements Runnable{
         SwingWorker<Void,Void> swingWorker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                Controller manager = new Controller(frame);
+                manager = new Controller(frame);
                 exit = false;
 
                 manager.run();
@@ -48,6 +49,18 @@ public class Controller implements Runnable{
 
     public static void stopSimulation() {
         exit = true;
+    }
+
+    public static void suspendSimulation(){
+        try {
+            manager.wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void resumeSimulation(){
+        manager.notify();
     }
 
     /**
