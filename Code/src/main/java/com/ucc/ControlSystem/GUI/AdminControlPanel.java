@@ -121,42 +121,43 @@ public class AdminControlPanel extends JFrame{
                 if (getGrowthTime() == 0){
                     JOptionPane.showMessageDialog(null, "Introduce a correct growing time!!");
                 } else {
-                    if (getMinAirTemp() == 0) {
-                        JOptionPane.showMessageDialog(null, "Introduce a correct min temperature value!!");
+                    if (getMinAirTemp() == 0 || getMaxAirTemp() == 0 || getbalanceAirTemp() == 0 || getbalancingAirTemp() == 0) {
+                        JOptionPane.showMessageDialog(null, "Introduce correct values for air temperature!!");
                     } else {
-                        if(getMaxAirTemp() == 0){
-                            JOptionPane.showMessageDialog(null, "Introduce a correct max temperature value!!");
+                        if(getMinWaterTemp() == 0 || getMaxWaterTemp() == 0 || getBalancingWaterTemp() == 0 || getBalanceWaterTemp() == 0){
+                            JOptionPane.showMessageDialog(null, "Introduce correct values for water temperature!!");
                         } else
-                            if (getbalanceAirTemp() == 0) {
-                                JOptionPane.showMessageDialog(null, "Introduce a correct balanced state temperature checking interval value!!");
+                            if (getMinPhLevel() == 0 || getMaxPhLevel() == 0 || getBalancingPhLevel() == 0 || getBalancePhLevel() == 0) {
+                                JOptionPane.showMessageDialog(null, "Introduce correct values for pH level!!");
                             } else {
-                                if (getbalancingAirTemp() == 0) {
-                                    JOptionPane.showMessageDialog(null, "Introduce a correct balancing state temperature checking interval value!!");
+                                if (getMinEC() == 0 || getMaxEC() == 0 || getBalancingEC() == 0 || getBalanceEC() == 0) {
+                                    JOptionPane.showMessageDialog(null, "Introduce correct values for electrical conductivity!!");
                                 } else{
-                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinAirTemp(), getMaxAirTemp(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
-                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getbalanceAirTemp(), getbalancingAirTemp(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
-                                    InputParameterProcessor.getInputParameterProcessor().updateOtherParameter(OtherParameters.GROWTH_TIME, getGrowthTime());
+                                    if (getMinWaterLevel() == 0 || getMaxWaterLevel() == 0 || getBalancingWaterLevel() == 0 || getBalanceWaterLevel() == 0){
+                                        JOptionPane.showMessageDialog(null, "Introduce correct values for water level!!");
+                                    } else{
+                                        if (getMinHumidity() == 0 || getMaxHumidity() == 0 || getBalancingHumidity() == 0 || getBalanceHumidity() == 0){
+                                            JOptionPane.showMessageDialog(null, "Introduce correct values for humidity!!");
+                                        } else{
+                                            InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinAirTemp(), getMaxAirTemp(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
+                                            InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getbalanceAirTemp(), getbalancingAirTemp(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
+                                            InputParameterProcessor.getInputParameterProcessor().updateOtherParameter(OtherParameters.GROWTH_TIME, getGrowthTime());
 
-                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinWaterTemp(),getMaxWaterTemp(),EnvironmentDeviceTypes.WATER_TEMPERATURE);
-                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinHumidity(),getMaxHumidity(),EnvironmentDeviceTypes.HUMIDITY);
-                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinPhLevel(),getMaxPhLevel(),EnvironmentDeviceTypes.PH_LEVEL);
-                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinEC(),getMaxEC(),EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY);
-//                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinPhosphorus(),getMaxPhosphorus(),EnvironmentDeviceTypes.WATER_TEMPERATURE);
-//                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinPotassium(),getMaxPotassium(),EnvironmentDeviceTypes.WATER_TEMPERATURE);
-//                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinNitrogen(),getMaxNitrogen(),EnvironmentDeviceTypes.WATER_TEMPERATURE);
+                                            InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinWaterTemp(),getMaxWaterTemp(),EnvironmentDeviceTypes.WATER_TEMPERATURE);
+                                            InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinHumidity(),getMaxHumidity(),EnvironmentDeviceTypes.HUMIDITY);
+                                            InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinPhLevel(),getMaxPhLevel(),EnvironmentDeviceTypes.PH_LEVEL);
+                                            InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinEC(),getMaxEC(),EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY);
 
-                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceWaterTemp(), getBalancingWaterTemp(), EnvironmentDeviceTypes.WATER_TEMPERATURE);
-                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceHumidity(), getBalancingHumidity(), EnvironmentDeviceTypes.HUMIDITY);
-                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalancePhLevel(), getBalancingPhLevel(), EnvironmentDeviceTypes.PH_LEVEL);
-                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceEC(), getBalancingEC(), EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY);
-//                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalancePhosphorus(), getBalancingPhosphorus(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
-//                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalancePotassium(), getBalancingPotassium(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
-//                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceEC(), getBalancingEC(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
+                                            InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceWaterTemp(), getBalancingWaterTemp(), EnvironmentDeviceTypes.WATER_TEMPERATURE);
+                                            InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceHumidity(), getBalancingHumidity(), EnvironmentDeviceTypes.HUMIDITY);
+                                            InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalancePhLevel(), getBalancingPhLevel(), EnvironmentDeviceTypes.PH_LEVEL);
+                                            InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceEC(), getBalancingEC(), EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY);
 
+                                            InputParameterProcessor.getInputParameterProcessor().persistParameters();
+                                        }
+                                    }
 
-
-                                    InputParameterProcessor.getInputParameterProcessor().persistParameters();
-                                }
+                                    }
                         }
                     }
                 }
