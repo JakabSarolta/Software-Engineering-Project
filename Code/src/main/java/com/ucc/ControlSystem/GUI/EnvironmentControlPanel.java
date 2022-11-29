@@ -55,9 +55,9 @@ public class EnvironmentControlPanel extends JFrame {
                 pHLevelValueLabel, pHSigma,pHSigma,"Sensor Tendency (unit/sec)",
                 -5,5,1, SLIDER_SCALE_HUNDRED,"Actuator Tendency (unit/sec)",
                 "pH");
-        prepareTab("Electrical Conductivity Controller", "EC (S/m)",
-                ECValueLabel, ECSigma, ECAlpha,"Sensor Tendency (S/m)/sec",
-                -5,5,1, SLIDER_SCALE_HUNDRED,"Actuator Tendency (S/m)/sec",
+        prepareTab("Electrical Conductivity Controller", "EC (dS/m)",
+                ECValueLabel, ECSigma, ECAlpha,"Sensor Tendency (dS/m)/sec",
+                -5,5,1, SLIDER_SCALE_HUNDRED,"Actuator Tendency (dS/m)/sec",
                 "Electrical Conductivity");
     }
 
@@ -234,4 +234,6 @@ public class EnvironmentControlPanel extends JFrame {
     public double getActuatorStrength(){
         return this.airTempAlpha.getValue()/SLIDER_SCALE_TEN;
     }
+
+
 }
