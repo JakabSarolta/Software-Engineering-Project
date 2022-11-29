@@ -2,7 +2,6 @@ package com.ucc.ControlSystem.GUI;
 
 import com.ucc.ControlSystem.ControlSystem.InputParameters.*;
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
-import com.ucc.ControlSystem.Utils.TimeUnits;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -149,6 +148,24 @@ public class AdminControlPanel extends JFrame{
                                     InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinAirTemp(), getMaxAirTemp(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
                                     InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getbalanceAirTemp(), getbalancingAirTemp(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
                                     InputParameterProcessor.getInputParameterProcessor().updateOtherParameter(OtherParameters.GROWTH_TIME, getGrowthTime());
+
+                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinWaterTemp(),getMaxWaterTemp(),EnvironmentDeviceTypes.WATER_TEMPERATURE);
+                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinHumidity(),getMaxHumidity(),EnvironmentDeviceTypes.HUMIDITY);
+                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinPhLevel(),getMaxPhLevel(),EnvironmentDeviceTypes.PH_LEVEL);
+                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinEC(),getMaxEC(),EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY);
+//                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinPhosphorus(),getMaxPhosphorus(),EnvironmentDeviceTypes.WATER_TEMPERATURE);
+//                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinPotassium(),getMaxPotassium(),EnvironmentDeviceTypes.WATER_TEMPERATURE);
+//                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinNitrogen(),getMaxNitrogen(),EnvironmentDeviceTypes.WATER_TEMPERATURE);
+
+                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceWaterTemp(), getBalancingWaterTemp(), EnvironmentDeviceTypes.WATER_TEMPERATURE);
+                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceHumidity(), getBalancingHumidity(), EnvironmentDeviceTypes.HUMIDITY);
+                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalancePhLevel(), getBalancingPhLevel(), EnvironmentDeviceTypes.PH_LEVEL);
+                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceEC(), getBalancingEC(), EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY);
+//                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalancePhosphorus(), getBalancingPhosphorus(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
+//                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalancePotassium(), getBalancingPotassium(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
+//                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceEC(), getBalancingEC(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
+
+
 
                                     InputParameterProcessor.getInputParameterProcessor().persistParameters();
                                 }
@@ -550,12 +567,36 @@ public class AdminControlPanel extends JFrame{
                 if(envParam.getType() == EnvironmentDeviceTypes.AIR_TEMPERATURE){
                     minAirTemp.setText(envParam.getMin()+"");
                     maxAirTemp.setText(envParam.getMax()+"");
+                }else if(envParam.getType() == EnvironmentDeviceTypes.WATER_TEMPERATURE){
+                    minWaterTemp.setText(envParam.getMin()+"");
+                    maxWaterTemp.setText(envParam.getMax()+"");
+                }else if(envParam.getType() == EnvironmentDeviceTypes.HUMIDITY){
+                    minHumidity.setText(envParam.getMin()+"");
+                    maxHumidity.setText(envParam.getMax()+"");
+                }else if(envParam.getType() == EnvironmentDeviceTypes.PH_LEVEL){
+                    minPhLevel.setText(envParam.getMin()+"");
+                    maxPhLevel.setText(envParam.getMax()+"");
+                }else if(envParam.getType() == EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY){
+                    minEC.setText(envParam.getMin()+"");
+                    maxEC.setText(envParam.getMax()+"");
                 }
             }else if(parameter instanceof MeasurementIntervalParameter){
                 MeasurementIntervalParameter mintParam = (MeasurementIntervalParameter) parameter;
                 if(mintParam.getType() == EnvironmentDeviceTypes.AIR_TEMPERATURE){
                     balanceAirTemp.setText(mintParam.getIntervalBalancedState() / 60 +"");
                     balancingAirTemp.setText(mintParam.getIntervalBalancingState() / 60 +"");
+                }else if(mintParam.getType() == EnvironmentDeviceTypes.WATER_TEMPERATURE){
+                    balanceWaterTemp.setText(mintParam.getIntervalBalancedState() / 60 +"");
+                    balancingWaterTemp.setText(mintParam.getIntervalBalancingState() / 60 +"");
+                }else if(mintParam.getType() == EnvironmentDeviceTypes.HUMIDITY){
+                    balanceHumidity.setText(mintParam.getIntervalBalancedState() / 60 +"");
+                    balancingHumidity.setText(mintParam.getIntervalBalancingState() / 60 +"");
+                }else if(mintParam.getType() == EnvironmentDeviceTypes.PH_LEVEL){
+                    balancePhLevel.setText(mintParam.getIntervalBalancedState() / 60 +"");
+                    balancingPhLevel.setText(mintParam.getIntervalBalancingState() / 60 +"");
+                }else if(mintParam.getType() == EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY){
+                    balanceEC.setText(mintParam.getIntervalBalancedState() / 60 +"");
+                    balancingEC.setText(mintParam.getIntervalBalancingState() / 60 +"");
                 }
             }else if(parameter instanceof OtherParameter){
                 OtherParameter othrParam = (OtherParameter) parameter;
@@ -634,5 +675,229 @@ public class AdminControlPanel extends JFrame{
 
     public JLabel getActuatorState() {
         return actuatorState;
+    }
+
+    public Double getMinWaterTemp() {
+        try{
+            return Double.parseDouble(minWaterTemp.getText());
+        }catch(NumberFormatException | NullPointerException n){
+            return 0.0;
+        }
+    }
+
+    public Double getMaxWaterTemp() {
+        try{
+            return Double.parseDouble(maxWaterTemp.getText());
+        }catch(NumberFormatException | NullPointerException n){
+            return 0.0;
+        }
+    }
+
+    public Double getMinHumidity() {
+        try{
+            return Double.parseDouble(minHumidity.getText());
+        }catch(NumberFormatException | NullPointerException n){
+            return 0.0;
+        }
+    }
+
+    public Double getMaxHumidity() {
+        try{
+            return Double.parseDouble(maxHumidity.getText());
+        }catch(NumberFormatException | NullPointerException n){
+            return 0.0;
+        }
+    }
+
+    public Double getMinPhLevel() {
+        try{
+            return Double.parseDouble(minPhLevel.getText());
+        }catch(NumberFormatException | NullPointerException n){
+            return 0.0;
+        }
+    }
+
+    public Double getMaxPhLevel() {
+        try{
+            return Double.parseDouble(maxPhLevel.getText());
+        }catch(NumberFormatException | NullPointerException n){
+            return 0.0;
+        }
+    }
+
+    public Double getMinEC() {
+        try{
+            return Double.parseDouble(minEC.getText());
+        }catch(NumberFormatException | NullPointerException n){
+            return 0.0;
+        }
+    }
+
+    public Double getMaxEC() {
+        try{
+            return Double.parseDouble(maxEC.getText());
+        }catch(NumberFormatException | NullPointerException n){
+            return 0.0;
+        }
+    }
+
+    public Double getMinNitrogen() {
+        try{
+            return Double.parseDouble(minNitrogen.getText());
+        }catch(NumberFormatException | NullPointerException n){
+            return 0.0;
+        }
+    }
+
+    public Double getMaxNitrogen() {
+        try{
+            return Double.parseDouble(maxNitrogen.getText());
+        }catch(NumberFormatException | NullPointerException n){
+            return 0.0;
+        }
+    }
+
+    public Double getMinPhosphorus() {
+        try{
+            return Double.parseDouble(minPhosphorus.getText());
+        }catch(NumberFormatException | NullPointerException n){
+            return 0.0;
+        }
+    }
+
+    public Double getMaxPhosphorus() {
+        try{
+            return Double.parseDouble(maxPhosphorus.getText());
+        }catch(NumberFormatException | NullPointerException n){
+            return 0.0;
+        }
+    }
+
+    public Double getMinPotassium() {
+        try{
+            return Double.parseDouble(minPotassium.getText());
+        }catch(NumberFormatException | NullPointerException n){
+            return 0.0;
+        }
+    }
+
+    public Double getMaxPotassium() {
+        try{
+            return Double.parseDouble(maxPotassium.getText());
+        }catch(NumberFormatException | NullPointerException n){
+            return 0.0;
+        }
+    }
+
+    public int getBalancingWaterTemp() {
+        try{
+            return Integer.parseInt(balancingWaterTemp.getText()) * 60;
+        }catch(NumberFormatException | NullPointerException n){
+            return 0;
+        }
+    }
+
+    public int getBalanceWaterTemp() {
+        try{
+            return Integer.parseInt(balanceWaterTemp.getText()) * 60;
+        }catch(NumberFormatException | NullPointerException n){
+            return 0;
+        }
+    }
+
+    public int getBalancingHumidity() {
+        try{
+            return Integer.parseInt(balancingHumidity.getText()) * 60;
+        }catch(NumberFormatException | NullPointerException n){
+            return 0;
+        }
+    }
+
+    public int getBalanceHumidity() {
+        try{
+            return Integer.parseInt(balanceHumidity.getText()) * 60;
+        }catch(NumberFormatException | NullPointerException n){
+            return 0;
+        }
+    }
+
+    public int getBalancingPhLevel() {
+        try{
+            return Integer.parseInt(balancingPhLevel.getText()) * 60;
+        }catch(NumberFormatException | NullPointerException n){
+            return 0;
+        }
+    }
+
+    public int getBalancePhLevel() {
+        try{
+            return Integer.parseInt(balancePhLevel.getText()) * 60;
+        }catch(NumberFormatException | NullPointerException n){
+            return 0;
+        }
+    }
+
+    public int getBalancingEC() {
+        try{
+            return Integer.parseInt(balancingEC.getText()) * 60;
+        }catch(NumberFormatException | NullPointerException n){
+            return 0;
+        }
+    }
+
+    public int getBalanceEC() {
+        try{
+            return Integer.parseInt(balanceEC.getText()) * 60;
+        }catch(NumberFormatException | NullPointerException n){
+            return 0;
+        }
+    }
+
+    public int getBalancingPhosphorus() {
+        try{
+            return Integer.parseInt(balancePhosphorus.getText()) * 60;
+        }catch(NumberFormatException | NullPointerException n){
+            return 0;
+        }
+    }
+
+    public int getBalancePhosphorus() {
+        try{
+            return Integer.parseInt(balancePhosphorus.getText()) * 60;
+        }catch(NumberFormatException | NullPointerException n){
+            return 0;
+        }
+    }
+
+    public int getBalancingNitrogen() {
+        try{
+            return Integer.parseInt(balancingNitrogen.getText()) * 60;
+        }catch(NumberFormatException | NullPointerException n){
+            return 0;
+        }
+    }
+
+    public int getBalanceNitrogen() {
+        try{
+            return Integer.parseInt(balanceNitrogen.getText()) * 60;
+        }catch(NumberFormatException | NullPointerException n){
+            return 0;
+        }
+    }
+
+    public int getBalancingPotassium() {
+        try{
+            return Integer.parseInt(balancingPotassium.getText()) * 60;
+        }catch(NumberFormatException | NullPointerException n){
+            return 0;
+        }
+    }
+
+    public int getBalancePotassium() {
+        try{
+            return Integer.parseInt(balancePotassium.getText()) * 60;
+        }catch(NumberFormatException | NullPointerException n){
+            return 0;
+        }
     }
 }

@@ -91,8 +91,9 @@ public class InputParameterProcessor {
         EnvironmentPropertyParameter clone = environmentPropertyParameterMap.get(propertyType).clone();
         clone.setMin(min);
         clone.setMax(max);
-        if (clone.isValid()){
-            environmentPropertyParameterMap.put(propertyType,clone);
+
+        if (clone.isValid()) {
+            environmentPropertyParameterMap.put(propertyType, clone);
         }
     }
 
@@ -157,14 +158,20 @@ public class InputParameterProcessor {
         for(EnvironmentDeviceTypes e : EnvironmentDeviceTypes.values()){
 
             EnvironmentPropertyParameter param = null;
-            SystemConfigurationReader systemConfigurationReader = SystemConfigurationReader.getSystemConfigurationReader();
-            double valid_min = Double.parseDouble(systemConfigurationReader.readParam(SystemConfigParameters.valueOf(e+"_VALID_MIN")));
-            double valid_max = Double.parseDouble(systemConfigurationReader.readParam(SystemConfigParameters.valueOf(e+"_VALID_MAX")));
-            double precision = Double.parseDouble(systemConfigurationReader.readParam(SystemConfigParameters.valueOf(e+"_PRECISION")));
+            double valid_min = getSysConfValForParam(e+"_VALID_MIN");
+            double valid_max = getSysConfValForParam(e+"_VALID_MAX");
+            double precision = getSysConfValForParam(e+"_PRECISION");
 
-            Object dbEntry = HSQLQueries.getHSQLQueries().getParameterByType(EnvironmentPropertyParameter.class,EnvironmentDeviceTypes.AIR_TEMPERATURE);
+            Object dbEntry = HSQLQueries.getHSQLQueries().getParameterByType(EnvironmentPropertyParameter.class,e);
             if(dbEntry == null){
+                Session  s= ConnectionFactory.getConnectionFactory().getSessionFactory().openSession();
+                s.beginTransaction();
+
                 param = new EnvironmentPropertyParameter(valid_min, valid_max, precision, e);
+                s.persist(param);
+
+                s.getTransaction().commit();
+                s.close();
             }else{
                 // there is a unique constraint on the column type, so for sure only one will exist
                 param =(EnvironmentPropertyParameter) dbEntry;
@@ -226,5 +233,10 @@ public class InputParameterProcessor {
 
     private boolean isLightTimeValid(int lightTime){
         return lightTime >= LIGHT_TIME_MIN && lightTime <= LIGHT_TIME_MAX;
+    }
+
+    private Double getSysConfValForParam(String paramName){
+        return Double.parseDouble(SystemConfigurationReader.getSystemConfigurationReader().
+                readParam(SystemConfigParameters.valueOf(paramName)));
     }
 }
