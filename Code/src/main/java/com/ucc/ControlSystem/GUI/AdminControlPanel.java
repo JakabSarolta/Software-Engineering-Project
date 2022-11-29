@@ -67,11 +67,10 @@ public class AdminControlPanel extends JFrame{
     private final JLabel actuatorState4 = new JLabel("Off", JLabel.CENTER);
     private final JLabel actuatorState5 = new JLabel("Off", JLabel.CENTER);
     private final JLabel actuatorState6 = new JLabel("Off", JLabel.CENTER);
-    /*private final JLabel simulationTimeLabel = new JLabel("Simulation time: [sec]");
-    private final JLabel saladSimulationTimeLabel = new JLabel("Salad simulation time:");
-    private final JTextField simulationTime = new JTextField();
-    private final JTextField saladSimulationTime = new JTextField();
-    private final JComboBox saladUnit = new JComboBox(TimeUnits.values());*/
+
+    private final JButton generateReport = new JButton("GENERATE");
+    private final JComboBox parametersBox = new JComboBox(EnvironmentDeviceTypes.values());
+    private final JTextField day = new JTextField();
 
     Font  f1  = new Font("Our font", Font.BOLD, 16);
     Font  f2  = new Font("Our font", Font.BOLD, 14);
@@ -209,12 +208,38 @@ public class AdminControlPanel extends JFrame{
         c2.gridy = 3;
         card2.add(startButtonPanel,c2);
 
+        setReportPanel();
+
         tabbedPane.addTab(INITIALIZEPANEL, card1);
         tabbedPane.addTab(MONITORPANEL, card2);
         tabbedPane.addTab(ALERTSPANEL, card3);
         tabbedPane.addTab(REPORTSPANEL, card4);
         this.add(tabbedPane, BorderLayout.CENTER);
         this.setContentPane(this.tabbedPane);
+    }
+
+    private void setReportPanel(){
+        card4.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridx = 0;
+        c.gridy = 0;
+        c.ipady = 80;
+        card4.setFont(f2);
+        card4.add(new JLabel("Select the day:", JLabel.CENTER), c);
+        c.gridx = 2;
+        c.ipady = 80;
+        c.ipadx = 200;
+        card4.add(day, c);
+        c.gridx = 0;
+        c.gridy = 1;
+        c.ipadx = 0;
+        card4.add(new JLabel("Select the parameter:", JLabel.CENTER), c);
+        c.gridx = 2;
+        c.gridy = 1;
+        card4.add(parametersBox, c);
+        c.gridx = 1;
+        c.gridy = 2;
+        card4.add(generateReport, c);
     }
 
     private void setMonitorWindow(){
