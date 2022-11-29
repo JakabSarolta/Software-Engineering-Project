@@ -38,12 +38,8 @@ public class AdminControlPanel extends JFrame{
     private final JTextField maxPhLevel = new JTextField();
     private final JTextField minEC = new JTextField();
     private final JTextField maxEC = new JTextField();
-    private final JTextField minNitrogen = new JTextField();
-    private final JTextField maxNitrogen = new JTextField();
-    private final JTextField minPhosphorus = new JTextField();
-    private final JTextField maxPhosphorus = new JTextField();
-    private final JTextField minPotassium = new JTextField();
-    private final JTextField maxPotassium = new JTextField();
+    private final JTextField minWaterLevel = new JTextField();
+    private final JTextField maxWaterLevel = new JTextField();
     private final JTextField balancingAirTemp = new JTextField();
     private final JTextField balanceAirTemp = new JTextField();
     private final JTextField balancingWaterTemp = new JTextField();
@@ -54,12 +50,8 @@ public class AdminControlPanel extends JFrame{
     private final JTextField balancePhLevel = new JTextField();
     private final JTextField balancingEC = new JTextField();
     private final JTextField balanceEC= new JTextField();
-    private final JTextField balancingPhosphorus = new JTextField();
-    private final JTextField balancePhosphorus = new JTextField();
-    private final JTextField balancingNitrogen = new JTextField();
-    private final JTextField balanceNitrogen = new JTextField();
-    private final JTextField balancingPotassium = new JTextField();
-    private final JTextField balancePotassium = new JTextField();
+    private final JTextField balancingWaterLevel = new JTextField();
+    private final JTextField balanceWaterLevel = new JTextField();
     private final JLabel empty = new JLabel("-", JLabel.CENTER);
     private final JLabel empty4 = new JLabel("Actuator state:", JLabel.CENTER);
     private final JLabel currentTime = new JLabel("", JLabel.CENTER);
@@ -67,9 +59,7 @@ public class AdminControlPanel extends JFrame{
     private final JLabel currentHumidity = new JLabel("", JLabel.CENTER);
     private final JLabel currentPhLevel = new JLabel("", JLabel.CENTER);
     private final JLabel currentEC = new JLabel("", JLabel.CENTER);
-    private final JLabel currentNitrogen = new JLabel("", JLabel.CENTER);
-    private final JLabel currentPhosphorus = new JLabel("", JLabel.CENTER);
-    private final JLabel currentPotassium = new JLabel("", JLabel.CENTER);
+    private final JLabel currentWaterLevel = new JLabel("", JLabel.CENTER);
     private final JLabel currentTemp = new JLabel("", JLabel.CENTER);
     private final JLabel actuatorState = new JLabel("Off", JLabel.CENTER);
     private final JLabel actuatorState2 = new JLabel("Off", JLabel.CENTER);
@@ -77,8 +67,6 @@ public class AdminControlPanel extends JFrame{
     private final JLabel actuatorState4 = new JLabel("Off", JLabel.CENTER);
     private final JLabel actuatorState5 = new JLabel("Off", JLabel.CENTER);
     private final JLabel actuatorState6 = new JLabel("Off", JLabel.CENTER);
-    private final JLabel actuatorState7 = new JLabel("Off", JLabel.CENTER);
-    private final JLabel actuatorState8 = new JLabel("Off", JLabel.CENTER);
     /*private final JLabel simulationTimeLabel = new JLabel("Simulation time: [sec]");
     private final JLabel saladSimulationTimeLabel = new JLabel("Salad simulation time:");
     private final JTextField simulationTime = new JTextField();
@@ -229,7 +217,7 @@ public class AdminControlPanel extends JFrame{
     }
 
     private void setMonitorWindow(){
-        currentValuesPanel.setLayout(new GridLayout(9, 4));
+        currentValuesPanel.setLayout(new GridLayout(7, 4));
         currentValuesPanel.setBorder(LineBorder.createBlackLineBorder());
         JLabel currentTimeLabel = new JLabel("Current growing time:");
         currentTimeLabel.setFont(f1);
@@ -270,7 +258,7 @@ public class AdminControlPanel extends JFrame{
         currentHumidity.setFont(f1);
         currentHumidity.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(currentHumidity);
-        currentValuesPanel.add(new JLabel(""));
+        currentValuesPanel.add(empty4);
         actuatorState3.setFont(f1);
         actuatorState3.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(actuatorState3);
@@ -281,7 +269,7 @@ public class AdminControlPanel extends JFrame{
         currentPhLevel.setFont(f1);
         currentPhLevel.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(currentPhLevel);;
-        currentValuesPanel.add(empty4);
+        currentValuesPanel.add(new JLabel(""));
         actuatorState4.setFont(f1);
         actuatorState4.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(actuatorState4);
@@ -296,48 +284,17 @@ public class AdminControlPanel extends JFrame{
         actuatorState5.setFont(f1);
         actuatorState5.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(actuatorState5);
-        JLabel nitrogenLabel = new JLabel("Nitrogen:");
-        nitrogenLabel.setFont(f1);
-        nitrogenLabel.setBorder(LineBorder.createBlackLineBorder());
-        currentValuesPanel.add(nitrogenLabel);
-        currentNitrogen.setFont(f1);
-        currentNitrogen.setBorder(LineBorder.createBlackLineBorder());
-        currentValuesPanel.add(currentNitrogen);
+        JLabel waterLevelLabel = new JLabel("Water level:");
+        waterLevelLabel.setFont(f1);
+        waterLevelLabel.setBorder(LineBorder.createBlackLineBorder());
+        currentValuesPanel.add(waterLevelLabel);
+        currentWaterLevel.setFont(f1);
+        currentWaterLevel.setBorder(LineBorder.createBlackLineBorder());
+        currentValuesPanel.add(currentWaterLevel);
         currentValuesPanel.add(new JLabel(""));
         actuatorState6.setFont(f1);
         actuatorState6.setBorder(LineBorder.createBlackLineBorder());
         currentValuesPanel.add(actuatorState6);
-        JLabel phosphorusLabel = new JLabel("Phosphorus:");
-        phosphorusLabel.setFont(f1);
-        phosphorusLabel.setBorder(LineBorder.createBlackLineBorder());
-        currentValuesPanel.add(phosphorusLabel);
-        currentPhosphorus.setFont(f1);
-        currentPhosphorus.setBorder(LineBorder.createBlackLineBorder());
-        currentValuesPanel.add(currentPhosphorus);
-        currentValuesPanel.add(new JLabel(""));
-        actuatorState7.setFont(f1);
-        actuatorState7.setBorder(LineBorder.createBlackLineBorder());
-        currentValuesPanel.add(actuatorState7);
-        JLabel potassiumLabel = new JLabel("Potassium:");
-        potassiumLabel.setFont(f1);
-        potassiumLabel.setBorder(LineBorder.createBlackLineBorder());
-        currentValuesPanel.add(potassiumLabel);
-        currentPotassium.setFont(f1);
-        currentPotassium.setBorder(LineBorder.createBlackLineBorder());
-        currentValuesPanel.add(currentPotassium);
-        currentValuesPanel.add(new JLabel(""));
-        actuatorState8.setFont(f1);
-        actuatorState8.setBorder(LineBorder.createBlackLineBorder());
-        currentValuesPanel.add(actuatorState8);
-
-        /*simulationTimesPanel.setLayout(new GridLayout(2,3));
-        simulationTimesPanel.setFont(f1);
-        simulationTimesPanel.add(simulationTimeLabel);
-        simulationTimesPanel.add(simulationTime);
-        simulationTimesPanel.add(new JLabel(""));
-        simulationTimesPanel.add(saladSimulationTimeLabel);
-        simulationTimesPanel.add(saladSimulationTime);
-        simulationTimesPanel.add(saladUnit);*/
     }
     private void setInitializeParametersWindow(){
         growthTime.setHorizontalAlignment(JTextField.CENTER);
@@ -351,12 +308,8 @@ public class AdminControlPanel extends JFrame{
         maxPhLevel.setHorizontalAlignment(JTextField.CENTER);
         minEC.setHorizontalAlignment(JTextField.CENTER);
         maxEC.setHorizontalAlignment(JTextField.CENTER);
-        minNitrogen.setHorizontalAlignment(JTextField.CENTER);
-        maxNitrogen.setHorizontalAlignment(JTextField.CENTER);
-        minPhosphorus.setHorizontalAlignment(JTextField.CENTER);
-        maxPhosphorus.setHorizontalAlignment(JTextField.CENTER);
-        minPotassium.setHorizontalAlignment(JTextField.CENTER);
-        maxPotassium.setHorizontalAlignment(JTextField.CENTER);
+        minWaterLevel.setHorizontalAlignment(JTextField.CENTER);
+        maxWaterLevel.setHorizontalAlignment(JTextField.CENTER);
         balancingAirTemp.setHorizontalAlignment(JTextField.CENTER);
         balanceAirTemp.setHorizontalAlignment(JTextField.CENTER);
         balancingWaterTemp.setHorizontalAlignment(JTextField.CENTER);
@@ -367,12 +320,8 @@ public class AdminControlPanel extends JFrame{
         balancePhLevel.setHorizontalAlignment(JTextField.CENTER);
         balancingEC.setHorizontalAlignment(JTextField.CENTER);
         balanceEC.setHorizontalAlignment(JTextField.CENTER);
-        balancingNitrogen.setHorizontalAlignment(JTextField.CENTER);
-        balanceNitrogen.setHorizontalAlignment(JTextField.CENTER);
-        balancingPhosphorus.setHorizontalAlignment(JTextField.CENTER);
-        balancePhosphorus.setHorizontalAlignment(JTextField.CENTER);
-        balancingPotassium.setHorizontalAlignment(JTextField.CENTER);
-        balancePotassium.setHorizontalAlignment(JTextField.CENTER);
+        balancingWaterLevel.setHorizontalAlignment(JTextField.CENTER);
+        balanceWaterLevel.setHorizontalAlignment(JTextField.CENTER);
 
         JLabel growthTimeLabel = new JLabel("Growth time:");
         growthTimeLabel.setFont(f2);
@@ -388,12 +337,8 @@ public class AdminControlPanel extends JFrame{
         phLevelLabel.setFont(f2);
         JLabel ECLabel = new JLabel("Electrical Conductivity:");
         ECLabel.setFont(f2);
-        JLabel nitrogenLabel = new JLabel("Nitrogen:");
-        nitrogenLabel.setFont(f2);
-        JLabel phosphorusLabel = new JLabel("Phosphorus:");
-        phosphorusLabel.setFont(f2);
-        JLabel potassiumLabel = new JLabel("Potassium:");
-        potassiumLabel.setFont(f2);
+        JLabel waterLevelLabel = new JLabel("Water level:");
+        waterLevelLabel.setFont(f2);
         JLabel minLabel = new JLabel("Min. [\u00B0C]", JLabel.CENTER);
         minLabel.setFont(f2);
         JLabel maxLabel = new JLabel("Max. [\u00B0C]", JLabel.CENTER);
@@ -513,51 +458,19 @@ public class AdminControlPanel extends JFrame{
 
         cc.gridx = 0;
         cc.gridy = 7;
-        parameters.add(nitrogenLabel, cc);
+        parameters.add(waterLevelLabel, cc);
         cc.gridx = 1;
         cc.ipadx = 80;
-        parameters.add(minNitrogen, cc);
+        parameters.add(minWaterLevel, cc);
         cc.gridx = 2;
         cc.ipadx = 80;
-        parameters.add(maxNitrogen, cc);
+        parameters.add(maxWaterLevel, cc);
         cc.gridx = 3;
         cc.ipadx = 50;
-        parameters.add(balancingNitrogen, cc);
+        parameters.add(balancingWaterLevel, cc);
         cc.gridx = 4;
         cc.ipadx = 50;
-        parameters.add(balanceNitrogen, cc);
-
-        cc.gridx = 0;
-        cc.gridy = 8;
-        parameters.add(phosphorusLabel, cc);
-        cc.gridx = 1;
-        cc.ipadx = 80;
-        parameters.add(minPhosphorus, cc);
-        cc.gridx = 2;
-        cc.ipadx = 80;
-        parameters.add(maxPhosphorus, cc);
-        cc.gridx = 3;
-        cc.ipadx = 50;
-        parameters.add(balancingPhosphorus, cc);
-        cc.gridx = 4;
-        cc.ipadx = 50;
-        parameters.add(balancePhosphorus, cc);
-
-        cc.gridx = 0;
-        cc.gridy = 9;
-        parameters.add(potassiumLabel, cc);
-        cc.gridx = 1;
-        cc.ipadx = 80;
-        parameters.add(minPotassium, cc);
-        cc.gridx = 2;
-        cc.ipadx = 80;
-        parameters.add(maxPotassium, cc);
-        cc.gridx = 3;
-        cc.ipadx = 50;
-        parameters.add(balancingPotassium, cc);
-        cc.gridx = 4;
-        cc.ipadx = 50;
-        parameters.add(balancePotassium, cc);
+        parameters.add(balanceWaterLevel, cc);
     }
 
     public void populateFields(List<InputParameter> inputParameterList){
@@ -741,49 +654,17 @@ public class AdminControlPanel extends JFrame{
         }
     }
 
-    public Double getMinNitrogen() {
+    public Double getMinWaterLevel() {
         try{
-            return Double.parseDouble(minNitrogen.getText());
+            return Double.parseDouble(minWaterLevel.getText());
         }catch(NumberFormatException | NullPointerException n){
             return 0.0;
         }
     }
 
-    public Double getMaxNitrogen() {
+    public Double getMaxWaterLevel() {
         try{
-            return Double.parseDouble(maxNitrogen.getText());
-        }catch(NumberFormatException | NullPointerException n){
-            return 0.0;
-        }
-    }
-
-    public Double getMinPhosphorus() {
-        try{
-            return Double.parseDouble(minPhosphorus.getText());
-        }catch(NumberFormatException | NullPointerException n){
-            return 0.0;
-        }
-    }
-
-    public Double getMaxPhosphorus() {
-        try{
-            return Double.parseDouble(maxPhosphorus.getText());
-        }catch(NumberFormatException | NullPointerException n){
-            return 0.0;
-        }
-    }
-
-    public Double getMinPotassium() {
-        try{
-            return Double.parseDouble(minPotassium.getText());
-        }catch(NumberFormatException | NullPointerException n){
-            return 0.0;
-        }
-    }
-
-    public Double getMaxPotassium() {
-        try{
-            return Double.parseDouble(maxPotassium.getText());
+            return Double.parseDouble(maxWaterLevel.getText());
         }catch(NumberFormatException | NullPointerException n){
             return 0.0;
         }
@@ -853,49 +734,17 @@ public class AdminControlPanel extends JFrame{
         }
     }
 
-    public int getBalancingPhosphorus() {
+    public int getBalancingWaterLevel() {
         try{
-            return Integer.parseInt(balancePhosphorus.getText()) * 60;
+            return Integer.parseInt(balancingWaterLevel.getText()) * 60;
         }catch(NumberFormatException | NullPointerException n){
             return 0;
         }
     }
 
-    public int getBalancePhosphorus() {
+    public int getBalanceWaterLevel() {
         try{
-            return Integer.parseInt(balancePhosphorus.getText()) * 60;
-        }catch(NumberFormatException | NullPointerException n){
-            return 0;
-        }
-    }
-
-    public int getBalancingNitrogen() {
-        try{
-            return Integer.parseInt(balancingNitrogen.getText()) * 60;
-        }catch(NumberFormatException | NullPointerException n){
-            return 0;
-        }
-    }
-
-    public int getBalanceNitrogen() {
-        try{
-            return Integer.parseInt(balanceNitrogen.getText()) * 60;
-        }catch(NumberFormatException | NullPointerException n){
-            return 0;
-        }
-    }
-
-    public int getBalancingPotassium() {
-        try{
-            return Integer.parseInt(balancingPotassium.getText()) * 60;
-        }catch(NumberFormatException | NullPointerException n){
-            return 0;
-        }
-    }
-
-    public int getBalancePotassium() {
-        try{
-            return Integer.parseInt(balancePotassium.getText()) * 60;
+            return Integer.parseInt(balanceWaterLevel.getText()) * 60;
         }catch(NumberFormatException | NullPointerException n){
             return 0;
         }
