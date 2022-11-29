@@ -45,7 +45,7 @@ public class EnvironmentControlPanel extends JFrame {
         this.setSize(775,350);
         startSimulation();
         airTempSigma = createSlider(-5, 5, 1, SLIDER_SCALE_TEN);
-        airTempAlpha = createSlider(-5, 5, 1, SLIDER_SCALE_TEN);
+        airTempAlpha = createSlider(0, 5, 1, SLIDER_SCALE_TEN);
         airTempValueLabel = new JLabel("", JLabel.CENTER);
 
         airTempSigma.addChangeListener(new ChangeListener() {
@@ -66,7 +66,7 @@ public class EnvironmentControlPanel extends JFrame {
                 "Air Temperature");
 
         waterTempSigma = createSlider(-5, 5, 1, SLIDER_SCALE_TEN);
-        waterTempAlpha = createSlider(-5, 5, 1, SLIDER_SCALE_TEN);
+        waterTempAlpha = createSlider(0, 5, 1, SLIDER_SCALE_TEN);
         waterTempValueLabel = new JLabel("", JLabel.CENTER);
         waterTempSigma.addChangeListener(new ChangeListener() {
             @Override
@@ -86,7 +86,7 @@ public class EnvironmentControlPanel extends JFrame {
                 "Water Temperature");
 
         humiditySigma = createSlider(-9,9,1, SLIDER_SCALE_TEN);
-        humidityAlpha = createSlider(-9,9,1 ,SLIDER_SCALE_TEN);
+        humidityAlpha = createSlider(0,9,1 ,SLIDER_SCALE_TEN);
         humidityValueLabel = new JLabel("", JLabel.CENTER);
         humiditySigma.addChangeListener(new ChangeListener() {
             @Override
@@ -104,13 +104,9 @@ public class EnvironmentControlPanel extends JFrame {
                 humidityValueLabel, humiditySigma, humidityAlpha,"Sensor Tendency (%/sec)",
                 "Actuator Tendency (%/sec)",
                 "Humidity");
-//        prepareTab("Water Level Controller", "Level (L)",
-//                waterLevelValueLabel, waterLevelSigma,waterLevelAlpha,"Sensor Tendency (L/sec)",
-//                -5,5,1, SLIDER_SCALE_TEN,"Actuator Tendency (L/sec)",
-//                "Water Level");
 
         pHSigma = createSlider(-5,5,1, SLIDER_SCALE_HUNDRED);
-        pHAlpha = createSlider(-5,5,1, SLIDER_SCALE_HUNDRED);
+        pHAlpha = createSlider(0,5,1, SLIDER_SCALE_HUNDRED);
         pHLevelValueLabel = new JLabel("", JLabel.CENTER);
         pHSigma.addChangeListener(new ChangeListener() {
             @Override
@@ -130,7 +126,7 @@ public class EnvironmentControlPanel extends JFrame {
                 "pH");
 
         ECSigma = createSlider(-5,5,1, SLIDER_SCALE_HUNDRED);
-        ECAlpha = createSlider(-5,5,1, SLIDER_SCALE_HUNDRED);
+        ECAlpha = createSlider(0,5,1, SLIDER_SCALE_HUNDRED);
         ECValueLabel = new JLabel("", JLabel.CENTER);
         ECSigma.addChangeListener(new ChangeListener() {
             @Override
@@ -150,7 +146,7 @@ public class EnvironmentControlPanel extends JFrame {
 
 
         waterLevelSigma = createSlider(-10,10,1, SLIDER_SCALE_TEN);
-        waterLevelAlpha = createSlider(-10,10,1, SLIDER_SCALE_TEN);
+        waterLevelAlpha = createSlider(0,10,1, SLIDER_SCALE_TEN);
         waterLevelValueLabel = new JLabel("", JLabel.CENTER);
         waterLevelSigma.addChangeListener(new ChangeListener() {
             @Override

@@ -53,11 +53,8 @@ public class Controller{
             if (sentinel.isGrowthTimeDue(currentTime)) {
                 currentState = States.GROWTH_ENDED;
             } else {
-                 sentinel.checkPeriodically(currentTime,parametersToBeBalanced);
                 sentinel.checkPeriodically(currentTime,parametersToBeBalanced);
             }
-            environmentBalancer.balanceEnvironment(currentTime, parametersToBeBalanced);
-
 
             currentState = environmentBalancer.balanceEnvironment(currentTime, parametersToBeBalanced);
 
@@ -69,7 +66,7 @@ public class Controller{
             }
 
         }else if(currentState == States.ALERTED){
-            com.ucc.ControlSystem.EnvironmentSimulator.Controller.suspendSimulation();
+            currentState = States.BALANCED;
         }else{
             com.ucc.ControlSystem.EnvironmentSimulator.Controller.stopSimulation();
         }

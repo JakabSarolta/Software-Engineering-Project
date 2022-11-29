@@ -73,6 +73,9 @@ public class EnvironmentBalancer {
                     || (!shouldRise.get(device) && measurement >= lastMeasuredValue.get(device)))){
                         Alert.alert("Reason: " + device + " rising: " + !shouldRise.get(device), "ALERT");
                         new Measurement(device,measurement,States.ALERTED,currentTime).saveMeasurement();
+
+                        timeWhenLastMeasured.put(device,currentTime);
+
                         return States.ALERTED;
                     }
 

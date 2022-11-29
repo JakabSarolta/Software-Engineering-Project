@@ -54,18 +54,6 @@ public class Controller implements Runnable{
         exit = true;
     }
 
-    public static void suspendSimulation(){
-        try {
-            manager.wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void resumeSimulation(){
-        manager.notify();
-    }
-
     /**
      * The main thread that simulates the change of time. It runs the while loop
      * every second (in the life of a salad). Each time makes a measurement, calls
@@ -114,7 +102,6 @@ public class Controller implements Runnable{
                 e.printStackTrace();
             }
         }
-//        ReportGenerator.getReportGenerator().generateReport(0);
     }
 
 
