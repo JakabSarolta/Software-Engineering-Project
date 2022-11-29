@@ -21,9 +21,8 @@ public class EnvironmentControlPanel extends JFrame {
     private JPanel airTempPanel;
     private JTabbedPane tabs;
     private JTextField simulationTimeTextField, saladSimulationTimeText;
-    private JSlider airTempSigma;
-    private JSlider airTempAlpha;
-    private JSlider waterTempSigma;
+    private JSlider airTempSigma, waterTempSigma, humiditySigma, waterLevelSigma, pHSigma, ECSigma;
+    private JSlider airTempAlpha, waterTempAlpha, humidityAlpha, waterLevelAlpha, pHAlpha, ECAlpha;
     private JComboBox timeUnitsComboBox, displayTimeUnitComboBox;
 
     private final double SLIDER_SCALE_TEN = 10.0;
@@ -37,27 +36,27 @@ public class EnvironmentControlPanel extends JFrame {
         this.setSize(775,350);
         startSimulation();
         prepareTab("Air Temperature Controller", "Temperature (\u00B0C)",
-                airTempValueLabel, "Sensor Tendency (\u00B0C/sec)",
+                airTempValueLabel, airTempSigma, airTempAlpha,"Sensor Tendency (\u00B0C/sec)",
                 -5,5,1, SLIDER_SCALE_TEN,"Actuator Tendency (\u00B0C/sec)",
                 "Air Temperature");
         prepareTab("Water Temperature Controller", "Temperature (\u00B0C)",
-                waterTempValueLabel, "Sensor Tendency (\u00B0C/sec)",
+                waterTempValueLabel, waterTempSigma, waterTempAlpha,"Sensor Tendency (\u00B0C/sec)",
                 -5,5,1, SLIDER_SCALE_TEN,"Actuator Tendency (\u00B0C/sec)",
                 "Water Temperature");
         prepareTab("Humidity Controller", "Humidity (%)",
-                humidityValueLabel, "Sensor Tendency (%/sec)",
+                humidityValueLabel, humiditySigma, humidityAlpha,"Sensor Tendency (%/sec)",
                 -9,9,1, SLIDER_SCALE_TEN,"Actuator Tendency (%/sec)",
                 "Humidity");
-        prepareTab("Water Level Controller", "Level (l)",
-                waterLevelValueLabel, "Sensor Tendency (L/sec)",
+        prepareTab("Water Level Controller", "Level (L)",
+                waterLevelValueLabel, waterLevelSigma,waterLevelAlpha,"Sensor Tendency (L/sec)",
                 -5,5,1, SLIDER_SCALE_TEN,"Actuator Tendency (L/sec)",
                 "Water Level");
         prepareTab("pH Controller", "ph Level",
-                pHLevelValueLabel, "Sensor Tendency (unit/sec)",
+                pHLevelValueLabel, pHSigma,pHSigma,"Sensor Tendency (unit/sec)",
                 -5,5,1, SLIDER_SCALE_HUNDRED,"Actuator Tendency (unit/sec)",
                 "pH");
         prepareTab("Electrical Conductivity Controller", "EC (S/m)",
-                ECValueLabel, "Sensor Tendency (S/m)/sec",
+                ECValueLabel, ECSigma, ECAlpha,"Sensor Tendency (S/m)/sec",
                 -5,5,1, SLIDER_SCALE_HUNDRED,"Actuator Tendency (S/m)/sec",
                 "Electrical Conductivity");
     }
@@ -130,6 +129,7 @@ public class EnvironmentControlPanel extends JFrame {
     }
 
     public void prepareTab(String mainTitle, String nameAndMeasurement, JLabel measurementValueLabel,
+                           JSlider sigma, JSlider alpha,
                            String sensor, int tendencyMin, int tendencyMax, int spacing, double sliderScale,
                            String actuator, String tabTitle){
         JPanel panel = new JPanel(new GridLayout(7, 1));
@@ -150,21 +150,23 @@ public class EnvironmentControlPanel extends JFrame {
         panel.add(upperPanel);
         JLabel sensorTendencyLabel = new JLabel(sensor, JLabel.CENTER);
         panel.add(sensorTendencyLabel);
-        JSlider sigma = createSlider(tendencyMin, tendencyMax, spacing, sliderScale);
+        sigma = createSlider(tendencyMin, tendencyMax, spacing, sliderScale);
+        JSlider finalSigma = sigma;
         sigma.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                setSensorValue(sigma.getValue());
+                setSensorValue(finalSigma.getValue());
             }
         });
         panel.add(sigma);
         JLabel actuatorTendencyLabel = new JLabel(actuator, JLabel.CENTER);
         panel.add(actuatorTendencyLabel);
-        JSlider alpha = createSlider(tendencyMin, tendencyMax, spacing, sliderScale);
+        alpha = createSlider(tendencyMin, tendencyMax, spacing, sliderScale);
+        JSlider finalAlpha = alpha;
         alpha.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-//                setActuatorValue(airTempAlpha.getValue());
+                setActuatorValue(finalAlpha.getValue());
             }
         });
         panel.add(alpha);
