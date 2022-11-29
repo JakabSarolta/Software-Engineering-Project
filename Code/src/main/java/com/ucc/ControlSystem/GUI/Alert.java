@@ -7,7 +7,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class Alert {
-    public static void alert(String msg){
+    public static void alert(String msg) {
         JFrame alertFrame = new JFrame();
         alertFrame.addWindowListener(new WindowAdapter() {
             @Override

@@ -211,12 +211,18 @@ public class EnvironmentControlPanel extends JFrame {
                 setSensorValue(ECSigma.getValue(),EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY,SLIDER_SCALE_HUNDRED);
                 setActuatorValue(ECAlpha.getValue(),EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY,SLIDER_SCALE_HUNDRED);
 
-
-                int simulationSaladTimeSeconds = Integer.parseInt(saladSimulationTimeText.getText()) *
-                        ((TimeUnits)timeUnitsComboBox.getSelectedItem()).getVal();
-
-                Controller.startSimulation(EnvironmentControlPanel.getEnvironmentControlPanel(),simulationSaladTimeSeconds,
-                        Integer.parseInt(simulationTimeTextField.getText()));
+                try{
+                    int simulationSaladTimeSeconds = Integer.parseInt(saladSimulationTimeText.getText()) *
+                            ((TimeUnits)timeUnitsComboBox.getSelectedItem()).getVal();
+                    if (simulationSaladTimeSeconds <= 0 || Integer.parseInt(simulationTimeTextField.getText()) <= 0){
+                        throw new NumberFormatException("Negative");
+                    }
+                    Controller.startSimulation(EnvironmentControlPanel.getEnvironmentControlPanel(),simulationSaladTimeSeconds,
+                            Integer.parseInt(simulationTimeTextField.getText()));
+                } catch (NumberFormatException nfe){
+                    Alert.alert("Invalid simulation time.\nYou should insert positive integers",
+                            "Invalid input");
+                }
             }
         });
         buttonPanel.add(startButton);

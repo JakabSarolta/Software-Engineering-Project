@@ -70,11 +70,10 @@ public class AdminControlPanel extends JFrame{
     private final JLabel actuatorState4 = new JLabel("Off", JLabel.CENTER);
     private final JLabel actuatorState5 = new JLabel("Off", JLabel.CENTER);
     private final JLabel actuatorState6 = new JLabel("Off", JLabel.CENTER);
-    /*private final JLabel simulationTimeLabel = new JLabel("Simulation time: [sec]");
-    private final JLabel saladSimulationTimeLabel = new JLabel("Salad simulation time:");
-    private final JTextField simulationTime = new JTextField();
-    private final JTextField saladSimulationTime = new JTextField();
-    private final JComboBox saladUnit = new JComboBox(TimeUnits.values());*/
+
+    private final JButton generateReport = new JButton("GENERATE");
+    private final JComboBox parametersBox = new JComboBox(EnvironmentDeviceTypes.values());
+    private final JTextField day = new JTextField();
 
     Font  f1  = new Font("Our font", Font.BOLD, 16);
     Font  f2  = new Font("Our font", Font.BOLD, 14);
@@ -126,42 +125,43 @@ public class AdminControlPanel extends JFrame{
                 if (getGrowthTime() == 0){
                     JOptionPane.showMessageDialog(null, "Introduce a correct growing time!!");
                 } else {
-                    if (getMinAirTemp() == 0) {
-                        JOptionPane.showMessageDialog(null, "Introduce a correct min temperature value!!");
+                    if (getMinAirTemp() == 0 || getMaxAirTemp() == 0 || getbalanceAirTemp() == 0 || getbalancingAirTemp() == 0) {
+                        JOptionPane.showMessageDialog(null, "Introduce correct values for air temperature!!");
                     } else {
-                        if(getMaxAirTemp() == 0){
-                            JOptionPane.showMessageDialog(null, "Introduce a correct max temperature value!!");
+                        if(getMinWaterTemp() == 0 || getMaxWaterTemp() == 0 || getBalancingWaterTemp() == 0 || getBalanceWaterTemp() == 0){
+                            JOptionPane.showMessageDialog(null, "Introduce correct values for water temperature!!");
                         } else
-                            if (getbalanceAirTemp() == 0) {
-                                JOptionPane.showMessageDialog(null, "Introduce a correct balanced state temperature checking interval value!!");
+                            if (getMinPhLevel() == 0 || getMaxPhLevel() == 0 || getBalancingPhLevel() == 0 || getBalancePhLevel() == 0) {
+                                JOptionPane.showMessageDialog(null, "Introduce correct values for pH level!!");
                             } else {
-                                if (getbalancingAirTemp() == 0) {
-                                    JOptionPane.showMessageDialog(null, "Introduce a correct balancing state temperature checking interval value!!");
+                                if (getMinEC() == 0 || getMaxEC() == 0 || getBalancingEC() == 0 || getBalanceEC() == 0) {
+                                    JOptionPane.showMessageDialog(null, "Introduce correct values for electrical conductivity!!");
                                 } else{
-                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinAirTemp(), getMaxAirTemp(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
-                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getbalanceAirTemp(), getbalancingAirTemp(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
-                                    InputParameterProcessor.getInputParameterProcessor().updateOtherParameter(OtherParameters.GROWTH_TIME, getGrowthTime());
+                                    if (getMinWaterLevel() == 0 || getMaxWaterLevel() == 0 || getBalancingWaterLevel() == 0 || getBalanceWaterLevel() == 0){
+                                        JOptionPane.showMessageDialog(null, "Introduce correct values for water level!!");
+                                    } else{
+                                        if (getMinHumidity() == 0 || getMaxHumidity() == 0 || getBalancingHumidity() == 0 || getBalanceHumidity() == 0){
+                                            JOptionPane.showMessageDialog(null, "Introduce correct values for humidity!!");
+                                        } else{
+                                            InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinAirTemp(), getMaxAirTemp(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
+                                            InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getbalanceAirTemp(), getbalancingAirTemp(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
+                                            InputParameterProcessor.getInputParameterProcessor().updateOtherParameter(OtherParameters.GROWTH_TIME, getGrowthTime());
 
-                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinWaterTemp(),getMaxWaterTemp(),EnvironmentDeviceTypes.WATER_TEMPERATURE);
-                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinHumidity(),getMaxHumidity(),EnvironmentDeviceTypes.HUMIDITY);
-                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinPhLevel(),getMaxPhLevel(),EnvironmentDeviceTypes.PH_LEVEL);
-                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinEC(),getMaxEC(),EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY);
-//                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinPhosphorus(),getMaxPhosphorus(),EnvironmentDeviceTypes.WATER_TEMPERATURE);
-//                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinPotassium(),getMaxPotassium(),EnvironmentDeviceTypes.WATER_TEMPERATURE);
-//                                    InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinNitrogen(),getMaxNitrogen(),EnvironmentDeviceTypes.WATER_TEMPERATURE);
+                                            InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinWaterTemp(),getMaxWaterTemp(),EnvironmentDeviceTypes.WATER_TEMPERATURE);
+                                            InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinHumidity(),getMaxHumidity(),EnvironmentDeviceTypes.HUMIDITY);
+                                            InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinPhLevel(),getMaxPhLevel(),EnvironmentDeviceTypes.PH_LEVEL);
+                                            InputParameterProcessor.getInputParameterProcessor().updateEnvironmentPropertyParameter(getMinEC(),getMaxEC(),EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY);
 
-                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceWaterTemp(), getBalancingWaterTemp(), EnvironmentDeviceTypes.WATER_TEMPERATURE);
-                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceHumidity(), getBalancingHumidity(), EnvironmentDeviceTypes.HUMIDITY);
-                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalancePhLevel(), getBalancingPhLevel(), EnvironmentDeviceTypes.PH_LEVEL);
-                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceEC(), getBalancingEC(), EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY);
-//                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalancePhosphorus(), getBalancingPhosphorus(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
-//                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalancePotassium(), getBalancingPotassium(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
-//                                    InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceEC(), getBalancingEC(), EnvironmentDeviceTypes.AIR_TEMPERATURE);
+                                            InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceWaterTemp(), getBalancingWaterTemp(), EnvironmentDeviceTypes.WATER_TEMPERATURE);
+                                            InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceHumidity(), getBalancingHumidity(), EnvironmentDeviceTypes.HUMIDITY);
+                                            InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalancePhLevel(), getBalancingPhLevel(), EnvironmentDeviceTypes.PH_LEVEL);
+                                            InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(getBalanceEC(), getBalancingEC(), EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY);
 
+                                            InputParameterProcessor.getInputParameterProcessor().persistParameters();
+                                        }
+                                    }
 
-
-                                    InputParameterProcessor.getInputParameterProcessor().persistParameters();
-                                }
+                                    }
                         }
                     }
                 }
@@ -213,6 +213,8 @@ public class AdminControlPanel extends JFrame{
         c2.gridy = 3;
         card2.add(startButtonPanel,c2);
 
+        setReportPanel();
+
         tabbedPane.addTab(INITIALIZEPANEL, card1);
         tabbedPane.addTab(MONITORPANEL, card2);
         tabbedPane.addTab(ALERTSPANEL, card3);
@@ -234,14 +236,43 @@ public class AdminControlPanel extends JFrame{
         return result;
     }
 
-    public void changeActuatorState(EnvironmentDeviceTypes device, String state){
+    public void changeActuatorState(EnvironmentDeviceTypes device, String state) {
         JLabel actuatorStateLabel = AdminControlPanel.deviceToLabelMap.get(device).get(1);
         actuatorStateLabel.setText(state);
-        if("ON".equals(state)){
+        if ("ON".equals(state)) {
             actuatorStateLabel.setForeground(new Color(0x0B830B));
-        }else{
+        } else {
             actuatorStateLabel.setForeground(new Color(0x142472));
         }
+    }
+    private void setReportPanel(){
+        card4.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridx = 2;
+        c.gridy = 1;
+        c.ipady = 50;
+        JLabel selectDayLabel = new JLabel("Select the day:", JLabel.CENTER);
+        selectDayLabel.setFont(f1);
+        card4.add(selectDayLabel, c);
+        c.gridx = 4;
+        c.ipady = 0;
+        c.ipadx = 250;
+        day.setHorizontalAlignment(JTextField.CENTER);
+        card4.add(day, c);
+        c.gridx = 2;
+        c.gridy = 3;
+        c.ipadx = 50;
+        JLabel parameterLabel = new JLabel("Select the parameter:", JLabel.CENTER);
+        parameterLabel.setFont(f1);
+        card4.add(parameterLabel, c);
+        c.gridx = 4;
+        c.gridy = 3;
+        c.ipady = 0;
+        card4.add(parametersBox, c);
+        c.gridx = 3;
+        c.gridy = 6;
+        c.ipady = 20;
+        card4.add(generateReport, c);
     }
 
     private void setMonitorWindow(){
