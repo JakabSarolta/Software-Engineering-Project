@@ -199,10 +199,13 @@ public class EnvironmentControlPanel extends JFrame {
                 try{
                     int simulationSaladTimeSeconds = Integer.parseInt(saladSimulationTimeText.getText()) *
                             ((TimeUnits)timeUnitsComboBox.getSelectedItem()).getVal();
+                    if (simulationSaladTimeSeconds <= 0 || Integer.parseInt(simulationTimeTextField.getText()) <= 0){
+                        throw new NumberFormatException("Negative");
+                    }
                     Controller.startSimulation(EnvironmentControlPanel.getEnvironmentControlPanel(),simulationSaladTimeSeconds,
                             Integer.parseInt(simulationTimeTextField.getText()));
                 } catch (NumberFormatException nfe){
-                    Alert.alert("Invalid simulation time.\nYou should insert integers",
+                    Alert.alert("Invalid simulation time.\nYou should insert positive integers",
                             "Invalid input");
                 }
             }
