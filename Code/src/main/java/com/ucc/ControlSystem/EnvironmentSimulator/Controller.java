@@ -5,6 +5,9 @@ import com.ucc.ControlSystem.GUI.EnvironmentControlPanel;
 import com.ucc.ControlSystem.Utils.TimeUnits;
 
 import javax.swing.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Class that runs the environment simulation.
@@ -87,9 +90,12 @@ public class Controller implements Runnable{
         while(simulationTime <= es.getDurationOfTheSimulationRealLifeTime() && !exit){
             TimeUnits selectedDisplayTimeUnit = (TimeUnits) ((EnvironmentControlPanel)frame).getDisplayTimeUnitComboBox().getSelectedItem();
 
-            double measurement = es.takeMeasurement(EnvironmentDeviceTypes.AIR_TEMPERATURE);
-            ((EnvironmentControlPanel)frame).getAirTemperatureValueLabel().
-                    setText(Math.round(measurement*100)/100.0+"");
+
+            Map<EnvironmentDeviceTypes,Double> measurements = es.takeMeasurements();
+            for(EnvironmentDeviceTypes type : measurements.keySet()){
+                EnvironmentControlPanel.deviceToLabelMap.get(type).setText(Math.round(measurements.get(type)*100)/100.0+"");
+            }
+
             ((EnvironmentControlPanel)frame).getTimeValueLabel().
                     setText(adjustCurrentTimeToStep(selectedDisplayTimeUnit,i)+"");
 

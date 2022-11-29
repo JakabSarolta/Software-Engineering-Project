@@ -4,6 +4,7 @@ package com.ucc.ControlSystem;
 import com.ucc.ControlSystem.ControlSystem.InputParameters.InputParameterProcessor;
 import com.ucc.ControlSystem.ControlSystem.JDBC.ConnectionFactory;
 import com.ucc.ControlSystem.ControlSystem.Reporting.ReportGenerator;
+import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
 import com.ucc.ControlSystem.GUI.AdminControlPanel;
 import com.ucc.ControlSystem.SystemConfiguration.SystemConfigParameters;
 import com.ucc.ControlSystem.SystemConfiguration.SystemConfigurationReader;
@@ -12,6 +13,7 @@ import org.hibernate.Session;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 
 public class Main{
     private static AdminControlPanel adminFrame = AdminControlPanel.getAdminControlPanel();
@@ -26,7 +28,9 @@ public class Main{
 
         ConnectionFactory.createDbConnection(jdbUrl,username,pass);
 
-//        ReportGenerator.getReportGenerator().generateReport(0);
+//        ReportGenerator.getReportGenerator().generateReport(0,0, List.of(EnvironmentDeviceTypes.AIR_TEMPERATURE
+//        , EnvironmentDeviceTypes.WATER_TEMPERATURE, EnvironmentDeviceTypes.HUMIDITY, EnvironmentDeviceTypes.PH_LEVEL,
+//                EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY));
 
 
         adminFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

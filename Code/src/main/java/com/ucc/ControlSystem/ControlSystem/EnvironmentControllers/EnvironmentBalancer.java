@@ -8,6 +8,8 @@ import com.ucc.ControlSystem.GUI.EnvironmentControlPanel;
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentSimulator;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,7 +66,7 @@ public class EnvironmentBalancer {
                         shouldRise.remove(device);
                         devicesToBeRemoved.add(device);
                         DataCollector.getDataCollector().setActuatorCurrentStrength(device,0);
-                        AdminControlPanel.getAdminControlPanel().getActuatorState().setText("OFF");
+                        AdminControlPanel.getAdminControlPanel().changeActuatorState(device,"Off");
                     }
 
                     if((shouldRise.containsKey(device)) && ((shouldRise.get(device) && measurement <= lastMeasuredValue.get(device))
@@ -78,10 +80,10 @@ public class EnvironmentBalancer {
                 }else{
                     if(measurement < min){
                         shouldRise.put(device,true);
-                        AdminControlPanel.getAdminControlPanel().getActuatorState().setText("ON");
+                        AdminControlPanel.getAdminControlPanel().changeActuatorState(device,"On");
                     }else if(measurement > max){
                         shouldRise.put(device,false);
-                        AdminControlPanel.getAdminControlPanel().getActuatorState().setText("ON");
+                        AdminControlPanel.getAdminControlPanel().changeActuatorState(device,"On");
                     }
                     lastMeasuredValue.put(device,measurement);
                 }
@@ -119,6 +121,5 @@ public class EnvironmentBalancer {
     public boolean isActuatorOn(EnvironmentDeviceTypes device){
         return  shouldRise.containsKey(device);
     }
-
 
 }

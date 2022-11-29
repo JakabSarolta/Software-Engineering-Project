@@ -4,9 +4,13 @@ import com.ucc.ControlSystem.ControlSystem.JDBC.HSQLQueries;
 import com.ucc.ControlSystem.ControlSystem.Reporting.Measurement;
 import com.ucc.ControlSystem.GUI.AdminControlPanel;
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
+import org.hibernate.query.sqm.sql.internal.EntityValuedPathInterpretation;
 
+import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class that controls the EnvironmentController.
@@ -35,6 +39,8 @@ public class Controller{
         return controller;
     }
 
+
+
     /**
      * Called when a second passed. If the system is not in a special state, and if the crops are not
      * ready to be harvested yet, it performs check for parameters in the balanced state and for
@@ -55,12 +61,17 @@ public class Controller{
 
             currentState = environmentBalancer.balanceEnvironment(currentTime, parametersToBeBalanced);
 
-            for(EnvironmentDeviceTypes device : EnvironmentDeviceTypes.values()){
-                AdminControlPanel.getAdminControlPanel().getCurrentTime().setText(convertSeconds(currentTime)+"");
-                AdminControlPanel.getAdminControlPanel().getCurrentTemp().setText(Math.round(DataCollector.getDataCollector().getSensorValue(device) * 10) / 10.0+"");
+            AdminControlPanel.getAdminControlPanel().getCurrentTime().setText(convertSeconds(currentTime)+"");
+
+            Map<EnvironmentDeviceTypes, List<JLabel>> deviceToLabelMap = AdminControlPanel.deviceToLabelMap;
+            for(EnvironmentDeviceTypes device : deviceToLabelMap.keySet()){
+                deviceToLabelMap.get(device).get(0).setText(Math.round(DataCollector.getDataCollector().getSensorValue(device) * 10) / 10.0+"");
             }
+
         }else if(currentState == States.ALERTED){
             com.ucc.ControlSystem.EnvironmentSimulator.Controller.suspendSimulation();
+        }else{
+            com.ucc.ControlSystem.EnvironmentSimulator.Controller.stopSimulation();
         }
     }
 

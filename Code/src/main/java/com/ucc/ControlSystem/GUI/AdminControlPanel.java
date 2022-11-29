@@ -2,12 +2,15 @@ package com.ucc.ControlSystem.GUI;
 
 import com.ucc.ControlSystem.ControlSystem.InputParameters.*;
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
+import org.hibernate.query.sqm.sql.internal.EntityValuedPathInterpretation;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AdminControlPanel extends JFrame{
 
@@ -75,6 +78,8 @@ public class AdminControlPanel extends JFrame{
 
     Font  f1  = new Font("Our font", Font.BOLD, 16);
     Font  f2  = new Font("Our font", Font.BOLD, 14);
+
+    public static Map<EnvironmentDeviceTypes, List<JLabel>> deviceToLabelMap = populateDeviceAndLabelMap();
 
     private AdminControlPanel(String title){
         super(title);
@@ -214,6 +219,29 @@ public class AdminControlPanel extends JFrame{
         tabbedPane.addTab(REPORTSPANEL, card4);
         this.add(tabbedPane, BorderLayout.CENTER);
         this.setContentPane(this.tabbedPane);
+    }
+
+    private static Map<EnvironmentDeviceTypes, List<JLabel>> populateDeviceAndLabelMap() {
+        Map<EnvironmentDeviceTypes, List<JLabel>> result = new HashMap<>();
+        AdminControlPanel cp = AdminControlPanel.getAdminControlPanel();
+
+        result.put(EnvironmentDeviceTypes.AIR_TEMPERATURE,List.of(cp.getCurrentTemp(),cp.getActuatorState()));
+        result.put(EnvironmentDeviceTypes.WATER_TEMPERATURE,List.of(cp.getCurrentWaterTemp(),cp.getActuatorState2()));
+        result.put(EnvironmentDeviceTypes.HUMIDITY,List.of(cp.getCurrentHumidity(),cp.getActuatorState3()));
+        result.put(EnvironmentDeviceTypes.PH_LEVEL,List.of(cp.getCurrentPhLevel(),cp.getActuatorState4()));
+        result.put(EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY,List.of(cp.getCurrentEC(),cp.getActuatorState5()));
+
+        return result;
+    }
+
+    public void changeActuatorState(EnvironmentDeviceTypes device, String state){
+        JLabel actuatorStateLabel = AdminControlPanel.deviceToLabelMap.get(device).get(1);
+        actuatorStateLabel.setText(state);
+        if("ON".equals(state)){
+            actuatorStateLabel.setForeground(new Color(0x0B830B));
+        }else{
+            actuatorStateLabel.setForeground(new Color(0x142472));
+        }
     }
 
     private void setMonitorWindow(){
@@ -748,5 +776,45 @@ public class AdminControlPanel extends JFrame{
         }catch(NumberFormatException | NullPointerException n){
             return 0;
         }
+    }
+
+    public JLabel getCurrentWaterTemp() {
+        return currentWaterTemp;
+    }
+
+    public JLabel getCurrentHumidity() {
+        return currentHumidity;
+    }
+
+    public JLabel getCurrentPhLevel() {
+        return currentPhLevel;
+    }
+
+    public JLabel getCurrentEC() {
+        return currentEC;
+    }
+
+    public JLabel getCurrentWaterLevel() {
+        return currentWaterLevel;
+    }
+
+    public JLabel getActuatorState2() {
+        return actuatorState2;
+    }
+
+    public JLabel getActuatorState3() {
+        return actuatorState3;
+    }
+
+    public JLabel getActuatorState4() {
+        return actuatorState4;
+    }
+
+    public JLabel getActuatorState5() {
+        return actuatorState5;
+    }
+
+    public JLabel getActuatorState6() {
+        return actuatorState6;
     }
 }

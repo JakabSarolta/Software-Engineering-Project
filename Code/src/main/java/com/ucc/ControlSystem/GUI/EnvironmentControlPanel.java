@@ -10,7 +10,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 
 public class EnvironmentControlPanel extends JFrame {
 
@@ -24,6 +26,8 @@ public class EnvironmentControlPanel extends JFrame {
     private JSlider airTempSigma, waterTempSigma, humiditySigma, waterLevelSigma, pHSigma, ECSigma;
     private JSlider airTempAlpha, waterTempAlpha, humidityAlpha, waterLevelAlpha, pHAlpha, ECAlpha;
     private JComboBox timeUnitsComboBox, displayTimeUnitComboBox;
+
+    public static Map<EnvironmentDeviceTypes,JLabel> deviceToLabelMap = populateLabelMap();
 
     private final double SLIDER_SCALE_TEN = 10.0;
     private final double SLIDER_SCALE_HUNDRED = 100.0;
@@ -146,6 +150,17 @@ public class EnvironmentControlPanel extends JFrame {
             environmentControlPanel = new EnvironmentControlPanel("Vertical Farm Control Simulation");
         }
         return environmentControlPanel;
+    }
+
+    private static Map<EnvironmentDeviceTypes, JLabel> populateLabelMap() {
+        Map<EnvironmentDeviceTypes,JLabel> result = new HashMap<>();
+        EnvironmentControlPanel cp = EnvironmentControlPanel.getEnvironmentControlPanel();
+        result.put(EnvironmentDeviceTypes.AIR_TEMPERATURE,cp.getAirTemperatureValueLabel());
+        result.put(EnvironmentDeviceTypes.WATER_TEMPERATURE,cp.getWaterTempValueLabel());
+        result.put(EnvironmentDeviceTypes.HUMIDITY,cp.getHumidityValueLabel());
+        result.put(EnvironmentDeviceTypes.PH_LEVEL,cp.getpHLevelValueLabel());
+        result.put(EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY,cp.getECValueLabel());
+        return result;
     }
 
     public void startSimulation(){
