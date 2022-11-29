@@ -1,8 +1,8 @@
 package com.ucc.ControlSystem.GUI;
 
 import com.ucc.ControlSystem.ControlSystem.InputParameters.*;
+import com.ucc.ControlSystem.ControlSystem.Reporting.ReportGenerator;
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
-import org.hibernate.query.sqm.sql.internal.EntityValuedPathInterpretation;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -73,7 +73,8 @@ public class AdminControlPanel extends JFrame{
 
     private final JButton generateReport = new JButton("GENERATE");
     private final JComboBox parametersBox = new JComboBox(EnvironmentDeviceTypes.values());
-    private final JTextField day = new JTextField();
+    private final JTextField startDay = new JTextField();
+    private final JTextField endDay = new JTextField();
 
     Font  f1  = new Font("Our font", Font.BOLD, 16);
     Font  f2  = new Font("Our font", Font.BOLD, 14);
@@ -254,14 +255,22 @@ public class AdminControlPanel extends JFrame{
         c.gridx = 2;
         c.gridy = 1;
         c.ipady = 50;
-        JLabel selectDayLabel = new JLabel("Select the day:", JLabel.CENTER);
+        JLabel selectDayLabel = new JLabel("Select the days:", JLabel.CENTER);
         selectDayLabel.setFont(f1);
         card4.add(selectDayLabel, c);
+        c.gridx = 3;
+        c.ipady = 0;
+        c.ipadx = 250;
+        startDay.setHorizontalAlignment(JTextField.CENTER);
+        card4.add(startDay, c);
+
         c.gridx = 4;
         c.ipady = 0;
         c.ipadx = 250;
-        day.setHorizontalAlignment(JTextField.CENTER);
-        card4.add(day, c);
+        endDay.setHorizontalAlignment(JTextField.CENTER);
+        card4.add(endDay, c);
+
+
         c.gridx = 2;
         c.gridy = 3;
         c.ipadx = 50;
@@ -275,6 +284,21 @@ public class AdminControlPanel extends JFrame{
         c.gridx = 3;
         c.gridy = 6;
         c.ipady = 20;
+
+        generateReport.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int startDay = Integer.parseInt(getStartDay().getText()+"");
+                    int endDay = Integer.parseInt(getEndDay().getText()+"");
+
+                    ReportGenerator.getReportGenerator().generateReport(startDay,endDay,List.of((EnvironmentDeviceTypes) parametersBox.getSelectedItem()));
+                }catch (NumberFormatException nfe){
+                    System.out.printf("Number format exception");
+                }
+            }
+        });
+
         card4.add(generateReport, c);
     }
 
@@ -856,5 +880,13 @@ public class AdminControlPanel extends JFrame{
 
     public JLabel getActuatorState6() {
         return actuatorState6;
+    }
+
+    public JTextField getStartDay() {
+        return startDay;
+    }
+
+    public JTextField getEndDay() {
+        return endDay;
     }
 }
