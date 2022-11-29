@@ -83,6 +83,7 @@ public class EnvironmentControlPanel extends JFrame {
         JLabel saladSimulationTimeLabel = new JLabel("Salad Simulation Time: ", JLabel.CENTER);
         timePanel.add(saladSimulationTimeLabel);
         saladSimulationTimeText = new JTextField();
+        simulationTimeTextField.setFont(simulationTimeTextField.getFont().deriveFont(16f));
         timePanel.add(saladSimulationTimeText);
         timeUnitsComboBox = new JComboBox(TimeUnits.values());
         timePanel.add(timeUnitsComboBox);
