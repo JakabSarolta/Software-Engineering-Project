@@ -35,29 +35,109 @@ public class EnvironmentControlPanel extends JFrame {
         //Set tab container position
         this.setSize(775,350);
         startSimulation();
+        airTempSigma = createSlider(-5, 5, 1, SLIDER_SCALE_TEN);
+        airTempAlpha = createSlider(-5, 5, 1, SLIDER_SCALE_TEN);
+        airTempValueLabel = new JLabel("", JLabel.CENTER);
+
+        airTempSigma.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                setSensorValue(airTempSigma.getValue(),EnvironmentDeviceTypes.AIR_TEMPERATURE,SLIDER_SCALE_TEN);
+            }
+        });
+        airTempAlpha.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                setActuatorValue(airTempAlpha.getValue(),EnvironmentDeviceTypes.AIR_TEMPERATURE,SLIDER_SCALE_TEN);
+            }
+        });
         prepareTab("Air Temperature Controller", "Temperature (\u00B0C)",
                 airTempValueLabel, airTempSigma, airTempAlpha,"Sensor Tendency (\u00B0C/sec)",
-                -5,5,1, SLIDER_SCALE_TEN,"Actuator Tendency (\u00B0C/sec)",
+                "Actuator Tendency (\u00B0C/sec)",
                 "Air Temperature");
+
+        waterTempSigma = createSlider(-5, 5, 1, SLIDER_SCALE_TEN);
+        waterTempAlpha = createSlider(-5, 5, 1, SLIDER_SCALE_TEN);
+        waterTempValueLabel = new JLabel("", JLabel.CENTER);
+        waterTempSigma.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                setSensorValue(waterTempSigma.getValue(),EnvironmentDeviceTypes.WATER_TEMPERATURE,SLIDER_SCALE_TEN);
+            }
+        });
+        waterTempAlpha.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                setActuatorValue(waterTempAlpha.getValue(),EnvironmentDeviceTypes.WATER_TEMPERATURE,SLIDER_SCALE_TEN);
+            }
+        });
         prepareTab("Water Temperature Controller", "Temperature (\u00B0C)",
-                waterTempValueLabel, waterTempSigma, waterTempAlpha,"Sensor Tendency (\u00B0C/sec)",
-                -5,5,1, SLIDER_SCALE_TEN,"Actuator Tendency (\u00B0C/sec)",
+                waterTempValueLabel, waterTempSigma, waterTempAlpha,"Sensor Tendency (\u00B0C/sec)"
+                ,"Actuator Tendency (\u00B0C/sec)",
                 "Water Temperature");
+
+        humiditySigma = createSlider(-9,9,1, SLIDER_SCALE_TEN);
+        humidityAlpha = createSlider(-9,9,1 ,SLIDER_SCALE_TEN);
+        humidityValueLabel = new JLabel("", JLabel.CENTER);
+        humiditySigma.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                setSensorValue(humiditySigma.getValue(),EnvironmentDeviceTypes.HUMIDITY,SLIDER_SCALE_TEN);
+            }
+        });
+        humidityAlpha.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                setActuatorValue(humidityAlpha.getValue(),EnvironmentDeviceTypes.HUMIDITY,SLIDER_SCALE_TEN);
+            }
+        });
         prepareTab("Humidity Controller", "Humidity (%)",
                 humidityValueLabel, humiditySigma, humidityAlpha,"Sensor Tendency (%/sec)",
-                -9,9,1, SLIDER_SCALE_TEN,"Actuator Tendency (%/sec)",
+                "Actuator Tendency (%/sec)",
                 "Humidity");
-        prepareTab("Water Level Controller", "Level (L)",
-                waterLevelValueLabel, waterLevelSigma,waterLevelAlpha,"Sensor Tendency (L/sec)",
-                -5,5,1, SLIDER_SCALE_TEN,"Actuator Tendency (L/sec)",
-                "Water Level");
+//        prepareTab("Water Level Controller", "Level (L)",
+//                waterLevelValueLabel, waterLevelSigma,waterLevelAlpha,"Sensor Tendency (L/sec)",
+//                -5,5,1, SLIDER_SCALE_TEN,"Actuator Tendency (L/sec)",
+//                "Water Level");
+
+        pHSigma = createSlider(-5,5,1, SLIDER_SCALE_HUNDRED);
+        pHAlpha = createSlider(-5,5,1, SLIDER_SCALE_HUNDRED);
+        pHLevelValueLabel = new JLabel("", JLabel.CENTER);
+        pHSigma.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                setSensorValue(pHSigma.getValue(),EnvironmentDeviceTypes.PH_LEVEL,SLIDER_SCALE_HUNDRED);
+            }
+        });
+        pHAlpha.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                setActuatorValue(pHAlpha.getValue(),EnvironmentDeviceTypes.PH_LEVEL,SLIDER_SCALE_HUNDRED);
+            }
+        });
         prepareTab("pH Controller", "ph Level",
-                pHLevelValueLabel, pHSigma,pHSigma,"Sensor Tendency (unit/sec)",
-                -5,5,1, SLIDER_SCALE_HUNDRED,"Actuator Tendency (unit/sec)",
+                pHLevelValueLabel, pHSigma,pHAlpha,"Sensor Tendency (unit/sec)",
+                "Actuator Tendency (unit/sec)",
                 "pH");
+
+        ECSigma = createSlider(-5,5,1, SLIDER_SCALE_HUNDRED);
+        ECAlpha = createSlider(-5,5,1, SLIDER_SCALE_HUNDRED);
+        ECValueLabel = new JLabel("", JLabel.CENTER);
+        ECSigma.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                setSensorValue(ECSigma.getValue(),EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY,SLIDER_SCALE_HUNDRED);
+            }
+        });
+        ECAlpha.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                setActuatorValue(ECAlpha.getValue(),EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY,SLIDER_SCALE_HUNDRED);
+            }
+        });
         prepareTab("Electrical Conductivity Controller", "EC (S/m)",
                 ECValueLabel, ECSigma, ECAlpha,"Sensor Tendency (S/m)/sec",
-                -5,5,1, SLIDER_SCALE_HUNDRED,"Actuator Tendency (S/m)/sec",
+                 "Actuator Tendency (S/m)/sec",
                 "Electrical Conductivity");
     }
 
@@ -94,8 +174,21 @@ public class EnvironmentControlPanel extends JFrame {
         startButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setSensorValue(airTempSigma.getValue());
-                setActuatorValue(airTempAlpha.getValue());
+                setSensorValue(airTempSigma.getValue(),EnvironmentDeviceTypes.AIR_TEMPERATURE,SLIDER_SCALE_TEN);
+                setActuatorValue(airTempAlpha.getValue(),EnvironmentDeviceTypes.AIR_TEMPERATURE,SLIDER_SCALE_TEN);
+
+                setSensorValue(waterTempSigma.getValue(),EnvironmentDeviceTypes.WATER_TEMPERATURE,SLIDER_SCALE_TEN);
+                setActuatorValue(waterTempAlpha.getValue(),EnvironmentDeviceTypes.WATER_TEMPERATURE,SLIDER_SCALE_TEN);
+
+                setSensorValue(humiditySigma.getValue(),EnvironmentDeviceTypes.HUMIDITY,SLIDER_SCALE_TEN);
+                setActuatorValue(humidityAlpha.getValue(),EnvironmentDeviceTypes.HUMIDITY,SLIDER_SCALE_TEN);
+
+                setSensorValue(pHSigma.getValue(),EnvironmentDeviceTypes.PH_LEVEL,SLIDER_SCALE_HUNDRED);
+                setActuatorValue(pHAlpha.getValue(),EnvironmentDeviceTypes.PH_LEVEL,SLIDER_SCALE_HUNDRED);
+
+                setSensorValue(ECSigma.getValue(),EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY,SLIDER_SCALE_HUNDRED);
+                setActuatorValue(ECAlpha.getValue(),EnvironmentDeviceTypes.ELECTRICAL_CONDUCTIVITY,SLIDER_SCALE_HUNDRED);
+
 
                 int simulationSaladTimeSeconds = Integer.parseInt(saladSimulationTimeText.getText()) *
                         ((TimeUnits)timeUnitsComboBox.getSelectedItem()).getVal();
@@ -130,7 +223,7 @@ public class EnvironmentControlPanel extends JFrame {
 
     public void prepareTab(String mainTitle, String nameAndMeasurement, JLabel measurementValueLabel,
                            JSlider sigma, JSlider alpha,
-                           String sensor, int tendencyMin, int tendencyMax, int spacing, double sliderScale,
+                           String sensor,
                            String actuator, String tabTitle){
         JPanel panel = new JPanel(new GridLayout(7, 1));
         JLabel titleLabel = new JLabel(mainTitle, JLabel.CENTER);
@@ -139,7 +232,6 @@ public class EnvironmentControlPanel extends JFrame {
         JPanel upperPanel = new JPanel(new GridLayout(1, 5));
         JLabel nameAndMeasurementLabel = new JLabel(nameAndMeasurement, JLabel.CENTER);
         upperPanel.add(nameAndMeasurementLabel);
-        measurementValueLabel = new JLabel("", JLabel.CENTER);
         upperPanel.add(measurementValueLabel);
         JLabel timeNameLabel = new JLabel("Current time (salad time)", JLabel.CENTER);
         upperPanel.add(timeNameLabel);
@@ -150,25 +242,12 @@ public class EnvironmentControlPanel extends JFrame {
         panel.add(upperPanel);
         JLabel sensorTendencyLabel = new JLabel(sensor, JLabel.CENTER);
         panel.add(sensorTendencyLabel);
-        sigma = createSlider(tendencyMin, tendencyMax, spacing, sliderScale);
-        JSlider finalSigma = sigma;
-        sigma.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                setSensorValue(finalSigma.getValue());
-            }
-        });
+
+
         panel.add(sigma);
         JLabel actuatorTendencyLabel = new JLabel(actuator, JLabel.CENTER);
         panel.add(actuatorTendencyLabel);
-        alpha = createSlider(tendencyMin, tendencyMax, spacing, sliderScale);
-        JSlider finalAlpha = alpha;
-        alpha.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                setActuatorValue(finalAlpha.getValue());
-            }
-        });
+
         panel.add(alpha);
         tabs.add(tabTitle, panel);
     }
@@ -189,14 +268,14 @@ public class EnvironmentControlPanel extends JFrame {
         return slider;
     }
 
-    private void setActuatorValue(double value){
+    private void setActuatorValue(double value, EnvironmentDeviceTypes type, double scale){
         EnvironmentSimulator es = EnvironmentSimulator.getEnvironmentSimulator();
-        es.setActuatorSetStrength(EnvironmentDeviceTypes.AIR_TEMPERATURE,value/SLIDER_SCALE_TEN);
+        es.setActuatorSetStrength(type,value/scale);
     }
 
-    private void setSensorValue(double value){
+    private void setSensorValue(double value, EnvironmentDeviceTypes type, double scale){
         EnvironmentSimulator es = EnvironmentSimulator.getEnvironmentSimulator();
-        es.setSensorTendency(EnvironmentDeviceTypes.AIR_TEMPERATURE,value/SLIDER_SCALE_TEN);
+        es.setSensorTendency(type,value/scale);
     }
 
     public JLabel getAirTemperatureValueLabel() {
