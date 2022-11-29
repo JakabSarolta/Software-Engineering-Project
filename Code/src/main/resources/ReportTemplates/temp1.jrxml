@@ -8,16 +8,20 @@
 
     <style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="15" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 
+    <parameter name="intervalStart" class="java.lang.Integer"> </parameter>
+    <parameter name="intervalEnd" class="java.lang.Integer"> </parameter>
+
     <field name="timestamp" class="java.lang.Long"/>
     <field name="value" class="java.lang.Double"/>
     <field name="device" class="com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes"/>
+
 
     <pageHeader>
         <band height="100" >
             <textField>
                 <reportElement x="0" y="50" width="550" height="50" style="Arial_Bold"/>
                 <textElement textAlignment="Center"/>
-                <textFieldExpression ><![CDATA["The change of " + $F{device} + " in time for the given period"]]></textFieldExpression>
+                <textFieldExpression ><![CDATA["The change of " + $F{device} + " in time from day " + $P{intervalStart} + " until day " + $P{intervalEnd}]]></textFieldExpression>
             </textField>
         </band>
     </pageHeader>

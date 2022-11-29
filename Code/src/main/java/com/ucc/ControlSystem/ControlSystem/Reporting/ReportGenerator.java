@@ -42,16 +42,18 @@ public class ReportGenerator {
     public void generateReport(int startDayNo, int endDayNo, List<EnvironmentDeviceTypes> selectedSensors){
         List<List<Measurement>> resultList = getMeasurementsInIntervalForDevices(startDayNo,endDayNo,selectedSensors);
 
+        Map<String,Integer> parameters = new HashMap<>();
+        parameters.put("intervalStart",startDayNo);
+        parameters.put("intervalEnd",endDayNo);
+
         for(List<Measurement> resultForDevice : resultList){
             writePDF(resultForDevice,OUTPUT_DIRECTORY + "Report_for_"+resultForDevice.get(0).getDevice()+
-                    "_days_"+startDayNo+"_to_"+endDayNo+".pdf");
+                    "_days_"+startDayNo+"_to_"+endDayNo+".pdf",parameters);
         }
     }
 
-    private void writePDF(List<Measurement> resultList,String fileName){
+    private void writePDF(List<Measurement> resultList,String fileName, Map parameters){
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(resultList);
-
-        Map parameters = new HashMap<>();
 
         try {
             InputStream input = new FileInputStream(INPUT_TEMPLATE);

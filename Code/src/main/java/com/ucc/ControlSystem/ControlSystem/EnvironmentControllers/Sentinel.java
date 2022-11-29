@@ -45,7 +45,7 @@ public class Sentinel {
                 if(deviceNeedsBalancing(deviceType, dataCollector.takeMeasurementForDevice(deviceType))){
                     parametersToBeBalanced.add(deviceType);
                 }
-                new Measurement(deviceType,measurement,States.BALANCED,currentTime).saveMeasurement();
+                Controller.getController().getMeasurementList().add(new Measurement(deviceType,measurement,States.BALANCED,currentTime));
             }
         }
     }
