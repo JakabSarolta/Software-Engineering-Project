@@ -239,7 +239,7 @@ public class AdminControlPanel extends JFrame{
     public void changeActuatorState(EnvironmentDeviceTypes device, String state) {
         JLabel actuatorStateLabel = AdminControlPanel.deviceToLabelMap.get(device).get(1);
         actuatorStateLabel.setText(state);
-        if ("ON".equals(state)) {
+        if ("On".equals(state)) {
             actuatorStateLabel.setForeground(new Color(0x0B830B));
         } else {
             actuatorStateLabel.setForeground(new Color(0x142472));

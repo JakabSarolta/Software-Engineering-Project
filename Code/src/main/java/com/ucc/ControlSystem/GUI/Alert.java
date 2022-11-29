@@ -7,7 +7,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class Alert {
-    public static void alert(String msg) {
+    public static void alert(String msg,String type) {
         JFrame alertFrame = new JFrame();
         alertFrame.addWindowListener(new WindowAdapter() {
             @Override
@@ -16,7 +16,7 @@ public class Alert {
             }
         });
         JOptionPane.showMessageDialog(alertFrame,
-                msg, "ALERT",
+                msg, type,
                 JOptionPane.ERROR_MESSAGE);
     }
 }
