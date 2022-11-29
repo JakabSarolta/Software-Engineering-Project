@@ -221,24 +221,30 @@ public class AdminControlPanel extends JFrame{
     private void setReportPanel(){
         card4.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        c.gridx = 0;
-        c.gridy = 0;
-        c.ipady = 80;
-        card4.setFont(f2);
-        card4.add(new JLabel("Select the day:", JLabel.CENTER), c);
         c.gridx = 2;
-        c.ipady = 80;
-        c.ipadx = 200;
+        c.gridy = 1;
+        c.ipady = 50;
+        JLabel selectDayLabel = new JLabel("Select the day:", JLabel.CENTER);
+        selectDayLabel.setFont(f1);
+        card4.add(selectDayLabel, c);
+        c.gridx = 4;
+        c.ipady = 0;
+        c.ipadx = 250;
+        day.setHorizontalAlignment(JTextField.CENTER);
         card4.add(day, c);
-        c.gridx = 0;
-        c.gridy = 1;
-        c.ipadx = 0;
-        card4.add(new JLabel("Select the parameter:", JLabel.CENTER), c);
         c.gridx = 2;
-        c.gridy = 1;
+        c.gridy = 3;
+        c.ipadx = 50;
+        JLabel parameterLabel = new JLabel("Select the parameter:", JLabel.CENTER);
+        parameterLabel.setFont(f1);
+        card4.add(parameterLabel, c);
+        c.gridx = 4;
+        c.gridy = 3;
+        c.ipady = 0;
         card4.add(parametersBox, c);
-        c.gridx = 1;
-        c.gridy = 2;
+        c.gridx = 3;
+        c.gridy = 6;
+        c.ipady = 20;
         card4.add(generateReport, c);
     }
 
