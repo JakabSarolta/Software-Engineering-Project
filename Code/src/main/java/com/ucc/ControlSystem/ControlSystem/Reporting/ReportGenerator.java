@@ -6,10 +6,16 @@ import com.ucc.ControlSystem.Utils.TimeConvertor;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.export.SimpleExporterConfiguration;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.*;
+import java.sql.Array;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +27,9 @@ public class ReportGenerator {
 
     private static ReportGenerator reportGenerator = null;
 
+    private static String OUTPUT_DIRECTORY = ".\\src\\main\\resources\\GeneratedReports\\";
+    private static String INPUT_TEMPLATE = "src/main/resources/ReportTemplates/temp1.jrxml";
+
     private ReportGenerator(){}
 
     public static ReportGenerator getReportGenerator(){
@@ -30,39 +39,50 @@ public class ReportGenerator {
         return reportGenerator;
     }
 
-    public void generateReport(int dayNo){
-        List<Measurement> resultList = getReportsBasedOnTypeOnDay(EnvironmentDeviceTypes.AIR_TEMPERATURE,dayNo);
+    public void generateReport(int startDayNo, int endDayNo, List<EnvironmentDeviceTypes> selectedSensors){
+        List<List<Measurement>> resultList = getMeasurementsInIntervalForDevices(startDayNo,endDayNo,selectedSensors);
+
+        for(List<Measurement> resultForDevice : resultList){
+            writePDF(resultForDevice,OUTPUT_DIRECTORY + "Report_for_"+resultForDevice.get(0).getDevice()+
+                    "_days_"+startDayNo+"_to_"+endDayNo+".pdf");
+        }
+    }
+
+    private void writePDF(List<Measurement> resultList,String fileName){
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(resultList);
 
         Map parameters = new HashMap<>();
 
-        String sourceFileName = "src/main/resources/ReportTemplates/temp1.jrxml";
-
         try {
-            InputStream input = new FileInputStream(new File(sourceFileName));
+            InputStream input = new FileInputStream(INPUT_TEMPLATE);
             JasperDesign jasperDesign = JRXmlLoader.load(input);
             JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,parameters,dataSource);
 
-//                File pdfResult = File.createTempFile("/ReportForDay_"+dayNo,".pdf");
-//            JasperExportManager.exportReportToPdfStream(jasperPrint,new FileOutputStream(pdfResult));
-            JasperViewer.viewReport(jasperPrint);
-        } catch ( JRException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            JRPdfExporter exporter = new JRPdfExporter();
+            exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(fileName));
+
+            SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
+            exporter.setConfiguration(configuration);
+            exporter.exportReport();
+        } catch ( JRException | FileNotFoundException e) {
             e.printStackTrace();
         }
 
     }
 
-    private List<Measurement> getReportsBasedOnTypeOnDay(EnvironmentDeviceTypes type, int dayNo){
-        long startTime = TimeConvertor.getDayInSeconds(dayNo);
-        long endTime = startTime + TimeConvertor.getDayInSeconds(1);
+    private List<List<Measurement>> getMeasurementsInIntervalForDevices(int startDay, int endDay, List<EnvironmentDeviceTypes> devices){
+        long startSeconds = convertDayNoToSeconds(startDay);
+        long endSeconds = convertDayNoToSeconds(endDay+1)-1;
 
-        return HSQLQueries.getHSQLQueries().getMeasurementsBasedOnTypeAndInterval(type,startTime,endTime);
+        return devices.stream()
+                .map(deviceType ->
+                        HSQLQueries.getHSQLQueries().getMeasurementsBasedOnTypeAndInterval(deviceType,startSeconds,endSeconds))
+                .toList();
     }
 
+    private long convertDayNoToSeconds(int dayNo){
+        return dayNo * 86400L;
+    }
 }
