@@ -246,7 +246,7 @@ public class EnvironmentControlPanel extends JFrame {
                             Integer.parseInt(simulationTimeTextField.getText()));
                 } catch (NumberFormatException nfe){
                     Alert.alert("Invalid simulation time.\nYou should insert positive integers",
-                            "Invalid input");
+                            "Invalid input", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

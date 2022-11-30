@@ -4,6 +4,7 @@ import com.ucc.ControlSystem.ControlSystem.JDBC.HSQLQueries;
 import com.ucc.ControlSystem.ControlSystem.Reporting.Measurement;
 import com.ucc.ControlSystem.GUI.AdminControlPanel;
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
+import com.ucc.ControlSystem.GUI.Alert;
 import com.ucc.ControlSystem.GUI.EnvironmentControlPanel;
 
 import javax.swing.*;
@@ -51,6 +52,7 @@ public class Controller{
      */
     public void timePassed(long currentTime){
         if(currentState != States.GROWTH_ENDED  && currentState != States.ALERTED) {
+
             if (sentinel.isGrowthTimeDue(currentTime)) {
                 currentState = States.GROWTH_ENDED;
             } else {

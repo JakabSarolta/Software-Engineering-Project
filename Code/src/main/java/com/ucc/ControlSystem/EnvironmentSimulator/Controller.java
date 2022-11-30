@@ -1,6 +1,7 @@
 package com.ucc.ControlSystem.EnvironmentSimulator;
 
 import com.ucc.ControlSystem.ControlSystem.Reporting.ReportGenerator;
+import com.ucc.ControlSystem.GUI.Alert;
 import com.ucc.ControlSystem.GUI.EnvironmentControlPanel;
 import com.ucc.ControlSystem.Utils.TimeUnits;
 
@@ -102,6 +103,8 @@ public class Controller implements Runnable{
                 e.printStackTrace();
             }
         }
+        Alert.alert("You can collect the crops now.", "Growth time reached",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
 
