@@ -26,7 +26,6 @@ public class AdminControlPanel extends JFrame{
     private final JPanel card4 = new JPanel();
     private final JPanel parameters = new JPanel();
     private final JPanel currentValuesPanel = new JPanel();
-    //private final JPanel simulationTimesPanel = new JPanel();
     private final JTabbedPane tabbedPane = new JTabbedPane();
     private final JButton updateButton = new JButton("      UPDATE       ");
 
@@ -94,7 +93,7 @@ public class AdminControlPanel extends JFrame{
     }
 
     public void prepareGUI(){
-        this.setSize(910, 500);
+        this.setSize(980, 500);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         JLabel titleLabel = new JLabel("Initialize/Update System Parameters", JLabel.CENTER);
@@ -251,6 +250,16 @@ public class AdminControlPanel extends JFrame{
     private void setReportPanel(){
         card4.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
+        JLabel startDayLabel = new JLabel("Start day", JLabel.CENTER);
+        startDayLabel.setFont(f2);
+        JLabel endDayLabel = new JLabel("Final day", JLabel.CENTER);
+        endDayLabel.setFont(f2);
+
+        c.gridx = 3;
+        c.gridy = 0;
+        card4.add(startDayLabel, c);
+        c.gridx = 4;
+        card4.add(endDayLabel, c);
         c.gridx = 2;
         c.gridy = 1;
         c.ipady = 50;
@@ -290,8 +299,15 @@ public class AdminControlPanel extends JFrame{
                 try {
                     int startDay = Integer.parseInt(getStartDay().getText()+"");
                     int endDay = Integer.parseInt(getEndDay().getText()+"");
-
-                    ReportGenerator.getReportGenerator().generateReport(startDay,endDay,List.of((EnvironmentDeviceTypes) parametersBox.getSelectedItem()));
+                    if(startDay > endDay){
+                        Alert.alert("Start day cannot be after the end day!!", "Invalid input");
+                    } else{
+                        if(startDay < 0 || endDay < 0){
+                            Alert.alert("A day cannot have negative values!!", "Invalid input");
+                        } else{
+                            ReportGenerator.getReportGenerator().generateReport(startDay,endDay,List.of((EnvironmentDeviceTypes) parametersBox.getSelectedItem()));
+                        }
+                    }
                 }catch (NumberFormatException nfe){
                     System.out.printf("Number format exception");
                 }
@@ -424,15 +440,29 @@ public class AdminControlPanel extends JFrame{
         ECLabel.setFont(f2);
         JLabel waterLevelLabel = new JLabel("Water level:");
         waterLevelLabel.setFont(f2);
-        JLabel minLabel = new JLabel("Min. [\u00B0C]", JLabel.CENTER);
+        JLabel minLabel = new JLabel("Min.", JLabel.CENTER);
         minLabel.setFont(f2);
-        JLabel maxLabel = new JLabel("Max. [\u00B0C]", JLabel.CENTER);
+        JLabel maxLabel = new JLabel("Max.", JLabel.CENTER);
         maxLabel.setFont(f2);
+        JLabel measurementUnitLabel = new JLabel("Unit");
+        measurementUnitLabel.setFont(f2);
+        JLabel airTempUnitLabel = new JLabel("[\u00B0C]");
+        airTempUnitLabel.setFont(f2);
+        JLabel waterTempUnitLabel = new JLabel("[\u00B0C]");
+        waterTempUnitLabel.setFont(f2);
+        JLabel humidityUnitLabel = new JLabel("%");
+        humidityUnitLabel.setFont(f2);
+        JLabel phLevelUnitLabel = new JLabel(""); //has no unit - it's a logarithm
+        phLevelUnitLabel.setFont(f2);
+        JLabel waterLevelUnitLabel = new JLabel("%");
+        waterLevelUnitLabel.setFont(f2);
+        JLabel ECUnitLabel = new JLabel("S/m");
+        ECUnitLabel.setFont(f2);
         JLabel balanceLabel = new JLabel("Actuator off: [mins]", JLabel.CENTER);
         balanceLabel.setFont(f2);
         JLabel balancingLabel = new JLabel("Actuator on: [mins]", JLabel.CENTER);
         balancingLabel.setFont(f2);
-
+        //
         parameters.setLayout(new GridBagLayout());
         GridBagConstraints cc = new GridBagConstraints();
         cc.fill = GridBagConstraints.HORIZONTAL;
@@ -456,8 +486,11 @@ public class AdminControlPanel extends JFrame{
         parameters.add(maxLabel, cc);
         cc.gridx = 3;
         cc.ipady = 10;
-        parameters.add(balancingLabel, cc);
+        parameters.add(measurementUnitLabel, cc);
         cc.gridx = 4;
+        cc.ipady = 10;
+        parameters.add(balancingLabel, cc);
+        cc.gridx = 5;
         cc.ipady = 10;
         parameters.add(balanceLabel, cc);
 
@@ -471,9 +504,12 @@ public class AdminControlPanel extends JFrame{
         cc.ipadx = 80;
         parameters.add(maxAirTemp, cc);
         cc.gridx = 3;
+        cc.ipadx = 20;
+        parameters.add(airTempUnitLabel, cc);
+        cc.gridx = 4;
         cc.ipadx = 50;
         parameters.add(balancingAirTemp, cc);
-        cc.gridx = 4;
+        cc.gridx = 5;
         cc.ipadx = 50;
         parameters.add(balanceAirTemp, cc);
 
@@ -487,9 +523,12 @@ public class AdminControlPanel extends JFrame{
         cc.ipadx = 80;
         parameters.add(maxWaterTemp, cc);
         cc.gridx = 3;
+        cc.ipadx = 20;
+        parameters.add(waterTempUnitLabel, cc);
+        cc.gridx = 4;
         cc.ipadx = 50;
         parameters.add(balancingWaterTemp, cc);
-        cc.gridx = 4;
+        cc.gridx = 5;
         cc.ipadx = 50;
         parameters.add(balanceWaterTemp, cc);
 
@@ -503,9 +542,12 @@ public class AdminControlPanel extends JFrame{
         cc.ipadx = 80;
         parameters.add(maxHumidity, cc);
         cc.gridx = 3;
+        cc.ipadx = 20;
+        parameters.add(humidityUnitLabel, cc);
+        cc.gridx = 4;
         cc.ipadx = 50;
         parameters.add(balancingHumidity, cc);
-        cc.gridx = 4;
+        cc.gridx = 5;
         cc.ipadx = 50;
         parameters.add(balanceHumidity, cc);
 
@@ -519,9 +561,12 @@ public class AdminControlPanel extends JFrame{
         cc.ipadx = 80;
         parameters.add(maxPhLevel, cc);
         cc.gridx = 3;
+        cc.ipadx = 20;
+        parameters.add(phLevelUnitLabel, cc);
+        cc.gridx = 4;
         cc.ipadx = 50;
         parameters.add(balancingPhLevel, cc);
-        cc.gridx = 4;
+        cc.gridx = 5;
         cc.ipadx = 50;
         parameters.add(balancePhLevel, cc);
 
@@ -535,9 +580,12 @@ public class AdminControlPanel extends JFrame{
         cc.ipadx = 80;
         parameters.add(maxEC, cc);
         cc.gridx = 3;
+        cc.ipadx = 20;
+        parameters.add(ECUnitLabel, cc);
+        cc.gridx = 4;
         cc.ipadx = 50;
         parameters.add(balancingEC, cc);
-        cc.gridx = 4;
+        cc.gridx = 5;
         cc.ipadx = 50;
         parameters.add(balanceEC, cc);
 
@@ -551,9 +599,12 @@ public class AdminControlPanel extends JFrame{
         cc.ipadx = 80;
         parameters.add(maxWaterLevel, cc);
         cc.gridx = 3;
+        cc.ipadx = 20;
+        parameters.add(waterLevelUnitLabel, cc);
+        cc.gridx = 4;
         cc.ipadx = 50;
         parameters.add(balancingWaterLevel, cc);
-        cc.gridx = 4;
+        cc.gridx = 5;
         cc.ipadx = 50;
         parameters.add(balanceWaterLevel, cc);
     }
