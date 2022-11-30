@@ -250,6 +250,16 @@ public class AdminControlPanel extends JFrame{
     private void setReportPanel(){
         card4.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
+        JLabel startDayLabel = new JLabel("Start day", JLabel.CENTER);
+        startDayLabel.setFont(f2);
+        JLabel endDayLabel = new JLabel("Final day", JLabel.CENTER);
+        endDayLabel.setFont(f2);
+
+        c.gridx = 3;
+        c.gridy = 0;
+        card4.add(startDayLabel, c);
+        c.gridx = 4;
+        card4.add(endDayLabel, c);
         c.gridx = 2;
         c.gridy = 1;
         c.ipady = 50;
@@ -289,8 +299,15 @@ public class AdminControlPanel extends JFrame{
                 try {
                     int startDay = Integer.parseInt(getStartDay().getText()+"");
                     int endDay = Integer.parseInt(getEndDay().getText()+"");
-
-                    ReportGenerator.getReportGenerator().generateReport(startDay,endDay,List.of((EnvironmentDeviceTypes) parametersBox.getSelectedItem()));
+                    if(startDay > endDay){
+                        Alert.alert("Start day cannot be after the end day!!", "Invalid input");
+                    } else{
+                        if(startDay < 0 || endDay < 0){
+                            Alert.alert("A day cannot have negative values!!", "Invalid input");
+                        } else{
+                            ReportGenerator.getReportGenerator().generateReport(startDay,endDay,List.of((EnvironmentDeviceTypes) parametersBox.getSelectedItem()));
+                        }
+                    }
                 }catch (NumberFormatException nfe){
                     System.out.printf("Number format exception");
                 }
