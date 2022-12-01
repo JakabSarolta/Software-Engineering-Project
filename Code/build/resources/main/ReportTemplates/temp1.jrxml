@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+            http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="report" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+
+    <style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="15" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+
+    <parameter name="intervalStart" class="java.lang.Integer"> </parameter>
+    <parameter name="intervalEnd" class="java.lang.Integer"> </parameter>
+
+    <field name="timestamp" class="java.lang.Long"/>
+    <field name="value" class="java.lang.Double"/>
+    <field name="device" class="com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes"/>
+
+
+    <pageHeader>
+        <band height="100" >
+            <textField>
+                <reportElement x="0" y="50" width="550" height="50" style="Arial_Bold"/>
+                <textElement textAlignment="Center"/>
+                <textFieldExpression ><![CDATA["The change of " + $F{device} + " in time from day " + $P{intervalStart} + " until day " + $P{intervalEnd}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+
+    <summary>
+        <band height="450" splitType="Stretch">
+            <lineChart>
+                <chart evaluationTime="Report">
+                    <reportElement x="20" y="20" width="540" height="400"/>
+                    <chartTitle position="Top">
+                        <titleExpression><![CDATA["Chart for " + $F{device}]]></titleExpression>
+                    </chartTitle>
+                    <chartSubtitle/>
+                    <chartLegend/>
+                </chart>
+                <categoryDataset>
+                    <dataset/>
+                    <categorySeries>
+                        <seriesExpression><![CDATA["Temperatures"]]></seriesExpression>
+                        <categoryExpression><![CDATA[ $F{timestamp} / 3600 ]]></categoryExpression>
+                        <valueExpression><![CDATA[ $F{value} ]]></valueExpression>
+                    </categorySeries>
+                </categoryDataset>
+                <linePlot>
+                    <plot/>
+                    <categoryAxisLabelExpression><![CDATA["Time in hours"]]></categoryAxisLabelExpression>
+                    <categoryAxisFormat>
+                        <axisFormat/>
+                    </categoryAxisFormat>
+                    <valueAxisLabelExpression><![CDATA[$F{device}]]></valueAxisLabelExpression>
+                    <valueAxisFormat>
+                        <axisFormat/>
+                    </valueAxisFormat>
+                </linePlot>
+            </lineChart>
+        </band>
+
+    </summary>
+</jasperReport>
