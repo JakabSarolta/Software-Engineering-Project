@@ -140,7 +140,7 @@ public class EnvironmentSimulator {
      * @param device the device type we are looking for
      * @return the device
      */
-    private EnvironmentDevice findDevice(ArrayList<EnvironmentDevice> devices, EnvironmentDeviceTypes device){
+    public EnvironmentDevice findDevice(ArrayList<EnvironmentDevice> devices, EnvironmentDeviceTypes device){
         Optional<EnvironmentDevice> dev = devices.stream()
                 .filter(d -> d.getType() == device)
                 .findFirst();
@@ -213,6 +213,23 @@ public class EnvironmentSimulator {
         return lastMeasuredValues;
     }
 
+    public Map<EnvironmentDeviceTypes, Timestamp> getLastMeasuredTimes(){
+        return lastMeasuredTimes;
+    }
 
+    public Sensor getSensorByType(EnvironmentDeviceTypes edt) {
+        return (Sensor)findDevice(sensors,edt);
+    }
 
+    public Actuator getActuatorByType(EnvironmentDeviceTypes edt) {
+        return (Actuator)findDevice(actuators,edt);
+    }
+
+    public ArrayList<EnvironmentDevice> getSensors() {
+        return sensors;
+    }
+
+    public ArrayList<EnvironmentDevice> getActuators() {
+        return actuators;
+    }
 }

@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class coolingTest {
+public class CoolingTest {
     @Test
     public void coolingTest() throws InterruptedException {
         Main.main(null);

@@ -10,11 +10,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class heatingTest {
+public class TemperatureStepChangeTest {
     @Test
-    public void heatingTest() throws InterruptedException {
+    public void temperatureStepChangeTest() throws InterruptedException {
         Main.main(null);
         EnvironmentPropertyParameter environmentPropertyParameter = new EnvironmentPropertyParameter();
 
@@ -24,17 +24,19 @@ public class heatingTest {
                 put(EnvironmentDeviceTypes.AIR_TEMPERATURE,14.0);
 
         EnvironmentSimulator.getEnvironmentSimulator().setSensorTendency(
-                EnvironmentDeviceTypes.AIR_TEMPERATURE,0.1);
+                EnvironmentDeviceTypes.AIR_TEMPERATURE,-0.1);
+        EnvironmentSimulator.getEnvironmentSimulator().setActuatorSetStrength(
+                EnvironmentDeviceTypes.AIR_TEMPERATURE, 0.2);
 
         InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(
                 30*60, 5*60, EnvironmentDeviceTypes.AIR_TEMPERATURE);
 
         for(int i = 0; i <= 10; i++){
-            Controller.getController().timePassed(30*60+i);
+            Controller.getController().timePassed((30+i)*60);
             TimeUnit.SECONDS.sleep(1);
         }
 
-        assertTrue(Math.round(EnvironmentSimulator.getEnvironmentSimulator().getLastMeasuredValues().
-                get(EnvironmentDeviceTypes.AIR_TEMPERATURE)) == 15.0);
+        assertEquals(15.0, Math.round(EnvironmentSimulator.getEnvironmentSimulator().getLastMeasuredValues().
+                get(EnvironmentDeviceTypes.AIR_TEMPERATURE)));
     }
 }
