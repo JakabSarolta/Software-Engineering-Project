@@ -3,11 +3,13 @@ package com.ucc.ControlSystem.ControlSystem.InputParameters;
 import com.ucc.ControlSystem.ControlSystem.JDBC.ConnectionFactory;
 import com.ucc.ControlSystem.ControlSystem.JDBC.HSQLQueries;
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
+import com.ucc.ControlSystem.GUI.Alert;
 import com.ucc.ControlSystem.SystemConfiguration.SystemConfigParameters;
 import com.ucc.ControlSystem.SystemConfiguration.SystemConfigurationReader;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -94,6 +96,9 @@ public class InputParameterProcessor {
 
         if (clone.isValid()) {
             environmentPropertyParameterMap.put(propertyType, clone);
+        }else{
+            Alert.alert("Environment property parameter (min or max) invalid! \n " +
+                    "Valid range: [" + clone.getValidMin() + "," + clone.getValidMax() + "]","Not valid parameter", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -102,6 +107,9 @@ public class InputParameterProcessor {
             MeasurementIntervalParameter param = measurementIntervalParameterMap.get(propertyType);
             param.setIntervalBalancedState(intervalBalancedState);
             param.setIntervalBalancingState(intervalBalancingState);
+        }else{
+            Alert.alert("Measurement interval parameter (balanced or balancing) invalid! \n " +
+                    "Valid range: [" + MeasurementIntervalParameter.MEASUREMENT_INTERVAL_MIN + ":" + MeasurementIntervalParameter.MEASUREMENT_INTERVAL_MAX + "]","Not valid parameter", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -115,6 +123,9 @@ public class InputParameterProcessor {
         clone.setValue(value);
         if(clone.isValid()){
             otherParameterMap.put(type,clone);
+        }else{
+            Alert.alert("Growth parameter invalid! \n " +
+                    "Valid range: [" + clone.getValidValueMin() + "," + clone.getValidValueMax() + "]","Not valid parameter", JOptionPane.ERROR_MESSAGE);
         }
     }
 
