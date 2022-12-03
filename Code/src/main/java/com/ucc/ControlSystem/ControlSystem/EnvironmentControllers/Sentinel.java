@@ -35,7 +35,7 @@ public class Sentinel {
      * @param currentTime the current time of the simulation in seconds (salad lifetime)
      * @param parametersToBeBalanced the list to which it adds the devices that need balancing
      */
-    public void checkPeriodically(long currentTime, List<EnvironmentDeviceTypes> parametersToBeBalanced){
+    public void checkPeriodically(long currentTime, List<EnvironmentDeviceTypes> parametersToBeBalanced, List<Measurement> measurementList){
         for(EnvironmentDeviceTypes deviceType : EnvironmentDeviceTypes.values()){
             long checkIntervalForDevice = inputParameterProcessor.
                     getBalancedCheckIntervalForDevice(deviceType);
@@ -45,7 +45,7 @@ public class Sentinel {
                 if(deviceNeedsBalancing(deviceType, dataCollector.takeMeasurementForDevice(deviceType))){
                     parametersToBeBalanced.add(deviceType);
                 }
-                Controller.getController().getMeasurementList().add(new Measurement(deviceType,measurement,States.BALANCED,currentTime));
+                measurementList.add(new Measurement(deviceType,measurement,States.BALANCED,currentTime));
             }
         }
     }

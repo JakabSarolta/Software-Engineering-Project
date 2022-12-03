@@ -6,6 +6,8 @@ import com.ucc.ControlSystem.GUI.AdminControlPanel;
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
 import com.ucc.ControlSystem.GUI.Alert;
 import com.ucc.ControlSystem.GUI.EnvironmentControlPanel;
+import com.ucc.ControlSystem.Utils.DisplayAdapterInterface;
+import com.ucc.ControlSystem.Utils.GUIDisplayAdapterInterfaceImpl;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -18,6 +20,8 @@ import java.util.Map;
 public class Controller{
     private static Controller controller = null;
 
+    private DisplayAdapterInterface displayAdapter;
+
     private States currentState;
     private final Sentinel sentinel;
     private final EnvironmentBalancer environmentBalancer;
@@ -28,20 +32,18 @@ public class Controller{
 
     private static final int MEASUREMENT_PERSIST_TIME_INTERVAL = 3600;
 
-    private Controller(){
+    public Controller(DisplayAdapterInterface displayAdapterInterface){
         currentState = States.BALANCED;
         parametersToBeBalanced = new ArrayList<>();
         sentinel = Sentinel.getSentinel();
-        environmentBalancer = EnvironmentBalancer.getEnvironmentBalancer();
+        environmentBalancer = EnvironmentBalancer.getEnvironmentBalancer(displayAdapterInterface);
         HSQLQueries.getHSQLQueries().emptyTable(Measurement.class);
         measurementList = new ArrayList<>();
+        displayAdapter = displayAdapterInterface;
     }
 
-    public static Controller getController(){
-        if(controller == null){
-            controller = new Controller();
-        }
-        return controller;
+    public void setDisplayAdapter(DisplayAdapterInterface displayAdapter) {
+        this.displayAdapter = displayAdapter;
     }
 
     /**
@@ -52,21 +54,13 @@ public class Controller{
      */
     public void timePassed(long currentTime){
         if(currentState != States.GROWTH_ENDED  && currentState != States.ALERTED) {
-
             if (sentinel.isGrowthTimeDue(currentTime)) {
                 currentState = States.GROWTH_ENDED;
             } else {
-                sentinel.checkPeriodically(currentTime,parametersToBeBalanced);
+                sentinel.checkPeriodically(currentTime,parametersToBeBalanced,measurementList);
             }
 
-            currentState = environmentBalancer.balanceEnvironment(currentTime, parametersToBeBalanced);
-
-            AdminControlPanel.getAdminControlPanel().getCurrentTime().setText(convertSeconds(currentTime)+"");
-
-            Map<EnvironmentDeviceTypes, List<JLabel>> deviceToLabelMap = AdminControlPanel.deviceToLabelMap;
-            for(EnvironmentDeviceTypes device : deviceToLabelMap.keySet()){
-                deviceToLabelMap.get(device).get(0).setText(Math.round(DataCollector.getDataCollector().getSensorValue(device) * 10) / 10.0+"");
-            }
+            environmentBalancer.balanceEnvironment(currentTime,parametersToBeBalanced,measurementList);
         }else if(currentState == States.ALERTED){
             currentState = States.BALANCED;
         }else{
@@ -81,23 +75,6 @@ public class Controller{
     private void persistMeasurements(List<Measurement> measurementList) {
         measurementList.forEach(Measurement::saveMeasurement);
         measurementList.removeAll(measurementList);
-    }
-
-    /**
-     * Converts the time from seconds to a legible format.
-     * @param seconds the time in seconds
-     * @return the legible string
-     */
-    private String convertSeconds(long seconds) {
-        if(seconds >= 86400){
-            return seconds/86400 + " days " + (seconds - (seconds / 86400) * 86400) / 3600 + " hours";
-        }else if(seconds >= 3600){
-            return seconds/3600 + " hours " + (seconds  - (seconds / 3600 ) * 3600)  / 60 + " minutes";
-        }else if(seconds >= 60){
-            return seconds/60 + " minutes " + (seconds - (seconds / 60) * 60)  + " seconds";
-        }else {
-            return seconds + " seconds";
-        }
     }
 
     public List<Measurement> getMeasurementList() {

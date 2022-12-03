@@ -3,6 +3,7 @@ package com.ucc.ControlSystem.GUI;
 import com.ucc.ControlSystem.EnvironmentSimulator.Controller;
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentSimulator;
+import com.ucc.ControlSystem.Utils.GUIDisplayAdapterInterfaceImpl;
 import com.ucc.ControlSystem.Utils.TimeUnits;
 
 import javax.swing.*;
@@ -242,7 +243,8 @@ public class EnvironmentControlPanel extends JFrame {
                     if (simulationSaladTimeSeconds <= 0 || Integer.parseInt(simulationTimeTextField.getText()) <= 0){
                         throw new NumberFormatException("Negative");
                     }
-                    Controller.startSimulation(EnvironmentControlPanel.getEnvironmentControlPanel(),simulationSaladTimeSeconds,
+                    Controller.startSimulation( new GUIDisplayAdapterInterfaceImpl(AdminControlPanel.deviceToLabelMap,EnvironmentControlPanel.deviceToLabelMap,EnvironmentControlPanel.getEnvironmentControlPanel()),
+                            simulationSaladTimeSeconds,
                             Integer.parseInt(simulationTimeTextField.getText()));
                 } catch (NumberFormatException nfe){
                     Alert.alert("Invalid simulation time.\nYou should insert positive integers",

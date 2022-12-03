@@ -25,4 +25,21 @@ public class TimeConvertor {
     public static long getDayInSeconds(int day){
         return day * ONE_DAY_IN_SECONDS;
     }
+
+    /**
+     * Converts the time from seconds to a legible format.
+     * @param seconds the time in seconds
+     * @return the legible string
+     */
+    public static String convertSeconds(long seconds) {
+        if(seconds >= 86400){
+            return seconds/86400 + " days " + (seconds - (seconds / 86400) * 86400) / 3600 + " hours";
+        }else if(seconds >= 3600){
+            return seconds/3600 + " hours " + (seconds  - (seconds / 3600 ) * 3600)  / 60 + " minutes";
+        }else if(seconds >= 60){
+            return seconds/60 + " minutes " + (seconds - (seconds / 60) * 60)  + " seconds";
+        }else {
+            return seconds + " seconds";
+        }
+    }
 }

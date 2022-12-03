@@ -1,8 +1,12 @@
 package com.ucc.ControlSystem.EnvironmentSimulator;
 
+import com.ucc.ControlSystem.ControlSystem.EnvironmentControllers.DataCollector;
 import com.ucc.ControlSystem.ControlSystem.Reporting.ReportGenerator;
+import com.ucc.ControlSystem.GUI.AdminControlPanel;
 import com.ucc.ControlSystem.GUI.Alert;
 import com.ucc.ControlSystem.GUI.EnvironmentControlPanel;
+import com.ucc.ControlSystem.Utils.DisplayAdapterInterface;
+import com.ucc.ControlSystem.Utils.GUIDisplayAdapterInterfaceImpl;
 import com.ucc.ControlSystem.Utils.TimeUnits;
 
 import javax.swing.*;
@@ -15,22 +19,25 @@ import java.util.Map;
  */
 public class Controller implements Runnable{
 
-    private final JFrame frame;
+    private DisplayAdapterInterface displayAdapter;
+
     private static boolean exit = false;
     private static Controller manager;
 
-    public Controller(JFrame frame) {
-        this.frame = frame;
+    private com.ucc.ControlSystem.ControlSystem.EnvironmentControllers.Controller controller;
+
+    public Controller(DisplayAdapterInterface displayAdapterInterface) {
+        displayAdapter = displayAdapterInterface;
+        controller = new com.ucc.ControlSystem.ControlSystem.EnvironmentControllers.Controller(displayAdapter);
     }
 
     /**
      * Static class that starts the simulation by saving the values entered into the GUI,
      * and by creating a new thread for the simulation (to run in parallel with the GUI).
-     * @param frame
      * @param durationOfTheSimulationSaladTime
      * @param durationOfTheSimulationRealLifeTime
      */
-    public static void startSimulation(JFrame frame, int durationOfTheSimulationSaladTime,
+    public static void startSimulation(DisplayAdapterInterface displayAdapterInterface,int durationOfTheSimulationSaladTime,
                                        int durationOfTheSimulationRealLifeTime){
         EnvironmentSimulator es = EnvironmentSimulator.getEnvironmentSimulator();
 
@@ -40,7 +47,7 @@ public class Controller implements Runnable{
         SwingWorker<Void,Void> swingWorker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                manager = new Controller(frame);
+                manager = new Controller(displayAdapterInterface);
                 exit = false;
 
                 manager.run();
@@ -77,21 +84,12 @@ public class Controller implements Runnable{
         long i = 0;
 
         while(simulationTime <= es.getDurationOfTheSimulationRealLifeTime() && !exit){
-            TimeUnits selectedDisplayTimeUnit = (TimeUnits) ((EnvironmentControlPanel)frame).getDisplayTimeUnitComboBox().getSelectedItem();
-
-
-            Map<EnvironmentDeviceTypes,Double> measurements = es.takeMeasurements();
-            for(EnvironmentDeviceTypes type : measurements.keySet()){
-                EnvironmentControlPanel.deviceToLabelMap.get(type).setText(Math.round(measurements.get(type)*100)/100.0+"");
-            }
-
-            ((EnvironmentControlPanel)frame).getTimeValueLabel().
-                    setText(adjustCurrentTimeToStep(selectedDisplayTimeUnit,i)+"");
+            displayAdapter.displayCurrentValues(DataCollector.getDataCollector().takeMeasurements());
+            displayAdapter.displayCurrentTime(i);
 
             i++;
 
-            com.ucc.ControlSystem.ControlSystem.EnvironmentControllers.Controller.
-                    getController().timePassed(i);
+            controller.timePassed(i);
 
             try {
                 // the delay in order to change the displayed time by one salad time unit
@@ -103,14 +101,8 @@ public class Controller implements Runnable{
                 e.printStackTrace();
             }
         }
-        Alert.alert("The simulation period is over.", "Simulation is over",
+        displayAdapter.displayAlert("The simulation period is over.", "Simulation is over",
                 JOptionPane.INFORMATION_MESSAGE);
-    }
-
-
-
-    private long adjustCurrentTimeToStep(TimeUnits  selectedTimeUnit, long i){
-        return Math.round(Math.floor( ((double) i) / selectedTimeUnit.getVal()));
     }
 }
 

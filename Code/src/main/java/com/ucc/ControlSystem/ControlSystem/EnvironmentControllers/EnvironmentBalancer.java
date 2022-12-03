@@ -7,6 +7,7 @@ import com.ucc.ControlSystem.GUI.Alert;
 import com.ucc.ControlSystem.GUI.EnvironmentControlPanel;
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentSimulator;
+import com.ucc.ControlSystem.Utils.DisplayAdapterInterface;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,18 +28,20 @@ public class EnvironmentBalancer {
     private Map<EnvironmentDeviceTypes, Double> lastMeasuredValue;
     private Map<EnvironmentDeviceTypes, Double> currentValues;
     private InputParameterProcessor processor;
+    private DisplayAdapterInterface displayAdapterInterface;
 
-    private EnvironmentBalancer(){
+    private EnvironmentBalancer(DisplayAdapterInterface displayAdapterInterface){
         timeWhenLastMeasured = new HashMap<>();
         processor = InputParameterProcessor.getInputParameterProcessor();
         shouldRise = new HashMap<>();
         lastMeasuredValue = new HashMap<>();
         currentValues = new HashMap<>();
+        this.displayAdapterInterface = displayAdapterInterface;
     }
 
-    public static EnvironmentBalancer getEnvironmentBalancer() {
+    public static EnvironmentBalancer getEnvironmentBalancer(DisplayAdapterInterface displayAdapterInterface) {
         if(environmentBalancer == null){
-            environmentBalancer = new EnvironmentBalancer();
+            environmentBalancer = new EnvironmentBalancer(displayAdapterInterface);
         }
         return environmentBalancer;
     }
@@ -50,7 +53,7 @@ public class EnvironmentBalancer {
      * @param currentTime the current time
      * @param devicesToBeBalanced the updated list of devices that should be balanced
      */
-    public States balanceEnvironment(long currentTime, List<EnvironmentDeviceTypes> devicesToBeBalanced){
+    public States balanceEnvironment(long currentTime, List<EnvironmentDeviceTypes> devicesToBeBalanced, List<Measurement> measurementList){
         List<EnvironmentDeviceTypes> devicesToBeRemoved = new ArrayList<>();
         for(EnvironmentDeviceTypes device : devicesToBeBalanced){
 
@@ -71,9 +74,9 @@ public class EnvironmentBalancer {
 
                     if((shouldRise.containsKey(device)) && ((shouldRise.get(device) && measurement <= lastMeasuredValue.get(device))
                     || (!shouldRise.get(device) && measurement >= lastMeasuredValue.get(device)))){
-                        Alert.alert("Reason: " + device + " rising: " + !shouldRise.get(device),
-                                "ALERT", JOptionPane.ERROR_MESSAGE);
-                        Controller.getController().getMeasurementList().add(new Measurement(device,measurement,States.ALERTED,currentTime));
+                        displayAdapterInterface.displayAlert("Reason: " + device + " rising: " + !shouldRise.get(device),
+                                "ALERT", 0);
+                        measurementList.add(new Measurement(device,measurement,States.ALERTED,currentTime));
 
                         timeWhenLastMeasured.put(device,currentTime);
 
@@ -92,7 +95,7 @@ public class EnvironmentBalancer {
                     lastMeasuredValue.put(device,measurement);
                 }
                 currentValues.put(device,measurement);
-                Controller.getController().getMeasurementList().add(new Measurement(device, measurement,States.BALANCING,currentTime));
+                measurementList.add(new Measurement(device, measurement,States.BALANCING,currentTime));
                 timeWhenLastMeasured.put(device,currentTime);
             }
 
