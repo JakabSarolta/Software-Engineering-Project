@@ -14,35 +14,44 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class updateCheckTimeTest {
     @ParameterizedTest
     @MethodSource("provideTrueInput")
-    public void testForTrue(int param1, int param2){
+    public void testForTrue(int param1, int param2, EnvironmentDeviceTypes param3){
         Main.main(null);
-        InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(param1,param2, EnvironmentDeviceTypes.AIR_TEMPERATURE);
-        assertTrue(InputParameterProcessor.getInputParameterProcessor().getBalancedCheckIntervalForDevice(EnvironmentDeviceTypes.AIR_TEMPERATURE) == param1 &&
-                InputParameterProcessor.getInputParameterProcessor().getBalancingCheckIntervalForDevice(EnvironmentDeviceTypes.AIR_TEMPERATURE) == param2, "Balanced and balancing state checks are updated correctly");
+        InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(param1,param2, param3);
+        assertTrue(InputParameterProcessor.getInputParameterProcessor().getBalancedCheckIntervalForDevice(param3) == param1 &&
+                InputParameterProcessor.getInputParameterProcessor().getBalancingCheckIntervalForDevice(param3) == param2, "Balanced and balancing state checks are updated correctly");
     }
 
     private static ArrayList<Arguments> provideTrueInput(){
         ArrayList<Arguments> argumentList = new ArrayList<>();
 
-        argumentList.add(Arguments.of(13, 15));
-        argumentList.add(Arguments.of(12, 20));
+        argumentList.add(Arguments.of(13, 15, EnvironmentDeviceTypes.AIR_TEMPERATURE));
+        argumentList.add(Arguments.of(12, 20, EnvironmentDeviceTypes.AIR_TEMPERATURE));
+        argumentList.add(Arguments.of(13, 15, EnvironmentDeviceTypes.WATER_TEMPERATURE));
+        argumentList.add(Arguments.of(12, 20, EnvironmentDeviceTypes.WATER_TEMPERATURE));
+        argumentList.add(Arguments.of(13, 15, EnvironmentDeviceTypes.HUMIDITY));
+        argumentList.add(Arguments.of(12, 20, EnvironmentDeviceTypes.HUMIDITY));
         return argumentList;
     }
 
     @ParameterizedTest
     @MethodSource("provideFalseInput")
-    public void testForFalse(int param1, int param2){
+    public void testForFalse(int param1, int param2, EnvironmentDeviceTypes param3){
         Main.main(null);
-        InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(param1,param2, EnvironmentDeviceTypes.AIR_TEMPERATURE);
-        assertTrue(InputParameterProcessor.getInputParameterProcessor().getBalancedCheckIntervalForDevice(EnvironmentDeviceTypes.AIR_TEMPERATURE) != param1 &&
-                InputParameterProcessor.getInputParameterProcessor().getBalancingCheckIntervalForDevice(EnvironmentDeviceTypes.AIR_TEMPERATURE) != param2, "Balanced and balancing state checks are NOT updated correctly");
+        InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(param1,param2, param3);
+        assertTrue(InputParameterProcessor.getInputParameterProcessor().getBalancedCheckIntervalForDevice(param3) != param1 &&
+                InputParameterProcessor.getInputParameterProcessor().getBalancingCheckIntervalForDevice(param3) != param2, "Balanced and balancing state checks are NOT updated correctly");
     }
 
     private static ArrayList<Arguments> provideFalseInput(){
         ArrayList<Arguments> argumentList = new ArrayList<>();
 
-        argumentList.add(Arguments.of(0, 15));
-        argumentList.add(Arguments.of(-2,2));
+        argumentList.add(Arguments.of(0, 15, EnvironmentDeviceTypes.AIR_TEMPERATURE));
+        argumentList.add(Arguments.of(-2,2, EnvironmentDeviceTypes.AIR_TEMPERATURE));
+        argumentList.add(Arguments.of(0, 15, EnvironmentDeviceTypes.WATER_TEMPERATURE));
+        argumentList.add(Arguments.of(-2,2, EnvironmentDeviceTypes.WATER_TEMPERATURE));
+        argumentList.add(Arguments.of(0, 15, EnvironmentDeviceTypes.HUMIDITY));
+        argumentList.add(Arguments.of(-2,2, EnvironmentDeviceTypes.HUMIDITY));
+        //it checks the same constraint for all device types
         return argumentList;
     }
 }
