@@ -50,7 +50,7 @@ public class EnvironmentPropertyParameter implements InputParameter{
     }
 
     public boolean isValid(){
-        return this.min >= this.validMin && this.max <= this.validMax;
+        return this.min >= this.validMin && this.max <= this.validMax && this.min <= this.max;
     }
 
     @Override

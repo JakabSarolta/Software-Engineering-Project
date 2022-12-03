@@ -103,7 +103,7 @@ public class Controller implements Runnable{
                 e.printStackTrace();
             }
         }
-        Alert.alert("You can collect the crops now.", "Growth time reached",
+        Alert.alert("The simulation period is over.", "Simulation is over",
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
