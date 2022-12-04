@@ -7,6 +7,7 @@ import com.ucc.ControlSystem.ControlSystem.InputParameters.InputParameterProcess
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentSimulator;
 import com.ucc.ControlSystem.Main;
+import com.ucc.ControlSystem.Utils.ConsoleDisplayAdapterInterfaceIml;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -26,10 +27,12 @@ public class IsActuatorOnTest {
         InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(
                 30*60, 5*60, EnvironmentDeviceTypes.AIR_TEMPERATURE);
 
-        Controller.getController().timePassed(2*30*60);
-        Controller.getController().timePassed(65*60);
+        Controller controller = new Controller(new ConsoleDisplayAdapterInterfaceIml());
 
-        assertTrue(EnvironmentBalancer.getEnvironmentBalancer().
+        controller.timePassed(2*30*60);
+        controller.timePassed(65*60);
+
+        assertTrue(EnvironmentBalancer.getEnvironmentBalancer(controller.getDisplayAdapter()).
                 isActuatorOn(EnvironmentDeviceTypes.AIR_TEMPERATURE));
     }
     @Test
@@ -45,10 +48,12 @@ public class IsActuatorOnTest {
         InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(
                 30*60, 5*3600, EnvironmentDeviceTypes.AIR_TEMPERATURE);
 
-        Controller.getController().timePassed(2*30*60);
-        Controller.getController().timePassed(65*60);
+        Controller controller = new Controller(new ConsoleDisplayAdapterInterfaceIml());
 
-        assertFalse(EnvironmentBalancer.getEnvironmentBalancer().
+        controller.timePassed(2*30*60);
+        controller.timePassed(65*60);
+
+        assertFalse(EnvironmentBalancer.getEnvironmentBalancer(controller.getDisplayAdapter()).
                 isActuatorOn(EnvironmentDeviceTypes.AIR_TEMPERATURE));
     }
 }

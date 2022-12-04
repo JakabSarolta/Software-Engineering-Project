@@ -6,6 +6,7 @@ import com.ucc.ControlSystem.ControlSystem.InputParameters.InputParameterProcess
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentDeviceTypes;
 import com.ucc.ControlSystem.EnvironmentSimulator.EnvironmentSimulator;
 import com.ucc.ControlSystem.Main;
+import com.ucc.ControlSystem.Utils.ConsoleDisplayAdapterInterfaceIml;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.TimeUnit;
@@ -29,8 +30,10 @@ public class CoolingTest {
         InputParameterProcessor.getInputParameterProcessor().updateMeasurementIntervalParameter(
                 30*60, 5*60, EnvironmentDeviceTypes.AIR_TEMPERATURE);
 
+        Controller controller = new Controller(new ConsoleDisplayAdapterInterfaceIml());
+
         for(int i = 0; i <= 10; i++){
-            Controller.getController().timePassed(30*60+i);
+            controller.timePassed(30*60+i);
             TimeUnit.SECONDS.sleep(1);
         }
 

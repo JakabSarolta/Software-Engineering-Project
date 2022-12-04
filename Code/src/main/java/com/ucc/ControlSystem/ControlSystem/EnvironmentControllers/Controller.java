@@ -80,4 +80,8 @@ public class Controller{
     public List<Measurement> getMeasurementList() {
         return measurementList;
     }
+
+    public DisplayAdapterInterface getDisplayAdapter() {
+        return displayAdapter;
+    }
 }
