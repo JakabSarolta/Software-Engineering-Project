@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.ucc.ControlSystem.ControlParameters.updateMinAndMaxTempTest" tests="18" skipped="0" failures="0" errors="0" timestamp="2022-12-03T13:11:21" hostname="LAPTOP-AUV3VKT8" time="19.42">
+  <properties/>
+  <testcase name="[1] -100, 12, AIR_TEMPERATURE" classname="com.ucc.ControlSystem.ControlParameters.updateMinAndMaxTempTest" time="8.331"/>
+  <testcase name="[2] -2, -24, AIR_TEMPERATURE" classname="com.ucc.ControlSystem.ControlParameters.updateMinAndMaxTempTest" time="0.753"/>
+  <testcase name="[3] 2, -24, AIR_TEMPERATURE" classname="com.ucc.ControlSystem.ControlParameters.updateMinAndMaxTempTest" time="0.7"/>
+  <testcase name="[4] -100, 12, WATER_TEMPERATURE" classname="com.ucc.ControlSystem.ControlParameters.updateMinAndMaxTempTest" time="0.773"/>
+  <testcase name="[5] -2, -24, WATER_TEMPERATURE" classname="com.ucc.ControlSystem.ControlParameters.updateMinAndMaxTempTest" time="0.69"/>
+  <testcase name="[6] 2, -24, WATER_TEMPERATURE" classname="com.ucc.ControlSystem.ControlParameters.updateMinAndMaxTempTest" time="0.623"/>
+  <testcase name="[7] -100, 12, HUMIDITY" classname="com.ucc.ControlSystem.ControlParameters.updateMinAndMaxTempTest" time="0.601"/>
+  <testcase name="[8] -2, -24, HUMIDITY" classname="com.ucc.ControlSystem.ControlParameters.updateMinAndMaxTempTest" time="0.606"/>
+  <testcase name="[9] 2, -24, HUMIDITY" classname="com.ucc.ControlSystem.ControlParameters.updateMinAndMaxTempTest" time="0.568"/>
+  <testcase name="[10] -100, 12, WATER_LEVEL" classname="com.ucc.ControlSystem.ControlParameters.updateMinAndMaxTempTest" time="0.625"/>
+  <testcase name="[11] -2, -24, WATER_LEVEL" classname="com.ucc.ControlSystem.ControlParameters.updateMinAndMaxTempTest" time="0.567"/>
+  <testcase name="[12] 2, -24, WATER_LEVEL" classname="com.ucc.ControlSystem.ControlParameters.updateMinAndMaxTempTest" time="0.598"/>
+  <testcase name="[13] -100, 12, PH_LEVEL" classname="com.ucc.ControlSystem.ControlParameters.updateMinAndMaxTempTest" time="0.629"/>
+  <testcase name="[14] -2, -24, PH_LEVEL" classname="com.ucc.ControlSystem.ControlParameters.updateMinAndMaxTempTest" time="0.588"/>
+  <testcase name="[15] 2, -24, PH_LEVEL" classname="com.ucc.ControlSystem.ControlParameters.updateMinAndMaxTempTest" time="0.59"/>
+  <testcase name="[16] -100, 12, ELECTRICAL_CONDUCTIVITY" classname="com.ucc.ControlSystem.ControlParameters.updateMinAndMaxTempTest" time="0.766"/>
+  <testcase name="[17] -2, -24, ELECTRICAL_CONDUCTIVITY" classname="com.ucc.ControlSystem.ControlParameters.updateMinAndMaxTempTest" time="0.695"/>
+  <testcase name="[18] 2, -24, ELECTRICAL_CONDUCTIVITY" classname="com.ucc.ControlSystem.ControlParameters.updateMinAndMaxTempTest" time="0.674"/>
+  <system-out><![CDATA[Hibernate: select e1_0.type,e1_0.max,e1_0.min from environment_property_parameter e1_0 where e1_0.type=?
+Hibernate: select e1_0.type,e1_0.max,e1_0.min from environment_property_parameter e1_0 where e1_0.type=?
+Hibernate: select e1_0.type,e1_0.max,e1_0.min from environment_property_parameter e1_0 where e1_0.type=?
+Hibernate: select e1_0.type,e1_0.max,e1_0.min from environment_property_parameter e1_0 where e1_0.type=?
+Hibernate: select e1_0.type,e1_0.max,e1_0.min from environment_property_parameter e1_0 where e1_0.type=?
+Hibernate: select e1_0.type,e1_0.max,e1_0.min from environment_property_parameter e1_0 where e1_0.type=?
+Hibernate: select m1_0.type,m1_0.interval_balanced_state,m1_0.interval_balancing_state from measurement_interval_parameters m1_0 where m1_0.type=?
+Hibernate: select m1_0.type,m1_0.interval_balanced_state,m1_0.interval_balancing_state from measurement_interval_parameters m1_0 where m1_0.type=?
+Hibernate: select m1_0.type,m1_0.interval_balanced_state,m1_0.interval_balancing_state from measurement_interval_parameters m1_0 where m1_0.type=?
+Hibernate: select m1_0.type,m1_0.interval_balanced_state,m1_0.interval_balancing_state from measurement_interval_parameters m1_0 where m1_0.type=?
+Hibernate: select m1_0.type,m1_0.interval_balanced_state,m1_0.interval_balancing_state from measurement_interval_parameters m1_0 where m1_0.type=?
+Hibernate: select m1_0.type,m1_0.interval_balanced_state,m1_0.interval_balancing_state from measurement_interval_parameters m1_0 where m1_0.type=?
+Hibernate: select o1_0.type,o1_0.value from other_parameters o1_0 where o1_0.type=?
+Hibernate: select o1_0.type,o1_0.value from other_parameters o1_0 where o1_0.type=?
+Hibernate: select o1_0.type,o1_0.value from other_parameters o1_0 where o1_0.type=?
+]]></system-out>
+  <system-err><![CDATA[Dec 03, 2022 1:11:22 PM org.hibernate.Version logVersion
+INFO: HHH000412: Hibernate ORM core version 6.1.5.Final
+Dec 03, 2022 1:11:22 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using built-in connection pool (not intended for production use)
+Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
+Dec 03, 2022 1:11:22 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001005: Loaded JDBC driver class: com.mysql.jdbc.Driver
+Dec 03, 2022 1:11:22 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001012: Connecting with JDBC URL [jdbc:mysql://localhost:3306/control_system]
+Dec 03, 2022 1:11:22 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001001: Connection properties: {password=****, user=root}
+Dec 03, 2022 1:11:22 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001003: Autocommit mode: false
+Dec 03, 2022 1:11:22 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init>
+INFO: HHH10001115: Connection pool size: 2 (min=1)
+Dec 03, 2022 1:11:23 PM org.hibernate.engine.jdbc.dialect.internal.DialectFactoryImpl logSelectedDialect
+INFO: HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+Dec 03, 2022 1:11:26 PM org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@5698b0b2] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+]]></system-err>
+</testsuite>
